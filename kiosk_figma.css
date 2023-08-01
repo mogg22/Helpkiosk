@@ -1,0 +1,193 @@
+/* Frame 149 */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: flex-start;
+padding: 0px;
+
+position: absolute;
+width: 391px;
+height: 41px;
+left: 0px;
+top: 377px;
+
+
+
+/* Group 103 */
+
+width: 98px;
+height: 41px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Rectangle 433 */
+
+position: absolute;
+width: 98px;
+height: 41px;
+left: 0px;
+top: 0px;
+
+/* main color */
+background: #EA4C4C;
+
+
+/* 즉석 반찬 */
+
+position: absolute;
+width: 63px;
+height: 16px;
+left: 21px;
+top: 12px;
+
+font-family: '?????';
+font-style: normal;
+font-weight: 400;
+font-size: 16px;
+line-height: 16px;
+/* identical to box height */
+text-align: center;
+
+color: #FFFFFF;
+
+
+
+/* Group 104 */
+
+width: 98px;
+height: 41px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* Rectangle 433 */
+
+box-sizing: border-box;
+
+position: absolute;
+width: 98px;
+height: 41px;
+left: 98px;
+top: 0px;
+
+/* 000000 5% */
+background: rgba(0, 0, 0, 0.05);
+border-right: 1px solid #CBCBCB;
+
+
+/* 김치 류 */
+
+position: absolute;
+width: 49px;
+height: 19.88px;
+left: calc(50% - 49px/2 - 48px);
+top: 13.7px;
+
+font-family: '?????';
+font-style: normal;
+font-weight: 400;
+font-size: 16px;
+line-height: 16px;
+text-align: center;
+
+color: #000000;
+
+
+
+/* Group 105 */
+
+width: 97px;
+height: 41px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 2;
+flex-grow: 0;
+
+
+/* Rectangle 433 */
+
+box-sizing: border-box;
+
+position: absolute;
+width: 97px;
+height: 41px;
+left: 196px;
+top: 0px;
+
+/* 000000 5% */
+background: rgba(0, 0, 0, 0.05);
+border-right: 1px solid #CBCBCB;
+
+
+/* 젓갈 류 */
+
+position: absolute;
+width: 49px;
+height: 19.88px;
+left: calc(50% - 49px/2 + 50px);
+top: 13.7px;
+
+font-family: '?????';
+font-style: normal;
+font-weight: 400;
+font-size: 16px;
+line-height: 16px;
+text-align: center;
+
+color: #000000;
+
+
+
+/* Group 106 */
+
+width: 98px;
+height: 41px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 3;
+flex-grow: 0;
+
+
+/* Rectangle 433 */
+
+position: absolute;
+width: 98px;
+height: 41px;
+left: 293px;
+top: 0px;
+
+/* 000000 5% */
+background: rgba(0, 0, 0, 0.05);
+
+
+/* 나물 류 */
+
+position: absolute;
+width: 49px;
+height: 19.88px;
+left: calc(50% - 49px/2 + 147px);
+top: 13.7px;
+
+font-family: '?????';
+font-style: normal;
+font-weight: 400;
+font-size: 16px;
+line-height: 16px;
+text-align: center;
+
+color: #000000;
+

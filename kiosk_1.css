@@ -1,0 +1,141 @@
+/* reset.css */
+body,p{margin:0}
+*{
+    box-sizing: border-box;
+    flex-wrap: wrap;
+}
+
+ul,li{
+    margin:0;padding:0;
+    list-style-type: none;
+}
+
+img{vertical-align: top;}
+
+body{
+    margin: 0 auto;
+    width: 390px;
+    height: 1280px;
+}
+article{
+    position: relative;
+    /* background-color: antiquewhite; */
+}
+
+.main-img{
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+
+.store-name{
+    margin: 20px 0;
+    font-size: 20px;
+}
+
+.store-category{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.store-category-s{
+    width: 25%;
+    padding: 10px;
+    text-align: center;
+    border-right: 1px solid rgba(0, 0, 0, 0.05);
+    background: rgba(0, 0, 0, 0.05);
+}
+
+.menu-row{
+    width: 90%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.menu-column{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    width: 47.5%;
+    padding: 15px;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    border-radius: 3px;
+    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
+    margin-top: 20px;
+}
+
+.menu-img{
+    width: 100%;
+}
+
+.menu-name{
+    text-align: left;
+    font-size: 14px;
+    padding-bottom: 20px;
+}
+
+.menu-price{
+    text-align: right;
+    font-size: 18px;
+}
+
+.menu_blank{
+    width: 20%;
+    height: 65px;
+    background-color: rgba(0, 0, 0, 0.05) ;
+}
+
+.basket{
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+.basket-top{
+    width: 80%;
+    margin: 15px auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.pay-semo{
+    margin: 70px auto 0 auto;
+    width: 60px;
+    text-align: center;
+    background-color: aqua;
+    border-radius: 10px 10px 0 0;
+}
+.pay-row{
+    display: flex;
+    
+}
+
+.pay1{
+    padding: 20px 0;
+    width: 50%;
+    height: 150px;
+    align-items: center;
+    text-align: center;
+    
+}
+
+.pay1-1{margin: 10px 0;}
+.pay1-2{
+    color: #EC5959;
+    margin: 10px 0;
+}
+.pay1-3{
+    background-color: rgba(0, 0, 0, 0.05);
+    padding: 5px;
+    width: 100px;
+    margin: 10px auto;
+    border-radius: 50px;
+}
+
+.pay2{
+    background-color: aqua;
+}
+

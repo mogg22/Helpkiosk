@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'buyers',
     'sellers',
     'users',
+    'phonenumber_field',
 ]
 
 MIDDLEWARE = [

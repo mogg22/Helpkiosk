@@ -28,6 +28,7 @@ class Register(models.Model):
     
     if self.public:
       market = Market.objects.create(register=self)
+      market.save()
 
 class MenuCategory(models.Model):
   category = models.CharField(max_length=15)
@@ -38,27 +39,28 @@ class Market(models.Model):
   qr = models.ImageField(upload_to='qrcode/', blank=True, null=True)
   
   def save(self, *args, **kwargs):
-    url = reverse('sellers:seller_detail', args=[str(self.pk)])
-    
-    qrc = qrcode.QRCode(
-      version=1,
-      error_correction=qrcode.constants.ERROR_CORRECT_L,
-      box_size=10,
-      border=4,
-    )
-    
-    qrc.add_data(url)
-    img = qrc.make_image()
-    
-    # QR 코드를 파일로 저장
-    buffer = BytesIO()
-    img.save(buffer, format='PNG')
-    
-    file_name = f'qrcode-{self.pk}.png'  
-    image_file = InMemoryUploadedFile(buffer, None, file_name, 'image/png', sys.getsizeof(buffer), None)
+    if self.pk:      
+      url = reverse('sellers:seller_detail', args=[str(self.pk)])
+      
+      qrc = qrcode.QRCode(
+        version=1,
+        error_correction=qrcode.constants.ERROR_CORRECT_L,
+        box_size=10,
+        border=4,
+      )
+      
+      qrc.add_data(url)
+      img = qrc.make_image()
+      
+      # QR 코드를 파일로 저장
+      buffer = BytesIO()
+      img.save(buffer, format='PNG')
+      
+      file_name = f'qrcode-{self.pk}.png'  
+      image_file = InMemoryUploadedFile(buffer, None, file_name, 'image/png', sys.getsizeof(buffer), None)
 
-    # 이미지 파일을 qr 필드에 저장
-    self.qr.save(file_name, image_file, save=False)
+      # 이미지 파일을 qr 필드에 저장
+      self.qr.save(file_name, image_file, save=False)
     
     super().save(*args, **kwargs)
 

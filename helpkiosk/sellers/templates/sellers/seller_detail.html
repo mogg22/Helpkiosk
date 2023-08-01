@@ -6,6 +6,36 @@
   <title>Document</title>
 </head>
 <body>
-  
+  <h1>등록시 보여지는 화면임 가게이름 {{ market.register.name }}</h1>
+  <h1>가게 번호 {{ market.register.number }}</h1>
+  {% if owner %}
+  <h2>Categories:</h2>
+  <ul>
+    {% for category in categories %}
+    <li>{{ category.category }}</li>
+    <ul>
+      {% for menu in category.menu_set.all %}
+      <li>{{ menu.name }} - {{ menu.price }}</li>
+      {% endfor %}
+    </ul>
+    {% endfor %}
+  </ul>
+
+  {% comment %} <a href="{% url 'sellers:add_category' market.pk %}">Add Category</a><br>
+  <a href="{% url 'sellers:add_menu' market.pk %}">Add Menu</a><br> {% endcomment %}
+  {% else %}
+  <!-- 손님에게 보여지는 화면 -->
+  <h2>Categories:</h2>
+  <ul>
+    {% for category in categories %}
+    <li>{{ category.category }}</li>
+    <ul>
+      {% for menu in category.menu_set.all %}
+      <li>{{ menu.name }} - {{ menu.price }}</li>
+      {% endfor %}
+    </ul>
+    {% endfor %}
+  </ul>
+  {% endif %}
 </body>
 </html>

@@ -14,13 +14,13 @@
         <img class="main-img" src="./picture.jpeg" alt="">
         <div >
             <ul class="store-category">
-                <li class="store-category-s">즉석 반찬</li>
+                <li class="store-category-s active">즉석 반찬</li>
                 <li class="store-category-s">김치 류</li>
                 <li class="store-category-s">젓갈 류</li>
                 <li class="store-category-s">나물 류</li>
             </ul>
         </div>
-        <div class="menu-row">
+        <div class="menu-row active">
             <div class="menu-column">
                 <img class="menu-img" src="./picture.jpeg" alt="">
                 <div class="menu-name">매운 꽃게 무침<br>(작은 크기 2마리)</div>
@@ -39,6 +39,28 @@
             <div class="menu-column">
                 <img class="menu-img" src="./picture.jpeg" alt="">
                 <div class="menu-name">매운 꽃게 무침<br>(작은 크기 2마리)</div>
+                <div class="menu-price">6,000</div>
+            </div>
+        </div>
+        <div class="menu-row">
+            <div class="menu-column">
+                <img class="menu-img" src="./picture.jpeg" alt="">
+                <div class="menu-name">배추김치<br>(작은 크기 2마리)</div>
+                <div class="menu-price">6,000</div>
+            </div>
+            <div class="menu-column">
+                <img class="menu-img" src="./picture.jpeg" alt="">
+                <div class="menu-name">깍두기</div>
+                <div class="menu-price">5,000</div>
+            </div>
+            <div class="menu-column">
+                <img class="menu-img" src="./picture.jpeg" alt="">
+                <div class="menu-name">열무</div>
+                <div class="menu-price">5,000</div>
+            </div>
+            <div class="menu-column">
+                <img class="menu-img" src="./picture.jpeg" alt="">
+                <div class="menu-name">파김치</div>
                 <div class="menu-price">6,000</div>
             </div>
         </div>
@@ -69,6 +91,20 @@
     </article>
 </body>
 <script>
-    
+    const elCategory = document.querySelectorAll(".store-category-s");
+    const elMenu = document.querySelectorAll(".menu-row");
+
+    elCategory.forEach(function(v,i){
+        v.onclick = function(){
+            elCategory.forEach(function(a,b){
+                a.classList.remove("active");
+            })
+            elMenu.forEach(function(a,b){
+                a.classList.remove("active");
+            })
+            v.classList.add("active");
+            elMenu[i].classList.add("active");
+        }
+    })
 </script>
 </html>

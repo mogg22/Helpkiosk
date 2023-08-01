@@ -1,3 +1,71 @@
 from django.db import models
-
+from django.contrib.auth.models import User
+from phonenumber_field.modelfields import PhoneNumberField
+from django.urls import reverse
+import qrcode
+from django.core.files import File
+from io import BytesIO
+from PIL import Image
+from django.core.files.uploadedfile import InMemoryUploadedFile
+import sys
+# from django_qr_code.models import ECI, QRCode, CQRS, FNC1, QRCodeOptions
 # Create your models here.
+
+class Register(models.Model):
+  user = models.OneToOneField(User, on_delete=models.CASCADE)
+  representative = models.CharField(max_length=30)
+  name = models.CharField(max_length=50)
+  location = models.CharField(max_length=50)
+  number = PhoneNumberField(region='KR')
+  business_file = models.FileField(upload_to='business/')
+  registration_file = models.FileField(upload_to='registration/')
+  logo = models.ImageField(upload_to='logo/')
+  info_file = models.FileField(upload_to='info/')
+  public = models.BooleanField(default=False) # 등록 완료 여부
+  
+  def save(self, *args, **kwargs):
+    super().save(*args, **kwargs)
+    
+    if self.public:
+      market = Market.objects.create(register=self)
+
+class MenuCategory(models.Model):
+  category = models.CharField(max_length=15)
+
+class Market(models.Model):
+  register = models.OneToOneField(Register, on_delete=models.CASCADE, null=True, blank=True)
+  categories = models.ManyToManyField(MenuCategory, related_name='categories', blank=True, null=True)
+  qr = models.ImageField(upload_to='qrcode/', blank=True, null=True)
+  
+  def save(self, *args, **kwargs):
+    url = reverse('sellers:seller_detail', args=[str(self.pk)])
+    
+    qrc = qrcode.QRCode(
+      version=1,
+      error_correction=qrcode.constants.ERROR_CORRECT_L,
+      box_size=10,
+      border=4,
+    )
+    
+    qrc.add_data(url)
+    img = qrc.make_image()
+    
+    # QR 코드를 파일로 저장
+    buffer = BytesIO()
+    img.save(buffer, format='PNG')
+    
+    file_name = f'qrcode-{self.pk}.png'  
+    image_file = InMemoryUploadedFile(buffer, None, file_name, 'image/png', sys.getsizeof(buffer), None)
+
+    # 이미지 파일을 qr 필드에 저장
+    self.qr.save(file_name, image_file, save=False)
+    
+    super().save(*args, **kwargs)
+
+
+class Menu(models.Model):
+  category = models.ForeignKey(MenuCategory, on_delete=models.CASCADE)
+  name = models.CharField(max_length=50)
+  price = models.DecimalField(max_digits=8, decimal_places=0, default=0)
+  img = models.ImageField(upload_to='menu_img/', null=True, blank=True)
+  exp = models.TextField()

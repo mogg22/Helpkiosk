@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>가게</title>
+</head>
+<body>
+    <h2>Categories:</h2>
+    <ul>
+        {% for category in cart.categories %}
+        <li>{{ category.category }}</li>
+        <ul>
+            {% for menu in category.menu_set.all %}
+            <li>{{ menu.name }} - {{ menu.price }}</li>
+            {% endfor %}
+        </ul>
+        {% endfor %}
+</body>
+</html>

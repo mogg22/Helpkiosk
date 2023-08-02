@@ -1,0 +1,68 @@
+{% comment %} <!DOCTYPE html>
+<html>
+<head>
+    <title>장바구니</title>
+</head>
+<body>
+    <h1>장바구니</h1>
+    <ul>
+        {% for cart_item in cart_items %}
+        <li>{{ cart_item.menu.name }} - {{ cart_item.menu.price }}원 (수량: {{ cart_item.quantity }})
+            <form method="post" action="{% url 'buyers:remove_from_cart' cart_item.menu.pk %}">
+                {% csrf_token %}
+                <input type="submit" value="삭제">
+            </form>
+        </li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'buyers:checkout' %}">구매하기</a>
+</body>
+</html> {% endcomment %}
+
+{% comment %} <!DOCTYPE html>
+<html>
+<head>
+    <title>장바구니</title>
+</head>
+<body>
+    <h1>장바구니</h1>
+    {% if cart_items %}
+        <ul>
+            {% for item in cart_items %}
+                <li>
+                    {{ item.menu.name }} - 가격: {{ item.menu.price }}원 - 수량: {{ item.quantity }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>장바구니가 비어있습니다.</p>
+    {% endif %}
+</body>
+</html> {% endcomment %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>장바구니</title>
+</head>
+<body>
+    <h1>장바구니</h1>
+<ul>
+    {% for item in cart_items %}
+        <li>
+            {{ item.menu.name }} - {{ item.quantity }}개
+            <form method="post" action="{% url 'buyers:update_cart' item.pk %}">
+                {% csrf_token %}
+                <input type="number" name="quantity" value="{{ item.quantity }}" min="1">
+                <input type="submit" value="수량 업데이트">
+            </form>
+        </li>
+    {% endfor %}
+</ul>
+<p>총 가격: {{ total_price }}원</p>
+
+</body>
+</html>
+
+
+

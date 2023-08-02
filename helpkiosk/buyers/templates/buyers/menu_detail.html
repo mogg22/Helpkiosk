@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ menu.name }} 상세 정보</title>
+</head>
+<body>
+    <h1>{{ menu.name }}</h1>
+    <p>가격: {{ menu.price }}원</p>
+    <p>{{ menu.exp }}</p>
+
+    <h2>메뉴 옵션</h2>
+    <form method="post" action="{% url 'buyers:add_to_cart' menu.pk %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="주문 목록에 추가">
+    </form>
+</body>
+</html>

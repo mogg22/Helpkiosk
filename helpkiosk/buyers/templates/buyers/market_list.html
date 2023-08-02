@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Market List</title>
+</head>
+<body>
+    <h1>Market List</h1>
+    <ul>
+        {% for market in markets %}
+        <li>
+            <a href="{% url 'buyers:menu_list' market.pk %}">{{ market.register.name }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

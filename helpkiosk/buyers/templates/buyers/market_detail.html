@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ market.register.name }}</title>
+</head>
+<body>
+  <h1>{{ market.register.name }}</h1>
+  <h2>카테고리:</h2>
+  <ul>
+    {% for category in market.categories.all %}
+    <li>{{ category.category }}</li>
+    <ul>
+      {% for menu in category.menu_set.all %}
+      <li>{{ menu.name }} - {{ menu.price }}</li>
+      {% endfor %}
+    </ul>
+    {% endfor %}
+  </ul>
+</body>
+</html>

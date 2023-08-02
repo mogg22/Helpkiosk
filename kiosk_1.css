@@ -1,6 +1,16 @@
 /* reset.css */
+@font-face {
+    font-family: 'Pretendard';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+
 body,p{margin:0}
 *{
+    font-family: 'Pretendard';
+    font-weight: 400;
+    font-size: 16px;
     box-sizing: border-box;
     flex-wrap: wrap;
 }
@@ -31,6 +41,7 @@ article{
 .store-name{
     margin: 20px 0;
     font-size: 20px;
+    font-weight: 800;
 }
 
 .store-category{
@@ -48,7 +59,7 @@ article{
     background: rgba(0, 0, 0, 0.05);
 }
 .store-category-s.active{
-    color: #fff;
+    /* color: #fff; */
     background: aqua;
 }
 
@@ -92,6 +103,7 @@ article{
 .menu-price{
     text-align: right;
     font-size: 18px;
+    font-weight: 600;
 }
 
 .menu_blank{
@@ -138,6 +150,7 @@ article{
 .pay1-2{
     color: #EC5959;
     margin: 10px 0;
+    font-weight: 900;
 }
 .pay1-3{
     background-color: rgba(0, 0, 0, 0.05);

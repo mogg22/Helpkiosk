@@ -11,46 +11,53 @@
     <article>
         <img class="main-img" src="./picture.jpeg" alt="">
         <div>
-            <div>계란말이</div>
+            <div class="subtitle">계란말이(2인분)</div>
             <div>20cm 크기에 푸딩같이 촉촉한 뚱뚱이 계란말이
                 사장님이 강추해요  +치즈, 추가 토핑 선택까지+ (케찹, 머스타드 소스 제공)</div>
         </div>
-
-        <div class="subtitle">가격</div>
-        <div class="detail">
-            <div class="detail-row">
-                <input type="checkbox" name="cl" checked> 3인분 같은 2인분
-                <div>+5,000원</div>
-            </div>
-            <div class="detail-row">
-                <input type="checkbox" name="cl"> 5인분 같은 3인분
-                <div>+7,000원</div>
-            </div>
-        </div>
-
-        <div class="subtitle">토핑 추가 선택</div>
-        <div class="detail">
-            <div class="detail-row">
-                <input type="checkbox" name="cl" checked> 치즈폭탄 계란말이로 변경
-                <div>+3,000원</div>
+        <div class="section">
+            <div class="subtitle">가격</div>
+            <div class="detail">
+                <div class="detail-row">
+                    <label for="cl"><input type="checkbox" name="cl" id="cl" checked> 3인분 같은 2인분</label>
+                    <div>+5,000원</div>
+                </div>
+                <div class="detail-row">
+                    <label for="cl"><input type="checkbox" name="cl" id="cl" > 4인분 같은 3인분</label>
+                    <div>+7,000원</div>
+                </div>
             </div>
         </div>
-
-        <div class="subtitle">소스 선택</div>
-        <div class="detail">
-            <div class="detail-row">
-                <input type="checkbox" name="cl" checked> 케찹
-                <div>+0원</div>
-            </div>
-            <div class="detail-row">
-                <input type="checkbox" name="cl"> 머스타드
-                <div>+0원</div>
+        <div class="section">
+            <div class="subtitle">토핑 추가 선택</div>
+            <div class="detail">
+                <div class="detail-row">
+                    <label for="cl"><input type="checkbox" name="cl" id="cl" checked>  치즈폭탄 계란말이로 변경</label>
+                    <div>+3,000원</div>
+                </div>
             </div>
         </div>
-
-        <div class="subtitle">수량</div>
         
-        <a class="detail-bt">주문 목록에 추가</a>
+        <div class="section">
+            <div class="subtitle">소스 선택</div>
+            <div class="detail">
+                <div class="detail-row">
+                    <label for="cl"><input type="checkbox" name="cl" id="cl" checked> 케찹</label>
+                    <div>+0원</div>
+                </div>
+                <div class="detail-row">
+                    <label for="cl"><input type="checkbox" name="cl" id="cl"> 머스타드</label>
+                    <div>+0원</div>
+                </div>
+            </div>
+        </div>
+        <div class="section">
+            <div class="subtitle">수량</div>
+        </div>
+        
+        <div>
+            <a class="detail-bt">주문 목록에 추가</a>
+        </div>
     </article>
 </body>
 </html>

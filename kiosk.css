@@ -20,7 +20,7 @@ ul,li{
     list-style-type: none;
 }
 
-img{vertical-align: top;}
+img{vertical-align: top; width: 100%;}
 
 body{
     margin: 0 auto;
@@ -162,5 +162,6 @@ article{
 
 .pay2{
     background-color: aqua;
+    cursor: pointer;
 }
 

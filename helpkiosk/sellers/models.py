@@ -30,12 +30,8 @@ class Register(models.Model):
       market = Market.objects.create(register=self)
       market.save()
 
-class MenuCategory(models.Model):
-  category = models.CharField(max_length=15)
-
 class Market(models.Model):
   register = models.OneToOneField(Register, on_delete=models.CASCADE, null=True, blank=True)
-  categories = models.ManyToManyField(MenuCategory, related_name='categories', blank=True, null=True)
   qr = models.ImageField(upload_to='qrcode/', blank=True, null=True)
   
   def save(self, *args, **kwargs):
@@ -64,6 +60,9 @@ class Market(models.Model):
     
     super().save(*args, **kwargs)
 
+class MenuCategory(models.Model):
+  market = models.ForeignKey(Market, on_delete=models.CASCADE)
+  category = models.CharField(max_length=15)
 
 class Menu(models.Model):
   category = models.ForeignKey(MenuCategory, on_delete=models.CASCADE)

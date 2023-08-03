@@ -27,16 +27,23 @@
   {% else %}
   <!-- 손님에게 보여지는 화면 -->
   <h2>Categories:</h2>
-  <ul>
+  <div>
     {% for category in categories %}
-    <li>{{ category.category }}</li>
-    <ul>
+    <h3>{{ category.category }}</h3>
+    <div>
       {% for menu in category.menu_set.all %}
-      <li>{{ menu.name }} - {{ menu.price }}</li>
+      <a href="{% url 'sellers:menu_detail' menu.pk %}">
+        {% if menu.img %}
+        <img src="{{menu.img.url}}" alt="">
+        {% else %}
+        <p>이미지 준비중</p>
+        {% endif %}
+        <p>{{ menu.name }} - {{ menu.price }}</p>
+      </a>
       {% endfor %}
-    </ul>
+    </div>
     {% endfor %}
-  </ul>
+  </div>
   {% endif %}
 </body>
 </html>

@@ -8,8 +8,7 @@ from io import BytesIO
 from PIL import Image
 from django.core.files.uploadedfile import InMemoryUploadedFile
 import sys
-# from django_qr_code.models import ECI, QRCode, CQRS, FNC1, QRCodeOptions
-# Create your models here.
+
 
 class Register(models.Model):
   user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -21,7 +20,7 @@ class Register(models.Model):
   registration_file = models.FileField(upload_to='registration/')
   logo = models.ImageField(upload_to='logo/')
   info_file = models.FileField(upload_to='info/')
-  public = models.BooleanField(default=False) # 등록 완료 여부
+  public = models.BooleanField(default=True) # 등록 완료 여부
   
   def save(self, *args, **kwargs):
     super().save(*args, **kwargs)
@@ -33,6 +32,10 @@ class Register(models.Model):
 class Market(models.Model):
   register = models.OneToOneField(Register, on_delete=models.CASCADE, null=True, blank=True)
   qr = models.ImageField(upload_to='qrcode/', blank=True, null=True)
+  order = models.BooleanField(default=False) # True면 매장도 가능
+  time = models.TextField(default='연중무휴')
+  start = models.BooleanField(default=True) # 매장 열었는지
+  close = models.TextField(null=True, blank=True)
   
   def save(self, *args, **kwargs):
     if self.pk:      

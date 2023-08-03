@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  여러가게 보여주는 가게 목록 페이지
+  {% for seller in sellers %}
+  <a href="{% url 'sellers:seller_detail' seller.pk %}">{{seller.register.name}}</a>
+  {% endfor %}
+</body>
+</html>

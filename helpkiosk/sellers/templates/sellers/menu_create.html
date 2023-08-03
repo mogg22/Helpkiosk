@@ -12,6 +12,11 @@
     <label for="category">Category:</label>
     <input type="text" id="category" name="category"><br>
     <input type="submit" name="btn1" value="카테고리 추가">
+    {% for category in categories %}
+    {{category}}
+    {% empty %}
+    카테고리를 등록하세요
+    {% endfor %}
   </form>
   <p>메뉴 추가</p>
   <form method="POST" enctype="multipart/form-data" onsubmit="return validateMenu()">
@@ -19,7 +24,7 @@
     <label for="category">Category:</label>
     <select id="category" name="category">
       {% for category in categories %}
-        <option value="{{ category.id }}">{{ category.category }}</option>
+        <option value="{{ category.pk }}">{{ category.category }}</option>
       {% empty %}
         <option value="0">카테고리를 등록하세요</option>
       {% endfor %}

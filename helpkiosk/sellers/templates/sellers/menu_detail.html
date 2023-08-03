@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  {% if menu.img %}
+  <img src="{{menu.img.url}}" alt="" style="width:100px;">
+  {% else %}
+  <p>이미지 준비중</p>
+  {% endif %}
+  {{menu.name}}
+  {{menu.exp}}
+  {{menu.price}}
+  {% if not owner %}
+  <form method="POST">
+    {% csrf_token %}
+    <input type="submit" value="주문목록추가">
+  </form>
+  {% endif %}
+  {% if messages %}
+    {% for message in messages %}
+      <p>{{ message }}</p>
+    {% endfor %}
+  {% endif %}
+</body>
+</html>

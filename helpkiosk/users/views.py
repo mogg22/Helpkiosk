@@ -66,3 +66,8 @@ def profile_create(request, *args, **kwargs):
       }
       return render(request, 'users/profile_create.html', context)
   return render(request, 'users/profile_create.html')
+
+
+def logout(request, *args, **kwargs):
+  auth.logout(request)
+  return redirect('main:main')

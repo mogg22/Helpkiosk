@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <form method="post">
+    {% csrf_token %}
+    <label for="nickname">닉네임:</label>
+    <input type="text" id="nickname" name="nickname" required><br>
+    
+    <label for="number">전화번호:</label>
+    <input type="text" id="number" name="number" required><br>
+    
+    <label for="seller">판매자 등록:</label>
+    <input type="checkbox" id="seller" name="seller"><br>
+    
+    <input type="submit" value="정보 저장">
+    {% if error %}
+    {{ error }}
+    {% endif %}
+  </form>
+</body>
+</html>

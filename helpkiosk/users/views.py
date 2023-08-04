@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import login, authenticate
 from .models import *
 
 
@@ -67,6 +68,18 @@ def profile_create(request, *args, **kwargs):
       return render(request, 'users/profile_create.html', context)
   return render(request, 'users/profile_create.html')
 
+def login(request, *args, **kwargs):
+  if request.method == 'POST':
+    username=request.POST['username']
+    password=request.POST['password']
+    user = authenticate(username=username, password=password)
+    if user:
+      login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+      return redirect('sellers:seller_list')
+    else:
+      context={'error':'로그인 정보가 맞지 않습니다! 아이디 또는 비밀번호를 확인해주세요',}
+      return render(request, 'users/login.html',context)
+  return render(request, 'users/login.html')
 
 def logout(request, *args, **kwargs):
   auth.logout(request)

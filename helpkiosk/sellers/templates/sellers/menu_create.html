@@ -1,45 +1,58 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" />
+  <link rel="stylesheet" href="{% static 'css/menu_create.css' %}">
   <title>Document</title>
 </head>
 <body>
-  <p>카테고리 추가</p>
-  <form method="POST" enctype="multipart/form-data" onsubmit="return validateCategory()">
-    {% csrf_token %}
-    <label for="category">Category:</label>
-    <input type="text" id="category" name="category"><br>
-    <input type="submit" name="btn1" value="카테고리 추가">
-    {% for category in categories %}
-    {{category}}
-    {% empty %}
-    카테고리를 등록하세요
-    {% endfor %}
-  </form>
-  <p>메뉴 추가</p>
-  <form method="POST" enctype="multipart/form-data" onsubmit="return validateMenu()">
-    {% csrf_token %}
-    <label for="category">Category:</label>
-    <select id="category" name="category">
+  <div id="container">
+    <div id="store">
+      <img src="{% static 'images/heart.png' %}" id="heart">
+      {{market.register.name}} > {{market.register.representative}} 사장님  {% comment %}수정했는데도 안불러와지네요..쩝 {% endcomment %}
+    </div>
+    <p>카테고리 추가</p>
+    <form method="POST" id="category_create" enctype="multipart/form-data" onsubmit="return validateCategory()">
+      {% csrf_token %}
+      {% comment %} <label for="category">Category:</label> {% endcomment %}
+      <input type="text" id="category1" name="category" placeholder="추가할 카테고리 명을 입력해주세요"><br>
+      <input type="submit" id="btn1" name="btn1" value="추가">
+      {% comment %} 
       {% for category in categories %}
-        <option value="{{ category.pk }}">{{ category.category }}</option>
+      {{category}}
       {% empty %}
-        <option value="0">카테고리를 등록하세요</option>
+      카테고리를 등록하세요
       {% endfor %}
-    </select>
-    <br>
-    <label for="name">Name:</label>
-    <input type="text" id="name" name="name"><br>
-    <label for="price">Price:</label>
-    <input type="number" id="price" name="price" min="0"><br>
-    <label for="img">Image:</label>
-    <input type="file" id="img" name="img"><br>
-    <label for="exp">Description:</label><br>
-    <textarea id="exp" name="exp" rows="4" cols="50"></textarea><br>
-    <input type="submit" name="btn2" value="메뉴 작성">
-  </form>
+      {% endcomment %}
+    </form>
+    <p>메뉴 추가</p>
+    <form method="POST" enctype="multipart/form-data" onsubmit="return validateMenu()">
+      {% csrf_token %}
+      <label for="category">카테고리</label>
+      <select id="category2" name="category">
+        {% for category in categories %}
+          <option value="{{ category.pk }}">{{ category.category }}</option>
+        {% empty %}
+          <option value="0">카테고리를 등록하세요</option>
+        {% endfor %}
+      </select>
+      <br>
+      <label for="name">메뉴명</label>
+      <input type="text" id="name" name="name" placeholder="메뉴명을 입력해주세요"><br>
+      <label for="price">가격</label>
+      <input type="number" id="price" name="price" min="0" placeholder="가격을 입력해주세요"><br>
+      <label for="img">이미지</label>
+      <label class="input-file-btn" for="img">파일 첨부</label>
+      <input type="file" id="img" name="img" style="display: none">
+      <br><br>
+      <label for="exp">메뉴 설명</label><br>
+      <textarea id="exp" name="exp" placeholder="메뉴에 대한 상세 설명을 작성해주세요"></textarea><br>
+      <div id="btn-div"> <input type="submit" id="btn2" name="btn2" value="추가"> </div>
+    </form>
+  </div>
 
 
   <script>

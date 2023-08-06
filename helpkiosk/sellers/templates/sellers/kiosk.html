@@ -6,10 +6,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="./kiosk.css">
-
+    <link rel="stylesheet" href="./modal.css">
 </head>
 <body>
     <article>
+        <div id="modal" class="modal-overlay">
+            <div class="modal-window">
+                <div class="close-area">X</div>
+                <div class="title">
+                    <h2>민속반찬</h2>
+                    <div>민속반찬에 오신 것을 환영합니다</div>
+                </div>
+                <div class="content">
+                    <div class="content-d">매장 식사</div>
+                    <div class="content-d">포장</div>
+                </div>
+                <div class="modal-sound">모바일 키오스크 음성 도움이 <br>필요하신 분은 여기를 터치해주세요.</div>
+            </div>
+            <div class="modal-order">주문하기</div>
+            
+        </div>
         <div class="store-name">민속반찬</div>
         <img class="main-img" src="./picture.jpeg" alt="">
         <div >
@@ -113,8 +129,6 @@
                 <div class="menu-price">5,000</div>
             </div>
         </div>
-    </article>
-    <article>
         <div class="pay-semo">▲</div>
         <div class="basket">
             <div class="basket-top">
@@ -133,13 +147,45 @@
                 <div class="pay1-3">일괄 취소</div>
             </div>
             <div class="pay1 pay2">
-                <img class="pay-icon" src="" alt="">
+                <img class="pay-icon" src="./img/Vector.png" alt="">
                 <div>결제하기</div>
             </div>
         </div>
     </article>
 </body>
 <script>
+
+    const modal = document.getElementById("modal")
+
+    function modalOn() {
+        modal.style.display = "flex"
+    }
+
+    function isModalOn() {
+        return modal.style.display === "flex"
+    }
+
+    function modalOff() {
+        modal.style.display = "none"
+    }
+
+    const closeBtn = modal.querySelector(".close-area")
+    closeBtn.addEventListener("click", e => {
+        modalOff()
+    })
+
+    modal.addEventListener("click", e => {
+        const evTarget = e.target
+        if(evTarget.classList.contains("modal-overlay")) {
+            modalOff()
+        }
+    })
+
+    window.addEventListener("keyup", e => {
+        if(isModalOn() && e.key === "Escape") {
+            modalOff()
+        }
+    })
     const elCategory = document.querySelectorAll(".store-category-s");
     const elMenu = document.querySelectorAll(".menu-row");
     const elMenus = document.querySelectorAll(".menu-column"),
@@ -169,12 +215,14 @@
     })
 
     
-    if(sessionStorage.urlData.length > 0) {
+    if(sessionStorage.urlData && sessionStorage.urlData.length > 0) {
         let url = sessionStorage.getItem('urlData'),
         url_arr = url.split(',');
         for (let i=0; i < url_arr.length; i++){
             elBlank[i].innerHTML= `<img src="${url_arr[i]}">`
         }
+    } else {
+        modalOn();
     }
 
     elCancle.onclick=()=>{
@@ -183,5 +231,7 @@
                 elBlank[i].innerHTML= ``
             }
     }
+
+    
 </script>
 </html>

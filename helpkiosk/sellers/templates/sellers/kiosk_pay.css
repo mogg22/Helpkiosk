@@ -5,6 +5,7 @@
     font-weight: 400;
     font-style: normal;
 }
+
 body,p{margin:0}
 *{
     font-family: 'Pretendard';
@@ -25,26 +26,51 @@ body{
     margin: 0 auto;
     width: 390px;
     height: 1280px;
-    border: 1px solid red;
+    /* border: 1px solid red; */
+}
+
+.main-img{
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
 }
 article>div{
     position: relative;
     width: 90%;
     margin: 0 auto;
 }
+.store-name{
+   
+    font-size: 20px;
+    font-weight: 800;
+}
 
 .section{
     margin: 30px auto;
 }
-.main-img{
-    width: 100%;
-    height: 180px;
-    object-fit: cover;
+
+.column{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
-.detail-row{
+
+.column{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 50%;
+}
+
+.row{
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: flex-start;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 3px;
 }
 
 .subtitle{
@@ -54,12 +80,19 @@ article>div{
     margin: 15px auto;
 }
 
-#cl{
+.right{
+    text-align: right;
+    font-size: 20px;
+    font-weight: 900;
+}
+
+.detail-tt{
     margin-bottom: 10px;
 }
 
 .detail-bt{
-    background-color: aqua;
+    background-color:#EA4C4C;
+    color: #fff;
     border-radius: 50px;
     width: 100%;
     padding: 15px;

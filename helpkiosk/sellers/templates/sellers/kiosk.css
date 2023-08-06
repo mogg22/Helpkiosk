@@ -59,8 +59,8 @@ article{
     background: rgba(0, 0, 0, 0.05);
 }
 .store-category-s.active{
-    /* color: #fff; */
-    background: aqua;
+    color: #fff;
+    background: #EA4C4C;
 }
 
 .menu-row{
@@ -129,8 +129,10 @@ article{
     margin: 70px auto 0 auto;
     width: 60px;
     text-align: center;
-    background-color: aqua;
+    background-color:#EA4C4C;
+    color: #fff;
     border-radius: 10px 10px 0 0;
+    padding: 3px;
 }
 .pay-row{
     display: flex;
@@ -161,7 +163,12 @@ article{
 }
 
 .pay2{
-    background-color: aqua;
+    background-color:#EA4C4C;
+    color: #fff;
     cursor: pointer;
 }
 
+.pay-icon{
+    width: 50px;
+    margin: 15px 0;
+}

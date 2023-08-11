@@ -19,11 +19,11 @@
             <div class="subtitle">가격</div>
             <div class="detail">
                 <div class="detail-row">
-                    <label for="cl"><input type="checkbox" name="cl" id="cl" checked> 3인분 같은 2인분</label>
+                    <label for="cl"><input type="radio" name="cl1"  checked> 3인분 같은 2인분</label>
                     <div>+5,000원</div>
                 </div>
                 <div class="detail-row">
-                    <label for="cl"><input type="checkbox" name="cl" id="cl" > 4인분 같은 3인분</label>
+                    <label for="cl"><input type="radio" name="cl1"  > 4인분 같은 3인분</label>
                     <div>+7,000원</div>
                 </div>
             </div>
@@ -32,7 +32,7 @@
             <div class="subtitle">토핑 추가 선택</div>
             <div class="detail">
                 <div class="detail-row">
-                    <label for="cl"><input type="checkbox" name="cl" id="cl" checked>  치즈폭탄 계란말이로 변경</label>
+                    <label for="cl"><input type="radio" name="cl2"  checked>  치즈폭탄 계란말이로 변경</label>
                     <div>+3,000원</div>
                 </div>
             </div>
@@ -42,11 +42,11 @@
             <div class="subtitle">소스 선택</div>
             <div class="detail">
                 <div class="detail-row">
-                    <label for="cl"><input type="checkbox" name="cl" id="cl" checked> 케찹</label>
+                    <label for="cl"><input type="radio" name="cl3"  checked> 케찹</label>
                     <div>+0원</div>
                 </div>
                 <div class="detail-row">
-                    <label for="cl"><input type="checkbox" name="cl" id="cl"> 머스타드</label>
+                    <label for="cl"><input type="radio" name="cl3" > 머스타드</label>
                     <div>+0원</div>
                 </div>
             </div>
@@ -65,9 +65,10 @@
      elPay.onclick = function(){
         const img = document.querySelector('.main-img')
         let urlData = "urlData"
-        let se_img = sessionStorage.getItem(urlData),add_seimg;
-        console.log(se_img)
-        if (se_img == ''){
+        let se_img = sessionStorage.getItem(urlData);
+        let add_seimg;
+
+        if (!se_img){
             add_seimg = img.src;
         } else {
             add_seimg = se_img + "," + img.src; 

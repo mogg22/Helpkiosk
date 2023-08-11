@@ -6,6 +6,7 @@
   <title>Document</title>
 </head>
 <body>
+  {{market.register.name}}
   <p>카테고리 추가</p>
   <form method="POST" enctype="multipart/form-data" onsubmit="return validateCategory()">
     {% csrf_token %}
@@ -13,7 +14,7 @@
     <input type="text" id="category" name="category"><br>
     <input type="submit" name="btn1" value="카테고리 추가">
     {% for category in categories %}
-    {{category}}
+    {{category.category}}
     {% empty %}
     카테고리를 등록하세요
     {% endfor %}

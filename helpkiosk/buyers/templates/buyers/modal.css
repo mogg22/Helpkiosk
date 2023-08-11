@@ -72,4 +72,6 @@
     color: white;
  }
 
-
+#modal .content-d .active{
+    background-color:#EA4C4C;
+}

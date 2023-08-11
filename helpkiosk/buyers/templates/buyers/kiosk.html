@@ -199,11 +199,14 @@
     elCancle = document.querySelector('.pay1-3'),
     chooseP = document.querySelectorAll('.content-d');
 
-    chooseP.onclick = function(v,i){
+    chooseP.forEach(function(v,i){
         v.onclick = function(){
-            v.classList.toggle('active');
+            chooseP.forEach(function(a,b){
+                a.classList.remove('active');
+            })
+            v.classList.add('active');
         }
-    }
+    });
 
     elPay.onclick = function(){
         location.href='./kiosk_pay.html'

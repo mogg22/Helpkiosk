@@ -11,6 +11,23 @@ def is_market_owner(user, market_id):
   else:
     return False
 
+def register(request):
+  if request.method == 'POST':
+    Register.objects.create(
+      user=request.user,
+      representative=request.POST.get('representative'),
+      name=request.POST.get('name'),
+      location=request.POST.get('location'),
+      number=request.POST.get('number'),
+      business_file=request.FILES.get('business_file'),
+      registration_file=request.FILES.get('registration_file'),
+      logo=request.FILES.get('img'),
+      info_file=request.FILES.get('info_file'),
+    )
+    return redirect('sellers:seller_list')
+  else:
+    return render(request, 'sellers/register.html')
+
 def seller_detail(request, pk, *args, **kwargs):
   market = get_object_or_404(Market, pk=pk)
   categories = MenuCategory.objects.filter(market=pk)
@@ -53,6 +70,7 @@ def menu_create(request, pk):
       market = get_object_or_404(Market, pk=pk)
       categories = MenuCategory.objects.filter(market=pk)
       context= {
+        'market': market,
         'categories': categories,
       }
       return render(request, 'sellers/menu_create.html', context)

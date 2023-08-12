@@ -174,6 +174,11 @@
         modalOff()
     })
 
+    const closeBtn2 = modal.querySelector(".modal-order")
+    closeBtn2.addEventListener("click", e => {
+        modalOff()
+    })
+
     modal.addEventListener("click", e => {
         const evTarget = e.target
         if(evTarget.classList.contains("modal-overlay")) {
@@ -191,7 +196,17 @@
     const elMenus = document.querySelectorAll(".menu-column"),
     elBlank = document.querySelectorAll(".menu_blank"),
     elPay = document.querySelector(".pay2"),
-    elCancle = document.querySelector('.pay1-3');
+    elCancle = document.querySelector('.pay1-3'),
+    chooseP = document.querySelectorAll('.content-d');
+
+    chooseP.forEach(function(v,i){
+        v.onclick = function(){
+            chooseP.forEach(function(a,b){
+                a.classList.remove('active');
+            })
+            v.classList.add('active');
+        }
+    });
 
     elPay.onclick = function(){
         location.href='./kiosk_pay.html'

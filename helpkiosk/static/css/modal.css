@@ -5,6 +5,9 @@
     left: 50;
     top: 100;
     display: flex;
+    /* left: 0;
+    top: 0;
+    display: flex; */
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -55,14 +58,13 @@
 }
 
 #modal .modal-sound {
-    width: 90%;
-    margin: 30px auto;
-    text-align: center;
-    color: yellowgreen;
-    text-decoration: underline;
-    line-height: 150%;
+   width: 90%;
+   margin: 30px auto;
+   text-align: center;
+   color: yellowgreen;
+   text-decoration: underline;
+   line-height: 150%;
 }
-
 #modal .modal-order {
     width: 300px;
     padding: 20px;
@@ -71,8 +73,6 @@
     background-color:#EA4C4C;
     border-radius: 0px 0px 10px 10px;
     color: white;
-}
+ }
 
-#modal .content-d .active{
-    background-color:#EA4C4C;
-}
+

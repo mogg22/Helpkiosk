@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  상담하고자 하는 신청자 및 매장 정보를 입력해주세요.
+  <form method="POST">
+    {% csrf_token %}
+    <label for="representative">대표:</label>
+    <input type="text" id="representative" name="representative"><br>
+    <label for="name">상호명:</label>
+    <input type="text" id="name" name="name"><br>
+    <label for="location">매장 위치:</label>
+    <input type="text" id="location" name="location"><br>
+    <label for="number">전화번호:</label>
+    <input type="text" id="number" name="number"><br>
+    <label for="business_file">사업자 등록증:</label>
+    <input type="file" id="business_file" name="business_file"><br>
+    <label for="registration_file">영업 신고증:</label>
+    <input type="file" id="registration_file" name="registration_file"><br>
+    <label for="logo">로고:</label>
+    <input type="file" id="logo" name="logo"><br>
+    <label for="info_file">기타 정보 파일:</label>
+    <input type="file" id="info_file" name="info_file"><br>
+    <input type="submit" value="등록">
+  </form>
+</body>
+</html>

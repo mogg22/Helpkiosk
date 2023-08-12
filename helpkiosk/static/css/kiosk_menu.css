@@ -54,6 +54,18 @@ article>div{
     margin: 15px auto;
 }
 
+#price {
+    display: flex;
+    justify-content: space-between;
+}
+
+#price-title {
+    display: inline-block;
+    margin-left: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
 #cl{
     margin-bottom: 10px;
 }
@@ -61,6 +73,7 @@ article>div{
 .detail-bt{
     background-color:#EA4C4C;
     color: #fff;
+    border: none;
     border-radius: 50px;
     width: 100%;
     padding: 15px;

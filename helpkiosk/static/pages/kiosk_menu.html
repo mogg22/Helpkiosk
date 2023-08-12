@@ -5,22 +5,21 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="./kiosk_menu.css">
+    <link rel="stylesheet" href="../css/kiosk_menu.css">
 </head>
 <body>
     <article>
         <img class="main-img" src="./picture.jpeg" alt="">
         <div>
-            <div class="subtitle">계란말이(2인분)</div>
-            <div>20cm 크기에 푸딩같이 촉촉한 뚱뚱이 계란말이
-                사장님이 강추해요  +치즈, 추가 토핑 선택까지+ (케찹, 머스타드 소스 제공)</div>
+            <div class="subtitle">{{ menu.name }}</div>
+            <div>{{ menu.exp }}</div>
         </div>
         <div class="section">
             <div class="subtitle">가격</div>
             <div class="detail">
                 <div class="detail-row">
                     <label for="cl"><input type="checkbox" name="cl" id="cl" checked> 3인분 같은 2인분</label>
-                    <div>+5,000원</div>
+                    <div>{{ menu.price }}원</div>
                 </div>
                 <div class="detail-row">
                     <label for="cl"><input type="checkbox" name="cl" id="cl" > 4인분 같은 3인분</label>
@@ -28,6 +27,8 @@
                 </div>
             </div>
         </div>
+
+        
         <div class="section">
             <div class="subtitle">토핑 추가 선택</div>
             <div class="detail">

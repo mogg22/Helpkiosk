@@ -1,3 +1,4 @@
+{% load humanize %}
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -5,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
 </head>
+
 <body>
   <h1>등록시 보여지는 화면임 가게이름 {{ market.register.name }}</h1>
   <h1>가게 번호 {{ market.register.number }}</h1>
@@ -15,7 +17,8 @@
     <li>{{ category.category }}</li>
     <ul>
       {% for menu in category.menu_set.all %}
-      <li>{{ menu.name }} - {{ menu.price }}</li>
+      <a href="{% url 'sellers:menu_update' menu.pk %}">수정</a>
+      <li>{{ menu.name }} - {{ menu.price|intcomma }}</li>
       {% endfor %}
     </ul>
     {% endfor %}
@@ -27,23 +30,64 @@
   {% else %}
   <!-- 손님에게 보여지는 화면 -->
   <h2>Categories:</h2>
-  <div>
+  <ul>
     {% for category in categories %}
-    <h3>{{ category.category }}</h3>
-    <div>
-      {% for menu in category.menu_set.all %}
-      <a href="{% url 'sellers:menu_detail' menu.pk %}">
-        {% if menu.img %}
-        <img src="{{menu.img.url}}" alt="">
-        {% else %}
-        <p>이미지 준비중</p>
-        {% endif %}
-        <p>{{ menu.name }} - {{ menu.price }}</p>
-      </a>
-      {% endfor %}
-    </div>
+      <li>{{ category.category }}</li>
+      <ul>
+        {% for menu in category.menu_set.all %}
+          <li>
+            <a href="{% url 'buyers:add_to_cart' menu.id market.pk %}">
+              {% if menu.img %}
+              <img src="{{menu.img.url}}" alt="">
+              {% else %}
+              <p>이미지 준비중</p>
+              {% endif %}
+              <p>{{ menu.name }} - {{ menu.price|intcomma }}</p></a>
+              
+          </li>
+        {% endfor %}
+      </ul>
     {% endfor %}
-  </div>
+  </ul>
+  {% if cart_list %}
+    <h2>
+      cart_list:
+      <ul>
+        {% for cart in cart_list %}
+        <li>{{ cart.cart_list }}</li>
+        <ul>
+            <img src="/media/{{ cart.menu_img }}" alt="Menu Image">
+            <span class="price" style="display: none"> {% widthratio cart.quantity 1 cart.price %} </span>
+        </ul>
+        {% endfor %}
+      </ul>
+    </h2>
+
+    <form method="post" action="{% url 'buyers:clear_cart' %}">
+      {% csrf_token %}
+      <input type="hidden" name="market_id" value="{{market.pk}}" />
+      <button type="submit">전체 삭제</button>
+    </form>
+    {% comment %} <a href="{% url 'buyers:clear_cart' %}">전체 삭제</a> {% endcomment %}
+    {% comment %} <p id="total_price">총 가격: {{ total_price }} 원</p> {% endcomment %}
+    <p id="total_price"></p>
+    <a href="{% url 'buyers:cart' %}">결제하기</a>
   {% endif %}
+{% endif %}
 </body>
 </html>
+
+<script>
+  let price_list = document.getElementsByClassName("price");
+
+  HTMLCollection.prototype.forEach = Array.prototype.forEach;
+
+  var total_price = 0;
+
+  price_list.forEach(function(data){
+    total_price += Number(data.innerHTML);
+  })
+
+  document.getElementById("total_price").innerHTML = "총 가격 : " + total_price + " 원";
+
+</script>

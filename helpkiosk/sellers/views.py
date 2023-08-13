@@ -1,8 +1,9 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import *
-from buyers.models import *
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.http import HttpResponseForbidden
+from buyers.models import *
+from django.db.models import F
 from django.contrib import messages
 
 def is_market_owner(user, market_id):
@@ -11,10 +12,35 @@ def is_market_owner(user, market_id):
   else:
     return False
 
+def register(request):
+  if request.method == 'POST':
+    Register.objects.create(
+      user=request.user,
+      representative=request.POST.get('representative'),
+      name=request.POST.get('name'),
+      location=request.POST.get('location'),
+      number=request.POST.get('number'),
+      business_file=request.FILES.get('business_file'),
+      registration_file=request.FILES.get('registration_file'),
+      logo=request.FILES.get('img'),
+      info_file=request.FILES.get('info_file'),
+    )
+    return redirect('sellers:seller_list')
+  else:
+    return render(request, 'sellers/register.html')
+
 def seller_detail(request, pk, *args, **kwargs):
   market = get_object_or_404(Market, pk=pk)
   categories = MenuCategory.objects.filter(market=pk)
+
+  cart_list = Cart.objects.filter(user_id=request.user).annotate(
+    menu_img=F('menu_id__img'),
+    price=F('menu_id__price'), 
+    menu_nm=F('menu_id__name')
+  ).values('menu_img','price', 'quantity', 'menu_nm')
   
+  # total_price = request.session.get('total_price', 0)
+
   if is_market_owner(request.user, pk):
     owner = True
   else:
@@ -24,6 +50,8 @@ def seller_detail(request, pk, *args, **kwargs):
     'market': market,
     'categories': categories,
     'owner': owner,
+    'cart_list': cart_list,
+    # 'total_price': total_price
   }
   
   return render(request, 'sellers/seller_detail.html', context)
@@ -49,21 +77,67 @@ def menu_create(request, pk):
           exp=request.POST.get('exp')
         )
         return redirect('sellers:seller_detail', pk)
+      
+      # elif 'btn3' in request.POST:
+      #   MenuCategory.objects.create(
+      #     menu=Menu.objects.get(pk=pk),
+      #     name=request.POST.get('option'),
+      #     price=request.POST.get('price'),
+      #   )
+      #   return redirect('sellers:menu_create', pk)
     else:
       market = get_object_or_404(Market, pk=pk)
       categories = MenuCategory.objects.filter(market=pk)
       context= {
+        'market': market,
         'categories': categories,
       }
       return render(request, 'sellers/menu_create.html', context)
   else:
     return HttpResponseForbidden("You don't have permission to perform this action.")
 
-# def category_delete(request, pk):
-#   if request.method == "POST":
-#     category = get_object_or_404(Category, pk=pk)
-#     category.delete()
-#   return redirect('sellers:menu_create', pk)
+@login_required
+def menu_update(request, pk):
+  menu = get_object_or_404(Menu, pk=pk)
+  market = menu.category.market
+  categories = MenuCategory.objects.filter(market=market.pk)
+  options = Option.objects.filter(menu=menu)
+
+  if not is_market_owner(request.user, market.pk):
+    return HttpResponseForbidden("You don't have permission to perform this action.")
+
+  if request.method == 'POST':
+    if 'btn1' in request.POST:
+      MenuCategory.objects.create(
+        market=Market.objects.get(pk=pk),
+        category=request.POST.get('category')
+      )
+      return redirect('sellers:menu_update', pk)
+
+    elif 'btn2' in request.POST:
+      menu.name = request.POST['name']
+      menu.price = request.POST['price']
+      if request.FILES.get('img'):
+        menu.img = request.FILES.get('img')
+      menu.exp = request.POST.get('exp')
+      menu.save()
+      return redirect('sellers:seller_detail', pk)
+
+    elif 'btn3' in request.POST:
+      Option.objects.create(
+        menu=Menu.objects.get(pk=pk),
+        name=request.POST.get('option'),
+        price=request.POST.get('option_price'),
+      )
+      return redirect('sellers:menu_update', pk)
+
+  context= {
+    'menu': menu,
+    'market': market,
+    'categories': categories,
+    'options': options,
+  }
+  return render(request, 'sellers/menu_update.html', context)
 
 def menu_detail(request, pk):
   menu = get_object_or_404(Menu, pk=pk)
@@ -88,7 +162,7 @@ def menu_detail(request, pk):
         cart_item.save()
       else:
         cart_item = CartItem.objects.create(cart=cart, menu=menu)
-        messages.success(request, '상품이 성공적으로 추가되었습니다!')
+        # messages.success(request, '상품이 성공적으로 추가되었습니다!')
 
     cart.market = menu.category.market
     cart.save()

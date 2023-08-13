@@ -187,3 +187,31 @@ def seller_list(request, *args, **kwargs):
   }
   
   return render(request, 'sellers/seller_list.html', context)
+
+def order_list(request, pk, *args, **kwargs):
+  if is_market_owner(request.user, pk):
+    market = get_object_or_404(Market, pk=pk)
+    payments = Payment.objects.filter(cart__market=market)
+    context = {
+      'market': market,
+      'payments': payments,
+    }
+    return render(request, 'sellers/order_list.html', context)
+
+  else:
+    return HttpResponseForbidden("You don't have permission to perform this action.")
+
+def order_detail(request, pk, *args, **kwargs):
+  payment = get_object_or_404(Payment, pk=pk)
+  
+  # if is_market_owner(request.user, pk):
+  #   owner = True
+  # else:
+  #   owner = False
+
+  context = {
+    'payment': payment,
+    # 'owner': owner,
+  }
+  
+  return render(request, 'sellers/order_detail.html', context)

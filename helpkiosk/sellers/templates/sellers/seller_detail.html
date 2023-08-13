@@ -15,6 +15,7 @@
     <li>{{ category.category }}</li>
     <ul>
       {% for menu in category.menu_set.all %}
+      <a href="{% url 'sellers:menu_update' menu.pk %}">수정</a>
       <li>{{ menu.name }} - {{ menu.price }}</li>
       {% endfor %}
     </ul>

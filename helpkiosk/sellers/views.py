@@ -66,6 +66,14 @@ def menu_create(request, pk):
           exp=request.POST.get('exp')
         )
         return redirect('sellers:seller_detail', pk)
+      
+      # elif 'btn3' in request.POST:
+      #   MenuCategory.objects.create(
+      #     menu=Menu.objects.get(pk=pk),
+      #     name=request.POST.get('option'),
+      #     price=request.POST.get('price'),
+      #   )
+      #   return redirect('sellers:menu_create', pk)
     else:
       market = get_object_or_404(Market, pk=pk)
       categories = MenuCategory.objects.filter(market=pk)
@@ -77,11 +85,60 @@ def menu_create(request, pk):
   else:
     return HttpResponseForbidden("You don't have permission to perform this action.")
 
+@login_required
+def menu_update(request, pk):
+  menu = get_object_or_404(Menu, pk=pk)
+  market = menu.category.market
+  categories = MenuCategory.objects.filter(market=market.pk)
+  options = Option.objects.filter(menu=menu)
+
+  if not is_market_owner(request.user, market.pk):
+    return HttpResponseForbidden("You don't have permission to perform this action.")
+
+  if request.method == 'POST':
+    if 'btn1' in request.POST:
+      MenuCategory.objects.create(
+        market=Market.objects.get(pk=pk),
+        category=request.POST.get('category')
+      )
+      return redirect('sellers:menu_update', pk)
+    
+    elif 'btn2' in request.POST:
+      menu.name = request.POST['name']
+      menu.price = request.POST['price']
+      if request.FILES.get('img'):
+        menu.img = request.FILES.get('img')
+      menu.exp = request.POST.get('exp')
+      menu.save()
+      return redirect('sellers:seller_detail', pk)
+    
+    elif 'btn3' in request.POST:
+      Option.objects.create(
+        menu=Menu.objects.get(pk=pk),
+        name=request.POST.get('option'),
+        price=request.POST.get('option_price'),
+      )
+      return redirect('sellers:menu_update', pk)
+
+  context= {
+    'menu': menu,
+    'market': market,
+    'categories': categories,
+    'options': options,
+  }
+  return render(request, 'sellers/menu_update.html', context)
+
 # def category_delete(request, pk):
 #   if request.method == "POST":
 #     category = get_object_or_404(Category, pk=pk)
 #     category.delete()
 #   return redirect('sellers:menu_create', pk)
+
+# def option_delete(request, pk):
+#   if request.method == "POST":
+#     option = get_object_or_404(Option, pk=pk)
+#     option.delete()
+#   return redirect('sellers:menu_update', pk)
 
 def menu_detail(request, pk):
   menu = get_object_or_404(Menu, pk=pk)

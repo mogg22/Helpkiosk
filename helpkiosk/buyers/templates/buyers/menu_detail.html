@@ -1,18 +1,40 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
-    <title>{{ menu.name }} 상세 정보</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>메뉴 상세페이지</title>
 </head>
 <body>
+    {% if menu.img %}
+    <img src="{{menu.img.url}}" alt="" style="width:100px;">
+    {% else %}
+    <p>이미지 준비중</p>
+    {% endif %}
     <h1>{{ menu.name }}</h1>
-    <p>가격: {{ menu.price }}원</p>
+    <p>가격 : {{ menu.price }}</p>
     <p>{{ menu.exp }}</p>
-
-    <h2>메뉴 옵션</h2>
-    <form method="post" action="{% url 'buyers:add_to_cart' menu.pk %}">
+    {% if options %}
+        <h3>옵션</h3>
+        <ul>
+            {% for option in options %}
+                <li>
+                    {{ option.name }} - {{ option.price }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    {% if not owner %}
+    <form method="post" action="{% url 'buyers:add_to_cart' menu.id market_id %}">
         {% csrf_token %}
         {{ form.as_p }}
-        <input type="submit" value="주문 목록에 추가">
+        <button type="submit">주문 목록에추가</button>
     </form>
+    {% endif %}
+    {% if messages %}
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+    {% endif %}
 </body>
 </html>

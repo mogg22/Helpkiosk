@@ -138,143 +138,148 @@
     //사장님 버전이랑 고객용 버전이랑 다르게 작성 if문으로 두개 따로 처리해야함
     //정원 언니 일단 이렇게 따로따로 작성해서 표시해둘테니까 처리 부탁드려요!
     //사장님 버전
-    const add = document.getElementById("add");
+    var isOwner = {% if owner %} true {% else %} false {% endif %};
+
+    if (isOwner) {
+
+      const add = document.getElementById("add");
+      
+      add.onclick = function(){
+        location.href='{% url 'sellers:menu_create' market.pk %}'
+      }
+
+      //유빈언니가 쓴 JS
+      const elCategory = document.querySelectorAll(".store-category-s");
+      const elMenu = document.querySelectorAll(".menu-row");
+      const elMenus = document.querySelectorAll(".menu-column");
+
+      elCategory.forEach(function(v,i){
+          v.onclick = function(){
+              elCategory.forEach(function(a,b){
+                  a.classList.remove("active");
+              })
+              elMenu.forEach(function(a,b){
+                  a.classList.remove("active");
+              })
+              v.classList.add("active");
+              elMenu[i].classList.add("active");
+          }
+      })
+      elMenus.forEach(function(v,i){
+          v.onclick = function(){
+              location.href='사장님 메뉴 수정 페이지'
+          }
+      })
+    }
+
+    else {
+      //손님 버전
+      let price_list = document.getElementsByClassName("price");
     
-    add.onclick = function(){
-      location.href='{% url 'sellers:menu_create' market.pk %}'
-    }
-
-    //유빈언니가 쓴 JS
-    const elCategory = document.querySelectorAll(".store-category-s");
-    const elMenu = document.querySelectorAll(".menu-row");
-    const elMenus = document.querySelectorAll(".menu-column");
-
-    elCategory.forEach(function(v,i){
-        v.onclick = function(){
-            elCategory.forEach(function(a,b){
-                a.classList.remove("active");
-            })
-            elMenu.forEach(function(a,b){
-                a.classList.remove("active");
-            })
-            v.classList.add("active");
-            elMenu[i].classList.add("active");
-        }
-    })
-    elMenus.forEach(function(v,i){
-        v.onclick = function(){
-            location.href='사장님 메뉴 수정 페이지'
-        }
-    })
-
+      HTMLCollection.prototype.forEach = Array.prototype.forEach;
     
-    //손님 버전
-    let price_list = document.getElementsByClassName("price");
-  
-    HTMLCollection.prototype.forEach = Array.prototype.forEach;
-  
-    var total_price = 0;
-  
-    price_list.forEach(function(data){
-      total_price += Number(data.innerHTML);
-    })
-  
-    document.getElementById("total_price").innerHTML = "₩ " + total_price;
-  
-    //유빈언니가 쓴 JS
-    const modal = document.getElementById("modal")
-
-    function modalOn() {
-        modal.style.display = "flex"
-    }
-
-    function isModalOn() {
-        return modal.style.display === "flex"
-    }
-
-    function modalOff() {
-        modal.style.display = "none"
-    }
-
-    const closeBtn = modal.querySelector(".close-area");
-
-    closeBtn.addEventListener("click", e => {
-        modalOff()
-    })
-
-    const closeBtn2 = modal.querySelector(".modal-order")
-    closeBtn2.addEventListener("click", e => {
-        modalOff()
-    })
-
-    modal.addEventListener("click", e => {
-        const evTarget = e.target
-        if(evTarget.classList.contains("modal-overlay")) {
-            modalOff()
-        }
-    })
-
-    window.addEventListener("keyup", e => {
-        if(isModalOn() && e.key === "Escape") {
-            modalOff()
-        }
-    })
-    const elCategory = document.querySelectorAll(".store-category-s");
-    const elMenu = document.querySelectorAll(".menu-row");
-    const elMenus = document.querySelectorAll(".menu-column"),
-    elBlank = document.querySelectorAll(".menu_blank"),
-    elPay = document.querySelector(".pay2"),
-    elCancle = document.querySelector('.pay1-3');
-    chooseP = document.querySelectorAll('.content-d');
-
-    chooseP.forEach(function(v,i){
-        v.onclick = function(){
-            chooseP.forEach(function(a,b){
-                a.classList.remove('active');
-            })
-            v.classList.add('active');
-        }
-    });
-
-    elPay.onclick = function(){
-        location.href='{% url 'buyers:cart' %}'
-    }
-    elCategory.forEach(function(v,i){
-        v.onclick = function(){
-            elCategory.forEach(function(a,b){
-                a.classList.remove("active");
-            })
-            elMenu.forEach(function(a,b){
-                a.classList.remove("active");
-            })
-            v.classList.add("active");
-            elMenu[i].classList.add("active");
-        }
-    })
-    elMenus.forEach(function(v,i){
-        v.onclick = function(){
-            location.href='cart.html 페이지'
-        }
-    })
-
+      var total_price = 0;
     
-    if(sessionStorage.urlData && sessionStorage.urlData.length > 0) {
-        let url = sessionStorage.getItem('urlData'),
-        url_arr = url.split(',');
-        for (let i=0; i < url_arr.length; i++){
-            elBlank[i].innerHTML= `<img src="${url_arr[i]}">`
-        }
-    } else {
-        modalOn();
-    }
+      price_list.forEach(function(data){
+        total_price += Number(data.innerHTML);
+      })
+    
+      document.getElementById("total_price").innerHTML = "₩ " + total_price;
+    
+      //유빈언니가 쓴 JS
+      const modal = document.getElementById("modal")
 
-    elCancle.onclick=()=>{
-        sessionStorage.setItem('urlData','')
-            for (let i=0; i < 4; i++){
-                elBlank[i].innerHTML= ``
-            }
-    }
+      function modalOn() {
+          modal.style.display = "flex"
+      }
 
+      function isModalOn() {
+          return modal.style.display === "flex"
+      }
+
+      function modalOff() {
+          modal.style.display = "none"
+      }
+
+      const closeBtn = modal.querySelector(".close-area");
+
+      closeBtn.addEventListener("click", e => {
+          modalOff()
+      })
+
+      const closeBtn2 = modal.querySelector(".modal-order")
+      closeBtn2.addEventListener("click", e => {
+          modalOff()
+      })
+
+      modal.addEventListener("click", e => {
+          const evTarget = e.target
+          if(evTarget.classList.contains("modal-overlay")) {
+              modalOff()
+          }
+      })
+
+      window.addEventListener("keyup", e => {
+          if(isModalOn() && e.key === "Escape") {
+              modalOff()
+          }
+      })
+      const elCategory = document.querySelectorAll(".store-category-s");
+      const elMenu = document.querySelectorAll(".menu-row");
+      const elMenus = document.querySelectorAll(".menu-column"),
+      elBlank = document.querySelectorAll(".menu_blank"),
+      elPay = document.querySelector(".pay2"),
+      elCancle = document.querySelector('.pay1-3');
+      chooseP = document.querySelectorAll('.content-d');
+
+      chooseP.forEach(function(v,i){
+          v.onclick = function(){
+              chooseP.forEach(function(a,b){
+                  a.classList.remove('active');
+              })
+              v.classList.add('active');
+          }
+      });
+
+      elPay.onclick = function(){
+          location.href='{% url 'buyers:cart' %}'
+      }
+      elCategory.forEach(function(v,i){
+          v.onclick = function(){
+              elCategory.forEach(function(a,b){
+                  a.classList.remove("active");
+              })
+              elMenu.forEach(function(a,b){
+                  a.classList.remove("active");
+              })
+              v.classList.add("active");
+              elMenu[i].classList.add("active");
+          }
+      })
+      elMenus.forEach(function(v,i){
+          v.onclick = function(){
+              location.href='cart.html 페이지'
+          }
+      })
+
+      
+      if(sessionStorage.urlData && sessionStorage.urlData.length > 0) {
+          let url = sessionStorage.getItem('urlData'),
+          url_arr = url.split(',');
+          for (let i=0; i < url_arr.length; i++){
+              elBlank[i].innerHTML= `<img src="${url_arr[i]}">`
+          }
+      } else {
+          modalOn();
+      }
+
+      elCancle.onclick=()=>{
+          sessionStorage.setItem('urlData','')
+              for (let i=0; i < 4; i++){
+                  elBlank[i].innerHTML= ``
+              }
+      }
+    }
   </script>
 </body>
 </html>

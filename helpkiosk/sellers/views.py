@@ -99,13 +99,17 @@ def menu_update(request, pk):
     if 'btn1' in request.POST:
       MenuCategory.objects.create(
         market=Market.objects.get(pk=pk),
-        category=request.POST.get('category')
+        category=request.POST.get('category1')
       )
       return redirect('sellers:menu_update', pk)
     
     elif 'btn2' in request.POST:
-      menu.name = request.POST['name']
-      menu.price = request.POST['price']
+      category_pk = request.POST.get('category')
+      category = MenuCategory.objects.get(pk=category_pk)
+      if menu.category != category:
+        menu.category = category
+      menu.name = request.POST.get('name')
+      menu.price = request.POST.get('price')
       if request.FILES.get('img'):
         menu.img = request.FILES.get('img')
       menu.exp = request.POST.get('exp')

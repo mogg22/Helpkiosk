@@ -23,7 +23,7 @@
     <form method="POST" id="category_create" enctype="multipart/form-data" onsubmit="return validateCategory()">
       {% csrf_token %}
       {% comment %} <label for="category">Category:</label> {% endcomment %}
-      <input type="text" id="category1" name="category" placeholder="추가할 카테고리 명을 입력해주세요"><br>
+      <input type="text" id="category1" name="category1" placeholder="추가할 카테고리 명을 입력해주세요"><br>
       <input type="submit" id="btn1" name="btn1" value="추가">
       {% comment %} 
       {% for category in categories %}

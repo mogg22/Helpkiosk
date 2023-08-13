@@ -1,50 +1,279 @@
+{% load static %}
+{% load humanize %}
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/kiosk.css' %}">
+    <link rel="stylesheet" href="{% static 'css/modal.css' %}">
 </head>
+
 <body>
-  <h1>등록시 보여지는 화면임 가게이름 {{ market.register.name }}</h1>
-  <h1>가게 번호 {{ market.register.number }}</h1>
-  {% if owner %}
-  <h2>Categories:</h2>
-  <ul>
-    {% for category in categories %}
-    <li>{{ category.category }}</li>
-    <ul>
-      {% for menu in category.menu_set.all %}
-      <a href="{% url 'sellers:menu_update' menu.pk %}">수정</a>
-      <li>{{ menu.name }} - {{ menu.price }}</li>
-      {% endfor %}
-    </ul>
-    {% endfor %}
-  </ul>
+{% if owner %}
+  <article>
+      <div class="store-name">{{ market.register.name }}</div>
+      <img class="main-img" src="{{market.register.logo.url}}" alt="">
 
-  <a href="{% url 'sellers:menu_create' market.pk %}">메뉴 추가</a>
+      <div>
+          <ul class="store-category">
+              {% for category in categories %}
+              <li class="store-category-s">{{ category.category }}</li>  {% comment %} 첫번째 항목만 class 명 다르게 하는거 알아보기 {% endcomment %}
+              {% endfor %}
+          </ul>
+      </div>
 
+      <div class="menu-row active">
+          {% for menu in category.menu_set.all %}
+          <div class="menu-column">
+              <img class="menu-img" src="{{menu.img.url}}">
+              <div class="menu-name">{{ menu.name }}</div>
+              <div class="menu-price">{{ menu.price|intcomma }}</div>
+          </div>
+          {% endfor %}
+      </div>
+
+      <div class="menu-row active">
+        {% for category in categories %}
+          {% for menu in category.menu_set.all %}
+          <div class="menu-column">
+              {% if menu.img %}
+              <img class="menu-img" src="{{menu.img.url}}">
+              {% else %}
+              <div class="menu-img">이미지 준비중</div>
+              {% endif %}
+              <div class="menu-name">{{ menu.name }}</div>
+              <div class="menu-price">{{ menu.price|intcomma }}</div>
+          </div>
+          {% endfor %}
+        {% endfor %}
+      </div>
+      <div class="blank">
+        <button id="add">+</button>
+      </div>
+
+  </article>
 
   {% else %}
-  <!-- 손님에게 보여지는 화면 -->
-  <h2>Categories:</h2>
-  <div>
-    {% for category in categories %}
-    <h3>{{ category.category }}</h3>
-    <div>
-      {% for menu in category.menu_set.all %}
-      <a href="{% url 'sellers:menu_detail' menu.pk %}">
-        {% if menu.img %}
-        <img src="{{menu.img.url}}" alt="">
-        {% else %}
-        <p>이미지 준비중</p>
-        {% endif %}
-        <p>{{ menu.name }} - {{ menu.price }}</p>
-      </a>
-      {% endfor %}
-    </div>
-    {% endfor %}
-  </div>
+  <article>
+      <div id="modal" class="modal-overlay">
+          <div class="modal-window">
+              <div class="close-area">X</div>
+              <div class="title">
+                  <h2>{{ market.register.name }}</h2>
+                  <div>{{ market.register.name }}에 오신 것을 환영합니다</div>
+              </div>
+              <div class="content">
+                  <div class="content-d">매장 식사</div>
+                  <div class="content-d">포장</div>
+              </div>
+              <div class="modal-sound">모바일 키오스크 음성 도움이 <br>필요하신 분은 여기를 터치해주세요.</div>
+          </div>
+          <div class="modal-order">주문하기</div>
+      </div>
+
+      <div class="store-name">{{ market.register.name }}</div>
+      <img class="main-img" src="{{market.register.logo.url}}" alt="">
+      
+      <div>
+          <ul class="store-category">
+              {% for category in categories %}
+              <li class="store-category-s">{{ category.category }}</li>  {% comment %} 첫번째 항목만 class 명 다르게 하는거 알아보기 {% endcomment %}
+              {% endfor %}
+          </ul>
+      </div>
+
+      <div class="menu-row active">
+        {% for category in categories %}
+          {% for menu in category.menu_set.all %}
+          <div class="menu-column">
+              {% if menu.img %}
+              <img class="menu-img" src="{{menu.img.url}}">
+              {% else %}
+              <div class="menu-img">이미지 준비중</div>
+              {% endif %}
+              <div class="menu-name">{{ menu.name }}</div>
+              <div class="menu-price">{{ menu.price|intcomma }}</div>
+          </div>
+          {% endfor %}
+        {% endfor %}
+      </div>
+
+      <div class="pay-semo">▲</div>
+      <div class="basket">
+          <div class="basket-top">
+              <div>◀</div>
+              {% for cart in cart_list %}
+                {% if cart.cart_list %}
+                <img src="{{ cart.menu_img }}" class="menu_blank" alt="Menu Image">
+                {% else %}
+                <div class="menu_blank"></div>
+                {% endif %}
+              {% endfor %}
+              <div>▶</div>
+          </div>
+      </div>
+      <div class="pay-row">
+          <div class="pay1">
+              <div class="pay1-1">총 결제 금액</div>
+              <div class="pay1-2" id="total_price">₩ {{ total_price|intcomma }}</div>
+              {% comment %} <form method="post" action="{% url 'buyers:clear_cart' %}"> {% endcomment %}
+              <form method="post">
+                  {% csrf_token %}
+                  <button type="submit" class="pay1-3">일괄 취소</button>
+              </form>
+          </div>
+          <div class="pay1 pay2">
+              <img class="pay-icon" src="{% static 'images/Vector.png' %}" alt="">
+              <div>결제하기</div>
+          </div>
+      </div>
+  </article>
   {% endif %}
+
+  <script>
+    //사장님 버전이랑 고객용 버전이랑 다르게 작성 if문으로 두개 따로 처리해야함
+    //정원 언니 일단 이렇게 따로따로 작성해서 표시해둘테니까 처리 부탁드려요!
+    //사장님 버전
+    const add = document.getElementById("add");
+    
+    add.onclick = function(){
+      location.href='{% url 'sellers:menu_create' market.pk %}'
+    }
+
+    //유빈언니가 쓴 JS
+    const elCategory = document.querySelectorAll(".store-category-s");
+    const elMenu = document.querySelectorAll(".menu-row");
+    const elMenus = document.querySelectorAll(".menu-column");
+
+    elCategory.forEach(function(v,i){
+        v.onclick = function(){
+            elCategory.forEach(function(a,b){
+                a.classList.remove("active");
+            })
+            elMenu.forEach(function(a,b){
+                a.classList.remove("active");
+            })
+            v.classList.add("active");
+            elMenu[i].classList.add("active");
+        }
+    })
+    elMenus.forEach(function(v,i){
+        v.onclick = function(){
+            location.href='사장님 메뉴 수정 페이지'
+        }
+    })
+
+    
+    //손님 버전
+    let price_list = document.getElementsByClassName("price");
+  
+    HTMLCollection.prototype.forEach = Array.prototype.forEach;
+  
+    var total_price = 0;
+  
+    price_list.forEach(function(data){
+      total_price += Number(data.innerHTML);
+    })
+  
+    document.getElementById("total_price").innerHTML = "₩ " + total_price;
+  
+    //유빈언니가 쓴 JS
+    const modal = document.getElementById("modal")
+
+    function modalOn() {
+        modal.style.display = "flex"
+    }
+
+    function isModalOn() {
+        return modal.style.display === "flex"
+    }
+
+    function modalOff() {
+        modal.style.display = "none"
+    }
+
+    const closeBtn = modal.querySelector(".close-area");
+
+    closeBtn.addEventListener("click", e => {
+        modalOff()
+    })
+
+    const closeBtn2 = modal.querySelector(".modal-order")
+    closeBtn2.addEventListener("click", e => {
+        modalOff()
+    })
+
+    modal.addEventListener("click", e => {
+        const evTarget = e.target
+        if(evTarget.classList.contains("modal-overlay")) {
+            modalOff()
+        }
+    })
+
+    window.addEventListener("keyup", e => {
+        if(isModalOn() && e.key === "Escape") {
+            modalOff()
+        }
+    })
+    const elCategory = document.querySelectorAll(".store-category-s");
+    const elMenu = document.querySelectorAll(".menu-row");
+    const elMenus = document.querySelectorAll(".menu-column"),
+    elBlank = document.querySelectorAll(".menu_blank"),
+    elPay = document.querySelector(".pay2"),
+    elCancle = document.querySelector('.pay1-3');
+    chooseP = document.querySelectorAll('.content-d');
+
+    chooseP.forEach(function(v,i){
+        v.onclick = function(){
+            chooseP.forEach(function(a,b){
+                a.classList.remove('active');
+            })
+            v.classList.add('active');
+        }
+    });
+
+    elPay.onclick = function(){
+        location.href='{% url 'buyers:cart' %}'
+    }
+    elCategory.forEach(function(v,i){
+        v.onclick = function(){
+            elCategory.forEach(function(a,b){
+                a.classList.remove("active");
+            })
+            elMenu.forEach(function(a,b){
+                a.classList.remove("active");
+            })
+            v.classList.add("active");
+            elMenu[i].classList.add("active");
+        }
+    })
+    elMenus.forEach(function(v,i){
+        v.onclick = function(){
+            location.href='cart.html 페이지'
+        }
+    })
+
+    
+    if(sessionStorage.urlData && sessionStorage.urlData.length > 0) {
+        let url = sessionStorage.getItem('urlData'),
+        url_arr = url.split(',');
+        for (let i=0; i < url_arr.length; i++){
+            elBlank[i].innerHTML= `<img src="${url_arr[i]}">`
+        }
+    } else {
+        modalOn();
+    }
+
+    elCancle.onclick=()=>{
+        sessionStorage.setItem('urlData','')
+            for (let i=0; i < 4; i++){
+                elBlank[i].innerHTML= ``
+            }
+    }
+
+  </script>
 </body>
 </html>

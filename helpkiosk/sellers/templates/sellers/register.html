@@ -1,31 +1,64 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" />
+  <link rel="stylesheet" href="{% static 'css/register.css' %}">
+  <title>가맹정 신청</title>
 </head>
 <body>
-  상담하고자 하는 신청자 및 매장 정보를 입력해주세요.
-  <form method="POST">
-    {% csrf_token %}
-    <label for="representative">대표:</label>
-    <input type="text" id="representative" name="representative"><br>
-    <label for="name">상호명:</label>
-    <input type="text" id="name" name="name"><br>
-    <label for="location">매장 위치:</label>
-    <input type="text" id="location" name="location"><br>
-    <label for="number">전화번호:</label>
-    <input type="text" id="number" name="number"><br>
-    <label for="business_file">사업자 등록증:</label>
-    <input type="file" id="business_file" name="business_file"><br>
-    <label for="registration_file">영업 신고증:</label>
-    <input type="file" id="registration_file" name="registration_file"><br>
-    <label for="logo">로고:</label>
-    <input type="file" id="logo" name="logo"><br>
-    <label for="info_file">기타 정보 파일:</label>
-    <input type="file" id="info_file" name="info_file"><br>
-    <input type="submit" value="등록">
-  </form>
+  <div id="container">
+    <div id="top">상담하고자 하는 신청자 및 매장 정보를 입력해주세요.</div>
+    <form method="POST">
+      {% csrf_token %}
+      <label for="representative">대표자 이름</label>
+      <input type="text" id="representative" name="representative" placeholder="신청하시는 대표자 이름을 입력해주세요"><br>
+      
+      <label for="number">전화 번호</label>
+      <input type="text" id="number" name="number" placeholder="상담 연락을 받을 번호를 입력해주세요"><br>
+      
+      <label for="name">매장명</label>
+      <input type="text" id="name" name="name" placeholder="신청하고자 하는 매장명을 입력해주세요"><br>
+
+      <label for="location">매장 주소</label>
+      <input type="text" id="location" name="location" placeholder="매장의 주소를 입력해주세요"><br>
+
+      <label for="business_file">사업자 등록증</label>
+      <div id="box">
+        <label class="input-file-btn" for="business_file">파일 첨부</label>
+        <input type="file" id="business_file" name="business_file" style="display: none">
+      </div>
+      
+      <label for="registration_file">영업 신고증</label>
+      <div id="box">
+        <label class="input-file-btn" for="registration_file">파일 첨부</label>
+      <input type="file" id="registration_file" name="registration_file" style="display: none">
+      </div>
+      
+      <label for="logo">로고 이미지</label>
+      <div id="box">
+        <label class="input-file-btn" for="logo">파일 첨부</label>
+        <input type="file" id="logo" name="logo" style="display: none">
+      </div>
+      
+      <label for="info_file">정산 또는 결제용 통장 사본</label>
+      <div id="box">
+        <label class="input-file-btn" for="info_file">파일 첨부</label>
+      <input type="file" id="info_file" name="info_file" style="display: none">
+      </div>
+      
+      <div id="btn-div"> <input type="submit" id="btn" value="가맹점 신청"> </div>
+    </form>
+  </div>
+  
+  <script>
+    const btn = document.getElementById("btn");
+    
+    add.onclick = function(){
+      location.href='main페이지 url'
+    }
+  </script>
 </body>
 </html>

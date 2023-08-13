@@ -1,13 +1,12 @@
 {% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ menu.name }} 상세 정보</title>
-    <link rel="stylesheet" href="{% static 'css/kiosk_menu.css' %}">
-</head>
+    <link rel="stylesheet" href="{% static 'css/kiosk_menu.css' %}"></head>
 <body>
     <article>
         <img class="main-img" src="{{menu.img.url}}">
@@ -33,14 +32,14 @@
             </div>
         </div>
 
-        <form method="post" action="{% url 'buyers:add_to_cart' menu.pk %}">
-            {% csrf_token %}
-            {{ form.as_p }}  {% comment %} 수량 입력하는 부분 html에서 어떻게 수정해야하는지 모르겠네요 {% endcomment %}
-            <br>
-            <input type="submit" class="detail-bt" value="주문 목록에 추가">
-        </form>
-        
-        {% comment %} 
+    <form method="post" action="{% url 'buyers:add_to_cart' menu.pk %}">
+        {% csrf_token %}
+        {{ form.as_p }} {% comment %} 수량 입력하는 부분 html에서 어떻게 수정해야하는지 모르겠네요 {% endcomment %}
+        <br>
+        <input type="submit" class="detail-bt" value="주문 목록에 추가">
+    </form>
+
+    {% comment %} 
         <div class="section">
             <div class="subtitle">토핑 추가 선택</div>
             <div class="detail">
@@ -73,7 +72,6 @@
         </div>
     </article>
     {% endcomment %}
-
 </body>
 
 <script>

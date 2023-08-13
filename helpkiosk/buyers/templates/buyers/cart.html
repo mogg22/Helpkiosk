@@ -1,45 +1,4 @@
-{% comment %} <!DOCTYPE html>
-<html>
-<head>
-    <title>장바구니</title>
-</head>
-<body>
-    <h1>장바구니</h1>
-    <ul>
-        {% for cart_item in cart_items %}
-        <li>{{ cart_item.menu.name }} - {{ cart_item.menu.price }}원 (수량: {{ cart_item.quantity }})
-            <form method="post" action="{% url 'buyers:remove_from_cart' cart_item.menu.pk %}">
-                {% csrf_token %}
-                <input type="submit" value="삭제">
-            </form>
-        </li>
-        {% endfor %}
-    </ul>
-    <a href="{% url 'buyers:checkout' %}">구매하기</a>
-</body>
-</html> {% endcomment %}
-
-{% comment %} <!DOCTYPE html>
-<html>
-<head>
-    <title>장바구니</title>
-</head>
-<body>
-    <h1>장바구니</h1>
-    {% if cart_items %}
-        <ul>
-            {% for item in cart_items %}
-                <li>
-                    {{ item.menu.name }} - 가격: {{ item.menu.price }}원 - 수량: {{ item.quantity }}
-                </li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>장바구니가 비어있습니다.</p>
-    {% endif %}
-</body>
-</html> {% endcomment %}
-
+{% load humanize %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -47,22 +6,73 @@
 </head>
 <body>
     <h1>장바구니</h1>
-<ul>
-    {% for item in cart_items %}
-        <li>
-            {{ item.menu.name }} - {{ item.quantity }}개
-            <form method="post" action="{% url 'buyers:update_cart' item.pk %}">
-                {% csrf_token %}
-                <input type="number" name="quantity" value="{{ item.quantity }}" min="1">
-                <input type="submit" value="수량 업데이트">
-            </form>
-        </li>
-    {% endfor %}
-</ul>
-<p>총 가격: {{ total_price }}원</p>
-
+        <label for="phone_number">제품을 픽업하실 분의 전화번호</label><br>
+        <input type="tel" name="phone_number" id="phone_number" placeholder="전화번호를 입력하세요" required>
+        {% for item in cart_items %}
+            <li>
+                {{ item.menu.name }}<br>
+                수량
+                <form method="POST" action="{% url 'buyers:update_cart' item.pk %}" onsubmit="return updateCart(this)">
+                    {% csrf_token %}
+                    <input type="number" name="item_{{ item.pk }}" value="{{ item.quantity }}" min="1">
+                    <button type="button" onclick="incrementQuantity('{{ item.pk }}')">+</button>
+                    <button type="button" onclick="decrementQuantity('{{ item.pk }}')">-</button>
+                </form>
+                가격 {{ item.total_price|intcomma }}원
+                {% comment %} <form method="POST" action="{% url 'buyers:delete_cart_item' item.pk %}">
+                    {% csrf_token %}
+                    <input type="submit" value="삭제">
+                </form> {% endcomment %}
+                <a href="{% url 'buyers:delete_cart_item' item.pk %}" class="delete-btn">삭제</a>
+            </li>
+        {% endfor %}
+        <p>결제금액<span> 총 {{total_price|intcomma}}원</span></p>
+        <label for="request_text">요청 사항</label><br>
+        <input type="text" name="request_text" id="request_text" placeholder="요청 사항을 적어주세요">
+        <p>결제 수단</p>
+        <label>
+            <input type="radio" name="payment_method" value="카드결제">
+            카드결제
+        </label>
+        <label>
+            <input type="radio" name="payment_method" value="카카오페이">
+            카카오페이
+        </label>
+        <label>
+            <input type="radio" name="payment_method" value="픽업시 결제">
+            픽업시 결제
+        </label>
+        <br>
+        <form method="post" action="{% url 'buyers:payment' %}">
+            {% csrf_token %}
+            <input type="hidden" name="total_price" value="{{ total_price }}">
+            <input type="submit" value="결제">
+        </form>
+        {% comment %} <input type="submit" value="결제">
+        <button type="button" onclick="proceedToPayment()">결제</button> {% endcomment %}
+        {% comment %} 결제수단이랑 proceedToPayment는 일단 예시 {% endcomment %}
 </body>
 </html>
 
+<script>
+    function incrementQuantity(itemId) {
+        let inputElement = document.querySelector(`input[name="item_${itemId}"]`);
+        let currentValue = parseInt(inputElement.value);
+        inputElement.value = currentValue + 1;
+        inputElement.form.submit();
+    }
 
+    function decrementQuantity(itemId) {
+        let inputElement = document.querySelector(`input[name="item_${itemId}"]`);
+        let currentValue = parseInt(inputElement.value);
+        if (currentValue > 1) {
+            inputElement.value = currentValue - 1;
+            inputElement.form.submit();
+        }
+    }
 
+    function updateCart(form) {
+        // 서버로 폼 제출
+        return true;
+    }
+</script>

@@ -1,8 +1,9 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import *
-from buyers.models import *
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.http import HttpResponseForbidden
+from buyers.models import *
+from django.db.models import F
 from django.contrib import messages
 
 def is_market_owner(user, market_id):
@@ -31,7 +32,15 @@ def register(request):
 def seller_detail(request, pk, *args, **kwargs):
   market = get_object_or_404(Market, pk=pk)
   categories = MenuCategory.objects.filter(market=pk)
+
+  cart_list = Cart.objects.filter(user_id=request.user).annotate(
+    menu_img=F('menu_id__img'),
+    price=F('menu_id__price'), 
+    menu_nm=F('menu_id__name')
+  ).values('menu_img','price', 'quantity', 'menu_nm')
   
+  # total_price = request.session.get('total_price', 0)
+
   if is_market_owner(request.user, pk):
     owner = True
   else:
@@ -41,6 +50,8 @@ def seller_detail(request, pk, *args, **kwargs):
     'market': market,
     'categories': categories,
     'owner': owner,
+    'cart_list': cart_list,
+    # 'total_price': total_price
   }
   
   return render(request, 'sellers/seller_detail.html', context)
@@ -99,23 +110,19 @@ def menu_update(request, pk):
     if 'btn1' in request.POST:
       MenuCategory.objects.create(
         market=Market.objects.get(pk=pk),
-        category=request.POST.get('category1')
+        category=request.POST.get('category')
       )
       return redirect('sellers:menu_update', pk)
-    
+
     elif 'btn2' in request.POST:
-      category_pk = request.POST.get('category')
-      category = MenuCategory.objects.get(pk=category_pk)
-      if menu.category != category:
-        menu.category = category
-      menu.name = request.POST.get('name')
-      menu.price = request.POST.get('price')
+      menu.name = request.POST['name']
+      menu.price = request.POST['price']
       if request.FILES.get('img'):
         menu.img = request.FILES.get('img')
       menu.exp = request.POST.get('exp')
       menu.save()
       return redirect('sellers:seller_detail', pk)
-    
+
     elif 'btn3' in request.POST:
       Option.objects.create(
         menu=Menu.objects.get(pk=pk),
@@ -167,7 +174,7 @@ def menu_detail(request, pk):
         cart_item.save()
       else:
         cart_item = CartItem.objects.create(cart=cart, menu=menu)
-        messages.success(request, '상품이 성공적으로 추가되었습니다!')
+        # messages.success(request, '상품이 성공적으로 추가되었습니다!')
 
     cart.market = menu.category.market
     cart.save()

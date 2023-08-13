@@ -1,40 +1,94 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>메뉴 상세페이지</title>
-</head>
+    <title>{{ menu.name }} 상세 정보</title>
+    <link rel="stylesheet" href="{% static 'css/kiosk_menu.css' %}"></head>
 <body>
-    {% if menu.img %}
-    <img src="{{menu.img.url}}" alt="" style="width:100px;">
-    {% else %}
-    <p>이미지 준비중</p>
-    {% endif %}
-    <h1>{{ menu.name }}</h1>
-    <p>가격 : {{ menu.price }}</p>
-    <p>{{ menu.exp }}</p>
-    {% if options %}
-        <h3>옵션</h3>
-        <ul>
-            {% for option in options %}
-                <li>
-                    {{ option.name }} - {{ option.price }}
-                </li>
-            {% endfor %}
-        </ul>
-    {% endif %}
-    {% if not owner %}
-    <form method="post" action="{% url 'buyers:add_to_cart' menu.id market_id %}">
+    <article>
+        <img class="main-img" src="{{menu.img.url}}">
+        <div>
+            <div class="subtitle">{{ menu.name }}</div>
+            <div>{{ menu.exp }}</div>
+        </div>
+        <div class="section" id="price">
+            <span class="subtitle" id="price-title">가격</span>
+            <span id="price-detail">{{ menu.price }}원</span>
+
+            <div class="detail">
+                <div class="detail-row">
+                    {% comment %} <label for="cl"><input type="checkbox" name="cl" id="cl" checked> 3인분 같은 2인분</label> {% endcomment %}
+                    {% comment %} <div>{{ menu.price }}원</div> {% endcomment %}
+                </div>
+                {% comment %}
+                <div class="detail-row">
+                    <label for="cl"><input type="checkbox" name="cl" id="cl" > 4인분 같은 3인분</label>
+                    <div>+7,000원</div>
+                </div>
+                {% endcomment %}
+            </div>
+        </div>
+
+    <form method="post" action="{% url 'buyers:add_to_cart' menu.pk %}">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">주문 목록에추가</button>
+        {{ form.as_p }} {% comment %} 수량 입력하는 부분 html에서 어떻게 수정해야하는지 모르겠네요 {% endcomment %}
+        <br>
+        <input type="submit" class="detail-bt" value="주문 목록에 추가">
     </form>
-    {% endif %}
-    {% if messages %}
-        {% for message in messages %}
-            <p>{{ message }}</p>
-        {% endfor %}
-    {% endif %}
+
+    {% comment %} 
+        <div class="section">
+            <div class="subtitle">토핑 추가 선택</div>
+            <div class="detail">
+                <div class="detail-row">
+                    <label for="cl"><input type="checkbox" name="cl" id="cl" checked>  치즈폭탄 계란말이로 변경</label>
+                    <div>+3,000원</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="subtitle">소스 선택</div>
+            <div class="detail">
+                <div class="detail-row">
+                    <label for="cl"><input type="checkbox" name="cl" id="cl" checked> 케찹</label>
+                    <div>+0원</div>
+                </div>
+                <div class="detail-row">
+                    <label for="cl"><input type="checkbox" name="cl" id="cl"> 머스타드</label>
+                    <div>+0원</div>
+                </div>
+            </div>
+        </div>
+        <div class="section">
+            <div class="subtitle">수량</div>
+        </div>
+        
+        <div>
+            <a class="detail-bt">주문 목록에 추가</a>
+        </div>
+    </article>
+    {% endcomment %}
 </body>
+
+<script>
+    {% comment %} const elPay = document.querySelector(".detail-bt");
+    elPay.onclick = function(){
+        const img = document.querySelector('.main-img')
+        let urlData = "urlData"
+        let se_img = sessionStorage.getItem(urlData),add_seimg;
+        console.log(se_img)
+        if (se_img == ''){
+            add_seimg = img.src;
+        } else {
+            add_seimg = se_img + "," + img.src; 
+        }
+        sessionStorage.setItem(urlData,add_seimg)
+        location.href='./kiosk.html'
+    } {% endcomment %}
+</script>
+
 </html>

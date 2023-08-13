@@ -6,19 +6,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" />
   <link rel="stylesheet" href="{% static 'css/menu_create.css' %}">
-  <title>카테고리/메뉴 추가</title>
+  <title>Document</title>
 </head>
 <body>
+  {% if menu.img %}
+  <img src="{{ menu.img.url }}" alt="이미지">
+  {% else %}
+    <p>이미지 없음</p>
+  {% endif %}
   <div id="container">
     <div id="store">
       <img src="{% static 'images/heart.png' %}" id="heart">
-      {{market.register.name}} > {{market.register.representative}} 사장님
+      {{market.register.name}} > {{market.register.representative}} 사장님  {% comment %}수정했는데도 안불러와지네요..쩝 {% endcomment %}
     </div>
     <p>카테고리 추가</p>
     <form method="POST" id="category_create" enctype="multipart/form-data" onsubmit="return validateCategory()">
       {% csrf_token %}
       {% comment %} <label for="category">Category:</label> {% endcomment %}
-      <input type="text" id="category1" name="category" placeholder="추가할 카테고리 명을 입력해주세요"><br>
+      <input type="text" id="category1" name="category1" placeholder="추가할 카테고리 명을 입력해주세요"><br>
       <input type="submit" id="btn1" name="btn1" value="추가">
       {% comment %} 
       {% for category in categories %}
@@ -34,25 +39,45 @@
       <label for="category">카테고리</label>
       <select id="category2" name="category">
         {% for category in categories %}
-          <option value="{{ category.pk }}">{{ category.category }}</option>
+          <option value="{{ category.pk }}" {% if category.pk == menu.category.pk %}selected{% endif %}>
+            {{ category.category }}
+          </option>
         {% empty %}
           <option value="0">카테고리를 등록하세요</option>
         {% endfor %}
       </select>
       <br>
       <label for="name">메뉴명</label>
-      <input type="text" id="name" name="name" placeholder="메뉴명을 입력해주세요"><br>
+      <input type="text" id="name" name="name" value="{{menu.name}}" placeholder="메뉴명을 입력해주세요"><br>
       <label for="price">가격</label>
-      <input type="number" id="price" name="price" min="0" placeholder="가격을 입력해주세요"><br>
+      <input type="number" id="price" name="price" value="{{menu.price}}" min="0" placeholder="가격을 입력해주세요"><br>
       <label for="img">이미지</label>
       <label class="input-file-btn" for="img">파일 첨부</label>
+      {% if menu.img %}
+      <input type="file" id="img" name="img" value="{{menu.img.url}}" style="display: none">
+      {% else %}
       <input type="file" id="img" name="img" style="display: none">
+      {% endif %}
       <br><br>
       <label for="exp">메뉴 설명</label><br>
-      <textarea id="exp" name="exp" placeholder="메뉴에 대한 상세 설명을 작성해주세요"></textarea><br>
+      <textarea id="exp" name="exp" placeholder="메뉴에 대한 상세 설명을 작성해주세요">{{menu.exp}}</textarea><br>
       <div id="btn-div"> <input type="submit" id="btn2" name="btn2" value="추가"> </div>
     </form>
   </div>
+  <form method="POST" enctype="multipart/form-data" onsubmit="return validateOption()">
+    {% csrf_token %}
+    <input type="text" id="option" name="option" placeholder="추가할 옵션을 입력해주세요"><br>
+    <input type="text" id="option_price" name="option_price" placeholder="추가할 옵션의 가격을 입력해주세요"><br>
+    <input type="submit" id="btn3" name="btn3" value="옵션 추가">
+  </form>
+  <div>
+    {% for option in options %}
+    {{option.name}} - {{option.price}}원
+    {% empty %}
+    옵션을 등록하세요
+    {% endfor %}
+  </div>
+
 
   <script>
     function validateCategory() {
@@ -75,6 +100,17 @@
       }
       return true; // 폼 제출을 진행합니다.
     }
+
+    function validateOption() {
+      const option = document.getElementById('option').value;
+      const option_price = document.getElementById('option_price').value;
+      if (!option | !option_price) {
+        alert('옵션을 입력해주세요.');
+        return false; // 폼 제출을 막습니다.
+      }
+      return true; // 폼 제출을 진행합니다.
+    }
+
   </script>
 </body>
 </html>

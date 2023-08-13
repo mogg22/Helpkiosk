@@ -139,6 +139,18 @@ def menu_update(request, pk):
   }
   return render(request, 'sellers/menu_update.html', context)
 
+# def category_delete(request, pk):
+#   if request.method == "POST":
+#     category = get_object_or_404(Category, pk=pk)
+#     category.delete()
+#   return redirect('sellers:menu_create', pk)
+
+# def option_delete(request, pk):
+#   if request.method == "POST":
+#     option = get_object_or_404(Option, pk=pk)
+#     option.delete()
+#   return redirect('sellers:menu_update', pk)
+
 def menu_detail(request, pk):
   menu = get_object_or_404(Menu, pk=pk)
 

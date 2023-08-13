@@ -1,0 +1,144 @@
+@font-face {
+    font-family: 'Pretendard';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-style: normal;
+}
+
+* {
+    font-family: 'Pretendard', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    width: 390px;
+    height: 844px;
+}
+
+/* 맨 위 */
+nav {
+    display: flex;
+    justify-content: space-between;
+    padding: 8%;
+    font-size: 20px;
+}
+
+.text21 a{
+    cursor: pointer;
+    text-decoration: none; 
+    color:inherit;
+}
+
+section {
+    margin: 20px;
+}
+
+.text22 {
+    text-align: center;
+    font-weight:bold;
+}
+
+
+/* 전화번호 */
+.text_wrap {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    margin-bottom: 2%;
+}
+
+.star {
+    color: red;
+    margin-left: 5px;
+}
+
+.input_number {
+    width: 100%;
+    padding: 7px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 6%;
+}
+
+/*닉네임*/
+.input_nick{
+    width: 80%;
+    padding: 7px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 6%;
+}
+
+.nick_btn {
+    width:18%;
+    margin-left: 5%;
+    margin-top:-6%;
+    padding: 2%;
+    background-color: #EA4C4C;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.nick_btn a {
+    color: white; 
+    text-decoration: none; 
+    font-size:12px;
+}
+
+/*주소*/
+.input_ad{
+    width: 100%;
+    padding: 7px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 2%;
+}
+
+/*등록 버튼*/
+.signup_btn {
+    width:50%;
+    margin: 20% auto;
+    padding: 3%;
+    background-color: #EA4C4C;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    font-weight: bold;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.signup_btn a {
+    color: white; 
+    text-decoration: none; 
+    font-size:20px;
+}
+
+/*다음에 등록하기*/
+.text31, .text31 a{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-top:-2%;
+    color:black;
+    font-size: 20px;
+}
+
+.text32{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-top:3%;
+    font-size: 15px;
+}

@@ -1,0 +1,83 @@
+/* reset.css */
+@font-face {
+    font-family: 'Pretendard';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+body,p{margin:0}
+*{
+    font-family: 'Pretendard';
+    font-weight: 400;
+    font-size: 16px;
+    box-sizing: border-box;
+    flex-wrap: wrap;
+}
+
+ul,li{
+    margin:0;padding:0;
+    list-style-type: none;
+}
+
+img{vertical-align: top;}
+
+body{
+    margin: 0 auto;
+    width: 390px;
+    height: 1280px;
+    /* border: 1px solid red; */
+}
+article>div{
+    position: relative;
+    width: 90%;
+    margin: 0 auto;
+}
+
+.section{
+    margin: 30px auto;
+}
+.main-img{
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+.detail-row{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.subtitle{
+    font-family: 'Pretendard';
+    font-weight: 700;
+    font-size: 18px;
+    margin: 15px auto;
+}
+
+#price {
+    display: flex;
+    justify-content: space-between;
+}
+
+#price-title {
+    display: inline-block;
+    margin-left: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+#cl{
+    margin-bottom: 10px;
+}
+
+.detail-bt{
+    background-color:#EA4C4C;
+    color: #fff;
+    border: none;
+    border-radius: 50px;
+    width: 100%;
+    padding: 15px;
+    text-align: center;
+    display: block;
+}

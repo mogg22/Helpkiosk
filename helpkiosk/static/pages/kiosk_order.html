@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./kiosk_order.css">
+</head>
+<body>
+    <article>
+        <div class="section">
+            <div class="subtitle">제품을 픽업하실 분의 전화번호</div>
+            <div class="detail">
+                <input type="text" placeholder="010-1234-5678">
+            </div>
+        </div>
+        <div class="section">
+            <div class="subtitle">주문 메뉴</div>
+            <div class="detail-column">
+                <div class="detail-row">
+                    <div class="detail-tt">메추리알 간장조림</div>
+                    <div class="cancel">X</div>
+                </div>
+                <div class="detail-row2">
+                    <div class="gap">
+                        <div class="minus">-</div>
+                        <div>수량</div>
+                        <div class="Mcount">1</div>
+                        <div class="plus">+</div>
+                    </div>
+                    <div>가격</div>
+                </div>
+            </div>
+            <div class="detail-column">
+                <div class="detail-row">
+                    <div class="detail-tt">계란말이</div>
+                    <div class="cancel">X</div>
+                </div>
+                <div class="detail-row2">
+                    <div class="gap">
+                        <div class="minus">-</div>
+                        <div>수량</div>
+                        <div class="Mcount">1</div>
+                        <div class="plus">+</div>
+                    </div>
+                    <div>가격</div>
+                </div>
+            </div>
+        </div>
+        
+       
+        
+            <div class="subtitle">결제금액</div>
+            <div class="right">총 18,000원</div>
+       
+
+        <div class="section">   
+            <div class="subtitle">요청 사항</div>
+            <div class="detail">
+                <input type="text" placeholder="땅콩 빼주세요">
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="subtitle">결제 수단</div>
+            <div class="detail-row">
+                <div class="pay-type">카드결제</div>
+                <div class="pay-type">카카오페이</div>
+                <div class="pay-type">픽업시 결제<span>회원만 가능</span></div>
+            </div>
+        </div>
+        <div>
+            <a class="detail-bt">결제</a>
+        </div>
+    </article>
+</body>
+<script>
+    const elOrder = document.querySelectorAll('.pay-type');
+    elOrder.forEach(function(v,i){
+        v.onclick = function(){
+            elOrder.forEach(function(a,b){
+                a.classList.remove('active');
+            })
+            v.classList.add('active');
+        }
+    });
+    const elMcount = document.querySelectorAll('.Mcount');
+    const elPlus = document.querySelectorAll('.plus');
+    elPlus.forEach(function(v,i){
+        v.onclick = function(){
+            elMcount[i].innerText++;
+        }
+    })
+    const elMinus = document.querySelectorAll('.minus');
+    elMinus.forEach(function(v,i){
+        v.onclick = function(){
+            if(elMcount[i].innerText>1){
+                elMcount[i].innerText--;
+            }
+        }
+    })
+
+    const elCancel = document.querySelectorAll(".cancel");
+    const elMenu = document.querySelectorAll(".detail-column");
+    elCancel.forEach(function(v,i){
+        v.onclick = function(){
+            elMenu[i].style.display = "none";
+        }
+    })
+
+    const elPay = document.querySelector(".detail-bt");
+     elPay.onclick = function(){
+        location.href='./kiosk_pay.html'
+    }
+</script>
+</html>

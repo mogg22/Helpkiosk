@@ -1,0 +1,173 @@
+@font-face {
+    font-family: 'Pretendard';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-style: normal;
+}
+
+* {
+    font-family: 'Pretendard', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    width: 390px;
+    height: 844px;
+}
+
+p{
+    margin:0px;
+    padding:0px;
+}
+
+a{
+    text-decoration: none;
+    color: inherit;
+}
+
+a:hover{
+    text-decoration: none;
+    color: inherit;
+}
+
+/* 맨 위 */
+nav {
+    display: flex;
+    justify-content: space-between;
+    padding: 8%;
+    font-size: 20px;
+}
+
+.text21 a{
+    cursor: pointer;
+    text-decoration: none; 
+    color:inherit;
+}
+
+section {
+    margin: 20px;
+}
+
+.text22 {
+    text-align: center;
+    font-weight:bold;
+}
+
+/*프로필 섹션*/
+.wrap30{
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    margin-top:-4%;
+}
+
+.text30{
+    margin-left:3%;
+    margin-top:-2%;
+    font-size: 20px;
+}
+
+/*현재 주문 내역 - 좌측*/
+.text33{
+    margin-top:8%;
+    margin-bottom: -4%;;
+    font-weight: bold;
+}
+.polaroid {
+    width: 30%;
+    padding: 1.5% 1.5% 1.3% 1.5%;
+
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ddd;
+    margin: 10px 10px 10px 0;
+    text-align: center;
+    position: relative;
+}
+
+.polaroid img {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+
+.polaroid .text {
+    color: black; 
+    font-size: 12px;
+    position: relative; 
+    margin-left:-130%;
+    margin-top:5%;
+    bottom: 10px;
+    left: 50%;
+    top: 0;
+}
+
+/*현재 주문 내역 - 우측*/
+.nick_btn {
+    width:100%;
+    margin-left: 5%;
+    margin-top:5%;
+    padding: 5%;
+    background-color: #EA4C4C;
+    color: white;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.nick_btn a {
+    color: white; 
+    text-decoration: none; 
+    font-size:12px;
+    margin-top: 10%;
+}
+
+.wrap31{
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}
+
+.right{
+    margin-left:2%;
+}
+
+.text35{
+    font-size: 12px;
+    margin-bottom: 4%;
+}
+
+.text36{
+    margin-top:2%;
+}
+
+
+/*하단*/
+.box{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin: 20px;
+    margin-bottom:20px;
+}
+
+.text {
+    margin-right: auto;
+    margin-top:3%;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.arrow2 {
+    color: #8D8D8D;
+    font-size: 20px;
+    font-weight: bold;
+    margin-left: auto;
+}
+
+.box30{
+    height:1%;
+}

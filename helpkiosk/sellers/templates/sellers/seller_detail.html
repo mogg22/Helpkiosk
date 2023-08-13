@@ -12,7 +12,7 @@
 </head>
 
 <body>
-{% if owner %}
+  {% if owner %}
   <article>
       <div class="store-name">{{ market.register.name }}</div>
       <img class="main-img" src="{{market.register.logo.url}}" alt="">
@@ -59,56 +59,59 @@
 
   {% else %}
   <article>
-      <div id="modal" class="modal-overlay">
-          <div class="modal-window">
-              <div class="close-area">X</div>
-              <div class="title">
-                  <h2>{{ market.register.name }}</h2>
-                  <div>{{ market.register.name }}에 오신 것을 환영합니다</div>
-              </div>
-              <div class="content">
-                  <div class="content-d">매장 식사</div>
-                  <div class="content-d">포장</div>
-              </div>
-              <div class="modal-sound">모바일 키오스크 음성 도움이 <br>필요하신 분은 여기를 터치해주세요.</div>
-          </div>
-          <div class="modal-order">주문하기</div>
-      </div>
+    <div id="modal" class="modal-overlay">
+        <div class="modal-window">
+            <div class="close-area">X</div>
+            <div class="title">
+                <h2>{{ market.register.name }}</h2>
+                <div>{{ market.register.name }}에 오신 것을 환영합니다</div>
+            </div>
+            <div class="content">
+                <div class="content-d">매장 식사</div>
+                <div class="content-d">포장</div>
+            </div>
+            <div class="modal-sound">모바일 키오스크 음성 도움이 <br>필요하신 분은 여기를 터치해주세요.</div>
+        </div>
+        <div class="modal-order">주문하기</div>
+    </div>
 
-      <div class="store-name">{{ market.register.name }}</div>
-      <img class="main-img" src="{{market.register.logo.url}}" alt="">
-      
-      <div>
-          <ul class="store-category">
-              {% for category in categories %}
-              <li class="store-category-s">{{ category.category }}</li>  {% comment %} 첫번째 항목만 class 명 다르게 하는거 알아보기 {% endcomment %}
-              {% endfor %}
-          </ul>
-      </div>
+    <div class="store-name">{{ market.register.name }}</div>
+    <img class="main-img" src="{{market.register.logo.url}}" alt="">
 
-      <div class="menu-row active">
-        {% for category in categories %}
-          {% for menu in category.menu_set.all %}
-          <div class="menu-column">
-              {% if menu.img %}
-              <img class="menu-img" src="{{menu.img.url}}">
-              {% else %}
-              <div class="menu-img">이미지 준비중</div>
-              {% endif %}
-              <div class="menu-name">{{ menu.name }}</div>
-              <div class="menu-price">{{ menu.price|intcomma }}</div>
-          </div>
+    <div>
+      <ul class="store-category">
+          {% for category in categories %}
+          <li class="store-category-s">{{ category.category }}</li>  {% comment %} 첫번째 항목만 class 명 다르게 하는거 알아보기 {% endcomment %}
           {% endfor %}
-        {% endfor %}
-      </div>
+      </ul>
+  </div>
 
-      <div class="pay-semo">▲</div>
+  <div class="menu-row active">
+    {% for category in categories %}
+      {% for menu in category.menu_set.all %}
+      <div class="menu-column">
+        {% comment %} <a href="{% url 'buyers:add_to_cart' menu.id market.pk %}"> {% endcomment %}
+        {% if menu.img %}
+        <img class="menu-img" src="{{menu.img.url}}">
+        {% else %}
+        <div class="menu-img">이미지 준비중</div>
+        {% endif %}
+        <div class="menu-name">{{ menu.name }}</div>
+        <div class="menu-price">{{ menu.price|intcomma }}</div>
+      </div>
+      {% endfor %}
+    {% endfor %}
+  </div>
+
+  <div class="pay-semo">▲</div>
       <div class="basket">
           <div class="basket-top">
               <div>◀</div>
               {% for cart in cart_list %}
                 {% if cart.cart_list %}
-                <img src="{{ cart.menu_img }}" class="menu_blank" alt="Menu Image">
+                {% comment %} 수정 
+                {{ cart.cart_list }} {% endcomment %}
+                <img src="/media/{{ cart.menu_img }}" class="menu_blank" alt="Menu Image">
                 {% else %}
                 <div class="menu_blank"></div>
                 {% endif %}
@@ -116,24 +119,27 @@
               <div>▶</div>
           </div>
       </div>
-      <div class="pay-row">
-          <div class="pay1">
-              <div class="pay1-1">총 결제 금액</div>
-              <div class="pay1-2" id="total_price">₩ {{ total_price|intcomma }}</div>
-              {% comment %} <form method="post" action="{% url 'buyers:clear_cart' %}"> {% endcomment %}
-              <form method="post">
-                  {% csrf_token %}
-                  <button type="submit" class="pay1-3">일괄 취소</button>
-              </form>
-          </div>
-          <div class="pay1 pay2">
-              <img class="pay-icon" src="{% static 'images/Vector.png' %}" alt="">
-              <div>결제하기</div>
-          </div>
-      </div>
-  </article>
-  {% endif %}
 
+      <div class="pay-row">
+        <div class="pay1">
+            <div class="pay1-1">총 결제 금액</div>
+            {% comment %} <span class="price" style="display: none"> {% widthratio cart.quantity 1 cart.price %} </span> {% endcomment %}
+            <div class="pay1-2" id="total_price">₩ {{ total_price|intcomma }}</div>
+            {% comment %} <form method="post" action="{% url 'buyers:clear_cart' %}"> {% endcomment %}
+            <form method="post" action="{% url 'buyers:clear_cart' %}">
+                {% csrf_token %}
+                {% comment %} <input type="hidden" name="market_id" value="{{market.pk}}" /> {% endcomment %}
+                <button type="submit" class="pay1-3">일괄 취소</button>
+            </form>
+        </div>
+        <div class="pay1 pay2">
+            <img class="pay-icon" src="{% static 'images/Vector.png' %}" alt="">
+            {% comment %} <a href="{% url 'buyers:cart' %}">결제하기</a> {% endcomment %}
+            <div>결제하기</div>
+        </div>
+    </div>
+</article>
+  {% endif %}
   <script>
     //사장님 버전이랑 고객용 버전이랑 다르게 작성 if문으로 두개 따로 처리해야함
     //정원 언니 일단 이렇게 따로따로 작성해서 표시해둘테니까 처리 부탁드려요!

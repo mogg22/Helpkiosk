@@ -9,7 +9,11 @@
     <link rel="stylesheet" href="{% static 'css/kiosk_menu.css' %}"></head>
 <body>
     <article>
+        {% if menu.img %}
         <img class="main-img" src="{{menu.img.url}}">
+        {% else %}
+        이미지 준비중
+        {% endif %}
         <div>
             <div class="subtitle">{{ menu.name }}</div>
             <div>{{ menu.exp }}</div>

@@ -23,6 +23,7 @@ def add_to_cart(request, menu_id, market_id):
 
             quantity = form.cleaned_data['quantity']
             dine_in_option = request.POST.get('dine_in_option')  # 선택한 주문 옵션 가져오기(매장식사/포장)
+            options = form.cleaned_data
             
             # 기존에 있는 카트 아이템인지 확인
             cart_item, created = Cart.objects.get_or_create(user=request.user, menu=menu, defaults={'quantity':quantity})
@@ -39,10 +40,12 @@ def add_to_cart(request, menu_id, market_id):
                 cart_item.order = False
             cart_item.save()
             
-            messages.success(request, '상품이 성공적으로 추가되었습니다!')
+            # messages.success(request, '상품이 성공적으로 추가되었습니다!')
             # else:
             #     cart_item = Cart.objects.create(user=request.user, menu=menu, quantity=quantity)
             return redirect('sellers:seller_detail', market_id)
+            # seller_detail_url = reverse('sellers:seller_detail', kwargs={'market_id': market_id})
+            # return redirect(seller_detail_url)
 
     else:
         form = AddMenuForm()
@@ -68,6 +71,8 @@ def menu_detail(request, pk):
         if form.is_valid():
             quantity = form.cleaned_data['quantity']
             options = form.cleaned_data['options']
+            dine_in_option = form.cleaned_data['dine_in_option']  # 매장식사 또는 포장 여부
+
 
             cart_item, created = Cart.objects.get_or_create(
                 user=request.user,
@@ -96,7 +101,7 @@ def menu_detail(request, pk):
         form = AddMenuForm()
 
     options = Option.objects.filter(menu=menu)
-    
+    print(options)
     context = {
         'menu': menu,
         'owner': owner,
@@ -231,8 +236,8 @@ def clear_cart(request):
 @login_required
 def payment(request):
     if request.method == 'POST':
-        total_amount = float(request.POST.get('total_price'))
-        # phone_number = request.POST.get('phone_number')
+        total_amount = int(request.POST.get('total_price'))
+        phone_number = request.POST.get('phone_number', '')
         items = request.POST.getlist('items[]')
         request_text = request.POST.get('request_text')
         # payment_method = request.POST.get('payment_method')
@@ -253,13 +258,13 @@ def payment(request):
             total_amount=total_amount,
             need=request_text,
             # payment_method=payment_method,
-            # phone_number=phone_number
+            phone_number=phone_number
         )
 
         return render(request, 'buyers/payment.html', {
             'total_amount': total_amount,
             'item_info_list': item_info_list,
-            # 'phone_number': phone_number,
+            'phone_number': phone_number,
             'request_text': request_text,
             # 'payment_method': payment_method,
             'payment': payment,

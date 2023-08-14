@@ -1,4 +1,5 @@
 {% load static %}
+{% load humanize %}
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -9,7 +10,11 @@
     <link rel="stylesheet" href="{% static 'css/kiosk_menu.css' %}"></head>
 <body>
     <article>
+        {% if menu.img %}
         <img class="main-img" src="{{menu.img.url}}">
+        {% else %}
+        이미지 준비중
+        {% endif %}
         <div>
             <div class="subtitle">{{ menu.name }}</div>
             <div>{{ menu.exp }}</div>
@@ -20,6 +25,14 @@
 
             <div class="detail">
                 <div class="detail-row">
+                    {% comment %} {% if options %} {% endcomment %}
+                        <h2>옵션</h2>
+                        <ul>
+                            {% for option in options %}
+                                <li>{{ option.name }} - {{ option.price|intcomma }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% comment %} {% endif %} {% endcomment %}
                     {% comment %} <label for="cl"><input type="checkbox" name="cl" id="cl" checked> 3인분 같은 2인분</label> {% endcomment %}
                     {% comment %} <div>{{ menu.price }}원</div> {% endcomment %}
                 </div>

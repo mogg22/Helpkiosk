@@ -133,7 +133,7 @@
             </div>
             <div class="pay1 pay2">
                 <img class="pay-icon" src="{% static 'images/Vector.png' %}" alt="">
-                {% comment %} <a href="{% url 'buyers:cart' %}">결제하기</a> {% endcomment %}
+                <a href="{% url 'buyers:cart' %}">결제하기</a>
             <div>결제하기</div>
         </div>
     </div>
@@ -177,7 +177,8 @@
             })
         }
     
-        else {
+        else 
+        {
             //손님 버전
             let price_list = document.getElementsByClassName("price");
             
@@ -189,7 +190,7 @@
                 total_price += Number(data.innerHTML);
             })
 
-            document.getElementById("total_price").innerHTML = "₩ " + total_price +;
+            document.getElementById("total_price").innerHTML = "₩ " + total_price;
 
             //유빈언니가 쓴 JS
             const modal = document.getElementById("modal")

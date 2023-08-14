@@ -1,16 +1,28 @@
+{% load humanize %}
 <!DOCTYPE html>
 <html>
 <head>
-    <title>주문내역</title>
+    <title>주문 내역</title>
 </head>
 <body>
-    <h1>{{ market.register.name }}</h1>
-    <p>주문 일시 : </p>
-    <p>주문 번호 : </p>
-    <p>주문 메뉴
-        {{ cart_item.menu.name }}
-        {{ cart_item.menu.price }}</p>
-    <p>요청 사항 :
-        옵션 </p>
-    {% comment %} 매장식사인지 포장인지 {% endcomment %}
-    <p>결제 금액 {{total_price}} </p>
+    <h1>주문 내역</h1>
+    <p>선택한 제품 정보</p>
+    <ul>
+        {% for item in item_info_list %}
+            <li>{{ item.name }}</li>
+        {% endfor %}
+    </ul>
+    <p>전화번호: {{ request.POST.phone_number }}</p>
+    <p>요청 사항: {{ request_text }}</p>
+    <p>결제금액: 총 {{ total_amount|intcomma }}원</p>
+    {% comment %} <p>결제 수단: {{ request.POST.payment_method }}</p> {% endcomment %}
+    <form method="post" action="">
+        {% csrf_token %}
+        <input type="hidden" name="total_price" value="{{ total_amount }}">
+        <input type="hidden" name="phone_number" value="{{ request.POST.phone_number }}">
+        <input type="hidden" name="request_text" value="{{ request_text }}">
+        {% comment %} <input type="hidden" name="payment_method" value="{{ request.POST.payment_method }}"> {% endcomment %}
+        <button type="submit">확인</button>
+    </form>
+</body>
+</html>

@@ -149,8 +149,9 @@ def cart(request):
     total_price = 0
 
     for data in cart_items:
-        data.total_price = data.menu.price * data.quantity
-        total_price += data.total_price
+        if data.menu:
+            data.total_price = data.menu.price * data.quantity
+            total_price += data.total_price
 
     # request.session['total_price'] = total_price
 

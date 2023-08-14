@@ -222,3 +222,22 @@ def order_detail(request, pk, *args, **kwargs):
   }
   
   return render(request, 'sellers/order_detail.html', context)
+
+def seller_info(request, pk, *args, **kwargs):
+  if not is_market_owner(request.user, pk):
+    return HttpResponseForbidden("You don't have permission to perform this action.")
+  
+  market = get_object_or_404(Market, pk=pk)
+  
+  if request.method == 'POST':
+    market.time = request.POST['time']
+    market.close = request.POST['close']
+    market.save()
+    return redirect('sellers:seller_info', pk)
+  
+  context = {
+    'market': market,
+  }
+  
+  return render(request, 'sellers/seller_info.html', context)
+  

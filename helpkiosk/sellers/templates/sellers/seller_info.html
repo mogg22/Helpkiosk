@@ -1,0 +1,40 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="store">
+    <img src="{% static 'images/heart.png' %}" id="heart">
+    {{market.register.name}} > {{market.register.representative}} 사장님
+  </div>
+  <p>운영정보관리</p>
+  <div>
+    <p>운영정보확인</p>
+    <p>운영시간</p>
+    {{market.time}}
+    <p>정기휴무</p>
+    {% if market.close %}
+    {{market.close}}
+    {% else %}
+    등록된 정보가 없습니다.
+    {% endif %}
+  </div>
+  <div>
+    <p>운영정보수정</p>
+    <form method="POST">
+      {% csrf_token %}
+      <input type="text" name="time" value={{market.time}}>
+      {% if market.close %}
+      <input type="text" name="close" value={{market.close}}>
+      {% else %}
+      <input type="text" name="close" placeholder="정기휴무를 입력하세요" >
+      {% endif %}
+      <input type="submit" id="btn" value="운영정보수정">
+    </form>
+  </div>
+</body>
+</html>

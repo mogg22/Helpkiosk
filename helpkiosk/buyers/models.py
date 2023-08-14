@@ -18,11 +18,11 @@ class Cart(models.Model):
         if self.menu:
             self.market = self.menu.category.market
             
-            # 선택된 옵션에 따라 매장식사 여부 결정
-            if self.option and self.option.is_dine_in_option():
-                self.order = True
-            else:
-                self.order = False
+            # # 포장 또는 매장식사 선택에 따라 order 값 결정
+            # if self.option and self.option.is_dine_in_option():
+            #     self.order = True
+            # else:
+            #     self.order = False
                 
         super().save(*args, **kwargs)
 

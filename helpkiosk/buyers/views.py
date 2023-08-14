@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from datetime import datetime
+from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 # from django.views.decorators.http import require_POST  # Post로만 접근할 수 있다
 from sellers.models import *
@@ -21,7 +22,8 @@ def add_to_cart(request, menu_id, market_id):
         if form.is_valid():
 
             quantity = form.cleaned_data['quantity']
-
+            dine_in_option = request.POST.get('dine_in_option')  # 선택한 주문 옵션 가져오기(매장식사/포장)
+            
             # 기존에 있는 카트 아이템인지 확인
             cart_item, created = Cart.objects.get_or_create(user=request.user, menu=menu, defaults={'quantity':quantity})
 
@@ -30,7 +32,7 @@ def add_to_cart(request, menu_id, market_id):
                 cart_item.save()
                 
             # 매장식사 또는 포장 여부 확인
-            dine_in_option = request.POST.get('dine_in_option')
+            # dine_in_option = request.POST.get('dine_in_option')
             if dine_in_option == 'dine_in':
                 cart_item.order = True
             else:
@@ -166,13 +168,23 @@ def update_cart(request, cart_id):
         return redirect('buyers:cart')
 # def update_cart(request, cart_id):
 #     if request.method == 'POST':
-#         quantity = int(request.POST.get("item_" + str(cart_id), 0))
-#         if quantity >= 0:
-#             cart_item = get_object_or_404(Cart, pk=cart_id)
-#             cart_item.quantity = quantity
-#             cart_item.save()
+#         try:
+#             quantity = int(request.POST.get(f"item_{cart_id}"))
+#             if quantity > 0:
+#                 cart_item = get_object_or_404(Cart, pk=cart_id)
+#                 cart_item.quantity = quantity
+#                 cart_item.save()
 
-#     return redirect('buyers:cart')
+#                 updated_item = {
+#                     'id': cart_id,
+#                     'quantity': quantity,
+#                     'total_price': cart_item.total_price,
+#                 }
+#                 return JsonResponse(updated_item)
+#             else:
+#                 return HttpResponseBadRequest("Quantity must be greater than 0.")
+#         except Exception as e:
+#             return HttpResponseBadRequest(str(e))
 
 @login_required
 def delete_cart_item(request, cart_id):
@@ -209,6 +221,11 @@ def clear_cart(request):
         print("삭제할 카트 아이템이 없다")  # 디버깅 메시지
 
     return redirect('sellers:seller_detail', pk=market_id)
+
+# @login_required
+# def order_list(request):
+#     user_payments = Payment.objects.filter(cart__user=request.user)
+#     return render(request, 'buyers/payment.html', {'user_payments':user_payments})
 
 # 수정 필요
 @login_required

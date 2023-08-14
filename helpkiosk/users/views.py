@@ -1,9 +1,11 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate
 from .models import *
+from sellers.models import *
+from buyers.models import *
 
 
 # def login(request, *args, **kwargs):
@@ -84,3 +86,25 @@ def login(request, *args, **kwargs):
 def logout(request, *args, **kwargs):
   auth.logout(request)
   return redirect('main:main')
+
+@login_required
+def mypage(request, *args, **kwargs):
+  user = request.user
+  if user.profile.seller:
+    # 판매자일 경우
+    register = Register.objects.get(user=request.user)
+    market = get_object_or_404(Market, register=register)
+    context = {
+      'user': user,
+      'register': register,
+      'market': market,
+    }
+    return render(request, 'users/mypage.html', context)
+  else:
+    # 구매자일 경우
+    payments = Payment.objects.filter(cart__user=request.user)
+    context = {
+      'user': user,
+      'payments': payments,
+    }
+    return render(request, 'users/mypage.html', context)

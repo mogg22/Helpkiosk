@@ -8,4 +8,5 @@ urlpatterns = [
   path('profile_create/', profile_create, name='profile_create'),
   path("login/", login, name="login"),
   path("logout/", logout, name="logout"),
+  path("mypage/", mypage, name="mypage"),
 ]

@@ -32,7 +32,7 @@
             </div>
         </div>
 
-    <form method="post" action="{% url 'buyers:add_to_cart' menu.pk %}">
+    <form method="post" action="{% url 'buyers:add_to_cart' menu.id market_id %}">
         {% csrf_token %}
         {{ form.as_p }} {% comment %} 수량 입력하는 부분 html에서 어떻게 수정해야하는지 모르겠네요 {% endcomment %}
         <br>

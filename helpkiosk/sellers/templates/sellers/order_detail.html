@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  주문 상세
+  {{payment.date}}
+  주문번호 등
+  {% for cart_item in payment.cart.cartitem_set.all %}
+  <li>메뉴명: {{ cart_item.menu.name }}</li>
+  <li>수량: {{ cart_item.quantity }}</li>
+  {% endfor %}
+</body>
+</html>

@@ -71,19 +71,20 @@ def add_cart(request, pk):
 
     if request.method == 'POST':
         cart, _ = Cart.objects.get_or_create(user=request.user)
+        quantity = request.POST.get('quantity')
 
         if cart.market != menu.category.market:
             cart.cartitem_set.all().delete()
-            cart_item = CartItem.objects.create(cart=cart, menu=menu)
+            cart_item = CartItem.objects.create(cart=cart, menu=menu, quantity=int(quantity))
             # messages.warning(request, '기존에 있던 다른마켓의 메뉴를 삭제합니다!')
         else:
             if cart.cartitem_set.filter(menu=menu).exists():
                 # messages.warning(request, '이미 담겨진 상품입니다.')
                 cart_item = cart.cartitem_set.get(menu=menu)
-                cart_item.quantity += 1
+                cart_item.quantity += int(quantity)
                 cart_item.save()
             else:
-                cart_item = CartItem.objects.create(cart=cart, menu=menu)
+                cart_item = CartItem.objects.create(cart=cart, menu=menu, quantity=int(quantity))
                 # messages.success(request, '상품이 성공적으로 추가되었습니다!')
 
         selected_options = request.POST.getlist('options')  # 선택된 Option들을 받아옴
@@ -211,28 +212,25 @@ def cart(request):
 @csrf_exempt
 def item_ajax(request, item_id, *args, **kwargs):
     data = json.loads(request.body)
-    item_pk = data.get('id')
-    item = get_object_or_404(Cart, pk=item_id, cart__user=request.user)
-    # menu = Menu.objects.get(pk=data["id"])
-    # item = CartItem.objects.get(menu=item_id)
-    print("2")
+    item = CartItem.objects.get(pk=item_id)
 
     quan = data.get('quanType')
     
     if quan == "plus":
-        item.qauntity += 1
+        item.quantity += 1
         # item.total_price 
     elif quan == "minus":
-        if cart_item.quantity > 1:
-            cart_item.quantity -= 1
+        if item.quantity > 1:
+            item.quantity -= 1
 
     item.save()
-    print("3")
+    print(item_id)
+    print(item.quantity)
 
     context = {
-        'item_id' : item_id,
-        'menu' : menu,
-        'item' : item,
+        'id' : item_id,
+        # 'menu' : menu,
+        'item' : item.quantity,
     }
     
     return JsonResponse(context)

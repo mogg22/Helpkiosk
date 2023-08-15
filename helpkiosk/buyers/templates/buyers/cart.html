@@ -72,9 +72,9 @@
     requestQuan.onreadystatechange = () => {
         if (requestQuan.readyState === XMLHttpRequest.DONE) {
             if (requestQuan.status < 400) {
-                const { id, menu, item } = JSON.parse(requestQuan.response);
+                const { id, item } = JSON.parse(requestQuan.response);
                 const itemQuantity = document.querySelector(`.item_quantity-${id}`);
-                itemQuantity.textContent = `${item.quantity}`;
+                itemQuantity.textContent = item;
             }
         }
     };

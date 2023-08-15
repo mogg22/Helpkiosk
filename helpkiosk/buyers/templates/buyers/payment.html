@@ -12,17 +12,19 @@
             <li>{{ item.name }}</li>
         {% endfor %}
     </ul>
-    <p>전화번호: {{ request.POST.phone_number }}</p>
+    <p>전화번호: {{ phone_number }}</p>
     <p>요청 사항: {{ request_text }}</p>
     <p>결제금액: 총 {{ total_amount|intcomma }}원</p>
     {% comment %} <p>결제 수단: {{ request.POST.payment_method }}</p> {% endcomment %}
-    <form method="post" action="">
-        {% csrf_token %}
-        <input type="hidden" name="total_price" value="{{ total_amount }}">
-        <input type="hidden" name="phone_number" value="{{ request.POST.phone_number }}">
-        <input type="hidden" name="request_text" value="{{ request_text }}">
-        {% comment %} <input type="hidden" name="payment_method" value="{{ request.POST.payment_method }}"> {% endcomment %}
-        <button type="submit">확인</button>
-    </form>
+
+    {% if payment %}
+        <p><a href="{% url 'buyers:payment_order_detail' payment.id %}">확인 {{ payment.id }} 상세 내역 보기</a></p>
+        <ul>
+            {% for cart_item in payment.cart.cartitem_set.all %}
+                <li>{{ cart_item.menu.name }} (수량: {{ cart_item.quantity }})</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
 </body>
 </html>
+

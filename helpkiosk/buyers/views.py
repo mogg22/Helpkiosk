@@ -233,7 +233,7 @@ def clear_cart(request):
 #     user_payments = Payment.objects.filter(cart__user=request.user)
 #     return render(request, 'buyers/payment.html', {'user_payments':user_payments})
 
-# 수정 필요
+
 @login_required
 def payment(request):
     if request.method == 'POST':
@@ -241,34 +241,119 @@ def payment(request):
         phone_number = request.POST.get('phone_number', '')
         items = request.POST.getlist('items[]')
         request_text = request.POST.get('request_text')
-        # payment_method = request.POST.get('payment_method')
 
         item_info_list = []
         for item in items:
             item_name, item_quantity, item_price = item.split('|')
             item_info = {
                 'name': item_name,
-                # 'quantity': int(item_quantity),
-                # 'price': float(item_price),
             }
             item_info_list.append(item_info)
 
-        user_cart = Cart.objects.get(user=request.user)
-        payment = Payment.objects.create(
-            cart=user_cart,
-            total_amount=total_amount,
-            need=request_text,
-            # payment_method=payment_method,
-            phone_number=phone_number
-        )
+        user_cart = Cart.objects.filter(user=request.user).first()
+        payment = None
+
+        if user_cart:
+            existing_payment = Payment.objects.filter(cart=user_cart).first()
+
+            if existing_payment:
+                existing_payment.total_amount = total_amount
+                existing_payment.need = request_text
+                existing_payment.phone_number = phone_number
+                existing_payment.save()
+                payment = existing_payment
+            else:
+                payment = Payment.objects.create(
+                    cart=user_cart,
+                    total_amount=total_amount,
+                    need=request_text,
+                    phone_number=phone_number
+                )
 
         return render(request, 'buyers/payment.html', {
             'total_amount': total_amount,
             'item_info_list': item_info_list,
             'phone_number': phone_number,
             'request_text': request_text,
-            # 'payment_method': payment_method,
             'payment': payment,
         })
-    
+
     return redirect('buyers:cart')
+
+# 결합된 카트 하나를 생성해서 이걸 넘겨줄지 위에 걸 쓸지
+# @login_required
+# def payment(request):
+#     if request.method == 'POST':
+#         total_amount = int(request.POST.get('total_price'))
+#         phone_number = request.POST.get('phone_number', '')
+#         items = request.POST.getlist('items[]')
+#         request_text = request.POST.get('request_text')
+
+#         item_info_list = []
+#         for item in items:
+#             item_name, item_quantity, item_price = item.split('|')
+#             item_info = {
+#                 'name': item_name,
+#             }
+#             item_info_list.append(item_info)
+
+#         user_carts = Cart.objects.filter(user=request.user)
+#         combined_items = []  # 모든 카트의 아이템을 담을 리스트
+#         total_price = 0  # 모든 카트의 총 금액
+
+#         for user_cart in user_carts:
+#             combined_items.extend(user_cart.cartitem_set.all())  # 해당 카트의 아이템들을 리스트에 추가
+#             total_price += user_cart.get_total_price()  # 해당 카트의 총 금액을 전체 총 금액에 추가
+
+#         combined_cart = Cart.objects.create(user=request.user)  # 새로운 결합된 카트 생성
+
+#         for item in combined_items:
+#             CartItem.objects.create(cart=combined_cart, menu=item.menu, quantity=item.quantity)
+
+#         payment = Payment.objects.create(
+#             cart=combined_cart,
+#             total_amount=total_price,
+#             need=request_text,
+#             phone_number=phone_number
+#         )
+
+#         return render(request, 'buyers/payment.html', {
+#             'total_amount': total_price,
+#             'item_info_list': item_info_list,
+#             'phone_number': phone_number,
+#             'request_text': request_text,
+#             'payment': payment,
+#         })
+
+#     return redirect('buyers:cart')
+
+
+
+
+# @login_required
+# def payment_order_detail(request, payment_id):
+#     payment = get_object_or_404(Payment, id=payment_id, cart__buyer=request.user)
+#     selected_carts = Cart.objects.filter(payment=payment)
+
+#     context = {
+#         'payment': payment,
+#         'selected_carts': selected_carts,
+#     }
+#     return render(request, 'buyers/payment_order_detail.html', context)
+
+
+@login_required
+def buyer_mypage(request):
+    user = request.user
+    payments = Payment.objects.filter(cart__buyer=request.user).order_by('-order_date')
+    
+    context = {
+        'user': user,
+        'payments':payments,
+    }
+    return render(request, 'buyers/buyer_mypage.html', context)
+
+
+
+
+

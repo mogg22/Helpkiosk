@@ -110,8 +110,12 @@
                 {% for cart in cart_list %}
                     {% comment %} {% if cart.cart_list %} {% endcomment %}
                     {% comment %} 수정 {% endcomment %}
-                    {{ cart.cart_list }} 
-                    <img src="/media/{{ cart.menu_img }}" class="menu_blank" alt="Menu Image">
+                    {{ cart.menu.name }} 
+                    {% if cart.menu.img %}
+                    <img src="{{ cart.menu.img.url }}" class="menu_blank" alt="Menu Image">
+                    {% else %}
+                    <div class="menu_blank">이미지 없음</div>
+                    {% endif %}
                     {% comment %} {% else %}
                     <div class="menu_blank"></div>
                     {% endif %} {% endcomment %}

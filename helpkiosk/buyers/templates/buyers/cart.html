@@ -79,26 +79,4 @@
         }
     };
 
-
-    
-    function incrementQuantity(itemId) {
-        let inputElement = document.querySelector(`input[name="item_${itemId}"]`);
-        let currentValue = parseInt(inputElement.value);
-        inputElement.value = currentValue + 1;
-        inputElement.form.submit();
-    }
-
-    function decrementQuantity(itemId) {
-        let inputElement = document.querySelector(`input[name="item_${itemId}"]`);
-        let currentValue = parseInt(inputElement.value);
-        if (currentValue > 1) {
-            inputElement.value = currentValue - 1;
-            inputElement.form.submit();
-        }
-    }
-
-    function updateCart(form) {
-        // 서버로 폼 제출
-        return true;
-    }
 </script>

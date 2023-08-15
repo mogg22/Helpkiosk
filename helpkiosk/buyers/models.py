@@ -10,7 +10,7 @@ class Cart(models.Model):
     market = models.ForeignKey(Market, on_delete=models.CASCADE, null=True, blank=True)
     quantity = models.PositiveIntegerField(default=1)
     order = models.BooleanField(default=False) # False 포장, True 매장식사
-
+    
     def get_total_price(self):
         return self.menu.price * self.quantity
 
@@ -35,12 +35,24 @@ class CartItem(models.Model):
         return self.menu.price * self.quantity
 
 class Payment(models.Model):
-    cart = models.OneToOneField(Cart, on_delete=models.CASCADE)
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE, default="")
     total_amount = models.DecimalField(max_digits=10, decimal_places=2)
     date = models.DateTimeField(auto_now_add=True)
     need = models.TextField(null=True, blank=True)
     payment_method = models.CharField(max_length=100, default="픽업시 결제")
     phone_number = models.CharField(max_length=20, default="010-1234-5678")
 
-    def __str__(self):
-        return f"Payment for Cart {self.cart.id}"
+    # def __str__(self):
+    #     return f"Payment for Cart {self.cart.id}"
+    
+# class Payment(models.Model):
+#     carts = models.ManyToManyField(Cart)
+#     total_amount = models.DecimalField(max_digits=10, decimal_places=2)
+#     date = models.DateTimeField(auto_now_add=True)
+#     need = models.TextField(null=True, blank=True)
+#     payment_method = models.CharField(max_length=100, default="픽업시 결제")
+#     phone_number = models.CharField(max_length=20, default="010-1234-5678")
+
+#     def __str__(self):
+#         cart_ids = ', '.join(str(cart.id) for cart in self.carts.all())
+#         return f"Payment for Carts: {cart_ids}"

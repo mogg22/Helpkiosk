@@ -2,6 +2,9 @@ from django.shortcuts import render, redirect, get_object_or_404
 from datetime import datetime
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
+import json
 # from django.views.decorators.http import require_POST  # Post로만 접근할 수 있다
 from sellers.models import *
 from sellers.views import *
@@ -13,51 +16,52 @@ from django.contrib import messages
 from django.db.models import Sum
 
 
-@login_required
-def add_to_cart(request, menu_id, market_id):
-    menu = get_object_or_404(Menu, pk=menu_id)
+# @login_required
+# def add_to_cart(request, menu_id, market_id):
+#     menu = get_object_or_404(Menu, pk=menu_id)
 
-    if request.method == 'POST':
-        form = AddMenuForm(request.POST)
-        if form.is_valid():
+#     if request.method == 'POST':
+#         form = AddMenuForm(request.POST)
+#         if form.is_valid():
 
-            quantity = form.cleaned_data['quantity']
-            dine_in_option = request.POST.get('dine_in_option')  # 선택한 주문 옵션 가져오기(매장식사/포장)
-            options = form.cleaned_data
+#             quantity = form.cleaned_data['quantity']
+#             dine_in_option = request.POST.get('dine_in_option')  # 선택한 주문 옵션 가져오기(매장식사/포장)
+#             options = form.cleaned_data
             
-            # 기존에 있는 카트 아이템인지 확인
-            cart_item, created = Cart.objects.get_or_create(user=request.user, menu=menu, defaults={'quantity':quantity})
+#             # 기존에 있는 카트 아이템인지 확인
+#             cart_item, created = Cart.objects.get_or_create(user=request.user, menu=menu, defaults={'quantity':quantity})
 
-            if not created:
-                cart_item.quantity += quantity
-                cart_item.save()
+#             if not created:
+#                 cart_item.quantity += quantity
+#                 cart_item.save()
                 
-            # 매장식사 또는 포장 여부 확인
-            # dine_in_option = request.POST.get('dine_in_option')
-            if dine_in_option == 'dine_in':
-                cart_item.order = True
-            else:
-                cart_item.order = False
-            cart_item.save()
+#             # 매장식사 또는 포장 여부 확인
+#             # dine_in_option = request.POST.get('dine_in_option')
+#             if dine_in_option == 'dine_in':
+#                 cart_item.order = True
+#             else:
+#                 cart_item.order = False
+#             cart_item.save()
             
-            # messages.success(request, '상품이 성공적으로 추가되었습니다!')
-            # else:
-            #     cart_item = Cart.objects.create(user=request.user, menu=menu, quantity=quantity)
-            return redirect('sellers:seller_detail', market_id)
-            # seller_detail_url = reverse('sellers:seller_detail', kwargs={'market_id': market_id})
-            # return redirect(seller_detail_url)
+#             # messages.success(request, '상품이 성공적으로 추가되었습니다!')
+#             # else:
+#             #     cart_item = Cart.objects.create(user=request.user, menu=menu, quantity=quantity)
+#             return redirect('sellers:seller_detail', market_id)
+#             # seller_detail_url = reverse('sellers:seller_detail', kwargs={'market_id': market_id})
+#             # return redirect(seller_detail_url)
 
-    else:
-        form = AddMenuForm()
+#     else:
+#         form = AddMenuForm()
 
-    context = {
-        'menu': menu,
-        'form': form,
-        'market_id': market_id
-    }
-    return render(request, 'buyers/menu_detail.html', context)
+#     context = {
+#         'menu': menu,
+#         'form': form,
+#         'market_id': market_id
+#     }
+#     return render(request, 'buyers/menu_detail.html', context)
 
-def menu_detail(request, pk):
+@login_required
+def add_cart(request, pk):
     menu = get_object_or_404(Menu, pk=pk)
 
     if is_market_owner(request.user, pk):
@@ -66,50 +70,91 @@ def menu_detail(request, pk):
         owner = False
 
     if request.method == 'POST':
-        form = AddMenuForm(request.POST)
+        cart, _ = Cart.objects.get_or_create(user=request.user)
 
-        if form.is_valid():
-            quantity = form.cleaned_data['quantity']
-            options = form.cleaned_data['options']
-            dine_in_option = form.cleaned_data['dine_in_option']  # 매장식사 또는 포장 여부
-
-
-            cart_item, created = Cart.objects.get_or_create(
-                user=request.user,
-                menu=menu,
-                defaults={'quantity': quantity}
-            )
-
-            cart_item.quantity += quantity
-            cart_item.save()
-            cart_item.options.set(options)
-
-            cart = cart_item.cart
-            if cart.market != menu.category.market:
-                cart_item.delete()
-                messages.warning(request, '기존에 있던 다른마켓의 메뉴를 삭제합니다!')
+        if cart.market != menu.category.market:
+            cart.cartitem_set.all().delete()
+            cart_item = CartItem.objects.create(cart=cart, menu=menu)
+            # messages.warning(request, '기존에 있던 다른마켓의 메뉴를 삭제합니다!')
+        else:
+            if cart.cartitem_set.filter(menu=menu).exists():
+                # messages.warning(request, '이미 담겨진 상품입니다.')
+                cart_item = cart.cartitem_set.get(menu=menu)
+                cart_item.quantity += 1
+                cart_item.save()
             else:
-                if cart.cartitem_set.filter(menu=menu).exists():
-                    messages.warning(request, '이미 담겨진 상품입니다.')
-                else:
-                    messages.success(request, '상품이 성공적으로 추가되었습니다!')
+                cart_item = CartItem.objects.create(cart=cart, menu=menu)
+                # messages.success(request, '상품이 성공적으로 추가되었습니다!')
 
-            cart.market = menu.category.market
-            cart.save()
-            return redirect('buyers:cart')
-    else:
-        form = AddMenuForm()
+        selected_options = request.POST.getlist('options')  # 선택된 Option들을 받아옴
+        cart_item.options.add(*selected_options) 
+        cart_item.save()
+        
+        cart.market = menu.category.market
+        cart.save()
 
-    options = Option.objects.filter(menu=menu)
-    print(options)
+        return redirect('sellers:seller_detail', cart.market.pk)
+
     context = {
         'menu': menu,
         'owner': owner,
-        'form': form,
-        'options': options
     }
 
     return render(request, 'buyers/menu_detail.html', context)
+
+# def menu_detail(request, pk):
+#     menu = get_object_or_404(Menu, pk=pk)
+
+#     if is_market_owner(request.user, pk):
+#         owner = True
+#     else:
+#         owner = False
+
+#     if request.method == 'POST':
+#         form = AddMenuForm(request.POST)
+
+#         if form.is_valid():
+#             quantity = form.cleaned_data['quantity']
+#             options = form.cleaned_data['options']
+#             dine_in_option = form.cleaned_data['dine_in_option']  # 매장식사 또는 포장 여부
+
+
+#             cart_item, created = Cart.objects.get_or_create(
+#                 user=request.user,
+#                 menu=menu,
+#                 defaults={'quantity': quantity}
+#             )
+
+#             cart_item.quantity += quantity
+#             cart_item.save()
+#             cart_item.options.set(options)
+
+#             cart = cart_item.cart
+#             if cart.market != menu.category.market:
+#                 cart_item.delete()
+#                 messages.warning(request, '기존에 있던 다른마켓의 메뉴를 삭제합니다!')
+#             else:
+#                 if cart.cartitem_set.filter(menu=menu).exists():
+#                     messages.warning(request, '이미 담겨진 상품입니다.')
+#                 else:
+#                     messages.success(request, '상품이 성공적으로 추가되었습니다!')
+
+#             cart.market = menu.category.market
+#             cart.save()
+#             return redirect('buyers:cart')
+#     else:
+#         form = AddMenuForm()
+
+#     options = Option.objects.filter(menu=menu)
+#     print(options)
+#     context = {
+#         'menu': menu,
+#         'owner': owner,
+#         'form': form,
+#         'options': options
+#     }
+
+#     return render(request, 'buyers/menu_detail.html', context)
 
 # def menu_detail(request, menu_id):
 #     menu = get_object_or_404(Menu, pk=menu_id)
@@ -142,9 +187,11 @@ def menu_detail(request, pk):
 # def cart(request):
 #     cart = Cart(request)
 #     return render(request, 'buyers/cart.html', {'cart': cart})
+
+
 @login_required
 def cart(request):
-    cart_items = Cart.objects.filter(user=request.user).order_by("menu__name")
+    cart_items = CartItem.objects.filter(cart__user=request.user)
 
     total_price = 0
 
@@ -156,10 +203,39 @@ def cart(request):
     # request.session['total_price'] = total_price
 
     context = {
-        'cart_items': cart_items,
+        'cart': cart,
         'total_price': total_price
     }
     return render(request, 'buyers/cart.html', context)
+
+@csrf_exempt
+def item_ajax(request, item_id, *args, **kwargs):
+    data = json.loads(request.body)
+    item_pk = data.get('id')
+    item = get_object_or_404(Cart, pk=item_id, cart__user=request.user)
+    # menu = Menu.objects.get(pk=data["id"])
+    # item = CartItem.objects.get(menu=item_id)
+    print("2")
+
+    quan = data.get('quanType')
+    
+    if quan == "plus":
+        item.qauntity += 1
+        # item.total_price 
+    elif quan == "minus":
+        if cart_item.quantity > 1:
+            cart_item.quantity -= 1
+
+    item.save()
+    print("3")
+
+    context = {
+        'item_id' : item_id,
+        'menu' : menu,
+        'item' : item,
+    }
+    
+    return JsonResponse(context)
 
 def update_cart(request, cart_id):
     
@@ -172,6 +248,7 @@ def update_cart(request, cart_id):
         cart_item.save()    
 
         return redirect('buyers:cart')
+        
 # def update_cart(request, cart_id):
 #     if request.method == 'POST':
 #         try:

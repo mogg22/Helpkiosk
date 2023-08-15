@@ -70,7 +70,7 @@ def profile_create(request, *args, **kwargs):
       return render(request, 'users/profile_create.html', context)
   return render(request, 'users/profile_create.html')
 
-def login(request, *args, **kwargs):
+def log_in(request, *args, **kwargs):
   if request.method == 'POST':
     username=request.POST['username']
     password=request.POST['password']
@@ -85,7 +85,7 @@ def login(request, *args, **kwargs):
 
 def logout(request, *args, **kwargs):
   auth.logout(request)
-  return redirect('main:main')
+  return redirect('sellers:seller_list')
 
 @login_required
 def mypage(request, *args, **kwargs):

@@ -18,3 +18,7 @@ class MenuCategoryAdmin(admin.ModelAdmin):
 @admin.register(Menu)
 class MenuAdmin(admin.ModelAdmin):
   pass
+
+@admin.register(Option)
+class OptionAdmin(admin.ModelAdmin):
+  pass

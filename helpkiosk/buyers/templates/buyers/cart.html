@@ -9,20 +9,19 @@
         <label for="phone_number">제품을 픽업하실 분의 전화번호</label><br>
         <input type="tel" name="phone_number" id="phone_number" placeholder="전화번호를 입력하세요" required>
         {% for item in cart_items %}
-            <li>
+            <li class="item-{{item.pk}}">
                 {{ item.menu.name }}<br>
                 수량
-                <form method="POST" action="{% url 'buyers:update_cart' item.pk %}" onsubmit="return updateCart(this)">
+                {% comment %} <form method="POST" action="{% url 'buyers:update_cart' item.pk %}" onsubmit="return updateCart(this)">
                     {% csrf_token %}
                     <input type="number" name="item_{{ item.pk }}" value="{{ item.quantity }}" min="1">
                     <button type="button" onclick="incrementQuantity('{{ item.pk }}')">+</button>
                     <button type="button" onclick="decrementQuantity('{{ item.pk }}')">-</button>
-                </form>
-                가격 {{ item.total_price|intcomma }}원
-                {% comment %} <form method="POST" action="{% url 'buyers:delete_cart_item' item.pk %}">
-                    {% csrf_token %}
-                    <input type="submit" value="삭제">
                 </form> {% endcomment %}
+                <div class="item_quantity-{{item.pk}}">{{item.quantity}}</div>
+                <div onclick="onClickQuan({{item.pk}}, 'plus')">+</div>
+                <div onclick="onClickQuan({{item.pk}}, 'minus')">-</div>
+                <div class="total_price">가격 {{ item.total_price|intcomma }}원</div>
                 <a href="{% url 'buyers:delete_cart_item' item.pk %}" class="delete-btn">삭제</a>
             </li>
         {% endfor %}
@@ -55,6 +54,33 @@
 </html>
 
 <script>
+    const requestQuan = new XMLHttpRequest();
+    const onClickQuan = (id, quanType) => {
+        const url = "/cart/item-quan/" + id +"/";
+        requestQuan.open("POST", url, true)
+        requestQuan.setRequestHeader(
+            "Content-Type",
+            "application/x-www-form-urlencoded"
+        );
+        let data = {
+            id : id,
+            quanType : quanType,
+        }
+        requestQuan.send(JSON.stringify(data));
+    };
+
+    requestQuan.onreadystatechange = () => {
+        if (requestQuan.readyState === XMLHttpRequest.DONE) {
+            if (requestQuan.status < 400) {
+                const { id, menu, item } = JSON.parse(requestQuan.response);
+                const itemQuantity = document.querySelector(`.item_quantity-${id}`);
+                itemQuantity.textContent = `${item.quantity}`;
+            }
+        }
+    };
+
+
+    
     function incrementQuantity(itemId) {
         let inputElement = document.querySelector(`input[name="item_${itemId}"]`);
         let currentValue = parseInt(inputElement.value);

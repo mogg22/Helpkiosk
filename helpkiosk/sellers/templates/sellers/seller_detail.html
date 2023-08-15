@@ -90,7 +90,7 @@
         {% for category in categories %}
             {% for menu in category.menu_set.all %}
             <div class="menu-column">
-                <a href="{% url 'buyers:add_to_cart' menu.id market.pk %}">
+                <a href="{% url 'buyers:add_to_cart' menu.id %}">
                 {% if menu.img %}
                 <img class="menu-img" src="{{menu.img.url}}">
                 {% else %}
@@ -133,7 +133,7 @@
             </div>
             <div class="pay1 pay2">
                 <img class="pay-icon" src="{% static 'images/Vector.png' %}" alt="">
-                <a href="{% url 'buyers:cart' %}">결제하기</a>
+                {% comment %} <a href="{% url 'buyers:cart' %}">결제하기</a> {% endcomment %}
             <div>결제하기</div>
         </div>
     </div>
@@ -177,8 +177,7 @@
             })
         }
     
-        else 
-        {
+        else {
             //손님 버전
             let price_list = document.getElementsByClassName("price");
             

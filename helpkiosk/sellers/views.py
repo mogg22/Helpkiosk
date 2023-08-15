@@ -33,12 +33,8 @@ def seller_detail(request, pk, *args, **kwargs):
   market = get_object_or_404(Market, pk=pk)
   categories = MenuCategory.objects.filter(market=pk)
 
-  cart_list = Cart.objects.filter(user_id=request.user).annotate(
-    menu_img=F('menu_id__img'),
-    price=F('menu_id__price'), 
-    menu_nm=F('menu_id__name')
-  ).values('menu_img','price', 'quantity', 'menu_nm')
-  
+  cart_list = CartItem.objects.filter(cart__user=request.user)
+
   # total_price = request.session.get('total_price', 0)
 
   if is_market_owner(request.user, pk):

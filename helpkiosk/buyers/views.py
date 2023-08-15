@@ -224,13 +224,10 @@ def item_ajax(request, item_id, *args, **kwargs):
             item.quantity -= 1
 
     item.save()
-    print(item_id)
-    print(item.quantity)
 
     context = {
         'id' : item_id,
-        # 'menu' : menu,
-        'item' : item.quantity,
+        'ite' : item.quantity,
     }
     
     return JsonResponse(context)

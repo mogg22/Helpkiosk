@@ -203,7 +203,7 @@ def cart(request):
     # request.session['total_price'] = total_price
 
     context = {
-        'cart': cart,
+        'cart_items': cart_items,
         'total_price': total_price
     }
     return render(request, 'buyers/cart.html', context)

@@ -59,7 +59,7 @@
       {% endif %}
       <br><br>
       <label for="exp">메뉴 설명</label><br>
-      <textarea id="exp" name="exp" placeholder="메뉴에 대한 상세 설명을 작성해주세요">{{menu.exp}}</textarea><br>
+      <textarea id="exp" name="exp" width="390px" placeholder="메뉴에 대한 상세 설명을 작성해주세요">{{menu.exp}}</textarea><br>
       <div id="btn-div"> <input type="submit" id="btn2" name="btn2" value="수정"> </div>
     </form>
     <form method="POST" enctype="multipart/form-data" onsubmit="return validateOption()">
@@ -75,7 +75,7 @@
       <input type="text" id="option" name="option" placeholder="추가할 옵션을 입력해주세요"><br>
       <input type="text" id="option_price" name="option_price" placeholder="추가할 옵션의 가격을 입력해주세요"><br>
       <div id="btn3-div">
-        <input type="submit" id="btn3" name="btn3" value="옵션 추가">
+        <input type="submit" id="btn3" name="btn3" value="추가">
       </div>
     </form>
   </div>

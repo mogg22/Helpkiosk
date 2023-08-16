@@ -1,70 +1,99 @@
+{% load static %}
 {% load humanize %}
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>장바구니</title>
+    <link rel="stylesheet" href="{% static '/css/kiosk_order.css' %}">
 </head>
 <body>
-    <h1>장바구니</h1>
-    <form method="post" action="{% url 'buyers:payment' %}">
-        <label for="phone_number">제품을 픽업하실 분의 전화번호</label><br>
-        <input type="tel" name="phone_number" id="phone_number" placeholder="전화번호를 입력하세요" required>
-        {% for item in cart_items %}
-            <li class="item-{{item.pk}}">
-                {{ item.menu.name }}<br>
-                수량
-                {% comment %} <form method="POST" action="{% url 'buyers:update_cart' item.pk %}" onsubmit="return updateCart(this)">
-                    {% csrf_token %}
-                    <input type="number" name="item_{{ item.pk }}" value="{{ item.quantity }}" min="1">
-                    <button type="button" onclick="incrementQuantity('{{ item.pk }}')">+</button>
-                    <button type="button" onclick="decrementQuantity('{{ item.pk }}')">-</button>
-                </form> {% endcomment %}
-                <div class="item_quantity-{{item.pk}}">{{item.quantity}}</div>
-                <div onclick="onClickQuan({{item.pk}}, 'plus')">+</div>
-                <div onclick="onClickQuan({{item.pk}}, 'minus')">-</div>
-                <div class="total_price">가격 {{ item.total_price|intcomma }}원</div>
-                옵션:
-                <ul>
-                    {% for option in cart_item.menu.options_set.all %}
-                    <li>{{ option.name }} (+{{ option.price|intcomma }}원)</li>
-                    {% endfor %}
-                </ul>
-                <a href="{% url 'buyers:delete_cart_item' item.pk %}" class="delete-btn">삭제</a>
-            </li>
-        {% endfor %}
-        <p>결제금액<span> 총 {{total_price|intcomma}}원</span></p>
-        <label for="request_text">요청 사항</label><br>
-        <input type="text" name="request_text" id="request_text" placeholder="요청 사항을 적어주세요"><br>
-        <label>
-            <input type="radio" name="order_type" value="매장식사">
-            매장식사
-        </label>
-        <label>
-            <input type="radio" name="order_type" value="포장">
-            포장
-        </label>
-        <br>
-        <p>결제 수단</p>
-        <label>
-            <input type="radio" name="payment_method" value="카드결제">
-            카드결제
-        </label>
-        <label>
-            <input type="radio" name="payment_method" value="카카오페이">
-            카카오페이
-        </label>
-        <label>
-            <input type="radio" name="payment_method" value="픽업시 결제">
-            픽업시 결제
-        </label>
-        <br>
+    <article>
+        <nav>
+            <div class="text21"><a href="#">&lt</a></div> {% comment %} 다시 seller_detail 페이지로 이동해야 돼요{% endcomment %}
+            <div class="text22"> SSOCK </div>
+            <div></div>
+        </nav>
+        <form method="post" action="{% url 'buyers:payment' %}">
+            <div class="section">
+                <div class="subtitle">제품을 픽업하실 분의 전화번호</div>
+                <div class="detail">
+                    <input type="tel" name="phone_number" id="phone_number" placeholder="전화번호를 입력하세요" required>
+                </div>
+            </div>
+                <li class="item-{{item.pk}}">
+                    <div class="section">
+                        <div class="subtitle">주문 메뉴</div>
+                        {% for item in cart_items %}
+                        <div class="detail-column">
+                            <div class="detail-row">
+                                <div class="detail-tt">{{ item.menu.name }}</div>
+                                <div class="cancel"><a href="{% url 'buyers:delete_cart_item' item.pk %}" class="delete-btn">삭제</a></div>
+                            </div>
+                            <div class="detail-row2">
+                                <div class="gap">
+                                    <div class="minus" onclick="onClickQuan({{item.pk}}, 'minus')">-</div>
+                                    <div class="item_quantity-{{item.pk}}" id="Mcount">{{item.quantity}}</div>
+                                    <div class="plus" onclick="onClickQuan({{item.pk}}, 'plus')">+</div>
+                                </div>
+                                <div>가격</div>
+                                <div class="total_price">{{ item.total_price|intcomma }}원</div>
+                            </div>
+                            <div class="detail-row3">
+                                <div>옵션</div>
+                                <ul>
+                                    {% for option in cart_item.menu.options_set.all %}
+                                    <li>{{ option.name }} (+{{ option.price|intcomma }}원)</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </li>
+    
+            <div class="subtitle">결제금액</div>
+            <div class="right">총 {{total_price|intcomma}}원</div>
+            
+            <div class="section">   
+                <div class="subtitle">요청 사항</div>
+                <div class="detail">
+                    <input type="text" name="request_text" id="request_text" placeholder="요청 사항을 적어주세요">
+                </div>
+            </div>
+            <div class="section">   
+                <div class="subtitle">픽업 형태</div>
+                <div class="detail-pick">
+                    <label>
+                        <input type="radio" name="order_type" value="매장식사">
+                        매장식사
+                    </label>
+                    <label>
+                        <input type="radio" name="order_type" value="포장">
+                        포장
+                    </label>
+                </div>
+            </div>
+            <div class="section">
+                <div class="subtitle">결제 수단</div>
+                <div class="detail-row">
+                    <div class="pay-type">카드결제</div>
+                    <div class="pay-type">카카오페이</div>
+                    <div class="pay-type">픽업시 결제<div id="mini">회원만 가능</div></div>
+                </div>
+            </div>
             {% csrf_token %}
-            <input type="hidden" name="total_price" value="{{ total_price }}">
-            <input type="submit" value="결제">
-    </form>
-        {% comment %} <input type="submit" value="결제">
-        <button type="button" onclick="proceedToPayment()">결제</button> {% endcomment %}
-        {% comment %} 결제수단이랑 proceedToPayment는 일단 예시 {% endcomment %}
+            <div>
+                <input type="hidden" name="total_price" value="{{ total_price }}">
+                <input type="submit" class="detail-bt" value="결제">
+            </div>    
+        </form>
+            {% comment %} <input type="submit" value="결제">
+            <button type="button" onclick="proceedToPayment()">결제</button> {% endcomment %}
+            {% comment %} 결제수단이랑 proceedToPayment는 일단 예시 {% endcomment %}
+    </article>
 </body>
 </html>
 
@@ -96,4 +125,13 @@
         }
     };
 
+    const elOrder = document.querySelectorAll('.pay-type');
+    elOrder.forEach(function(v,i){
+        v.onclick = function(){
+            elOrder.forEach(function(a,b){
+                a.classList.remove('active');
+            })
+            v.classList.add('active');
+        }
+    });
 </script>

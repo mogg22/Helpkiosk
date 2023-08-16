@@ -178,11 +178,6 @@
                     elMenu[i].classList.add("active");
                 }
             })
-            elMenus.forEach(function(v,i){
-                v.onclick = function(){
-                    location.href='사장님 메뉴 수정 페이지'
-                }
-            })
         }
     
         else {
@@ -200,7 +195,7 @@
             document.getElementById("total_price").innerHTML = "₩ " + total_price;
 
             //유빈언니가 쓴 JS
-            const modal = document.getElementById("modal")
+            /*const modal = document.getElementById("modal")
 
             function modalOn() {
                 modal.style.display = "flex"
@@ -236,27 +231,33 @@
                 if(isModalOn() && e.key === "Escape") {
                     modalOff()
                 }
-            })
+            })*/
             const elCategory = document.querySelectorAll(".store-category-s");
             const elMenu = document.querySelectorAll(".menu-row");
             const elMenus = document.querySelectorAll(".menu-column"),
             elBlank = document.querySelectorAll(".menu_blank"),
             elPay = document.querySelector(".pay2"),
-            elCancle = document.querySelector('.pay1-3');
-            chooseP = document.querySelectorAll('.content-d');
+            elCancle = document.querySelector('.pay1-3'),
+            pay_icon = document.querySelectorAll(".pay-icon");
+           // chooseP = document.querySelectorAll('.content-d');
 
-            chooseP.forEach(function(v,i){
+            /*chooseP.forEach(function(v,i){
                 v.onclick = function(){
                     chooseP.forEach(function(a,b){
                         a.classList.remove('active');
                     })
                     v.classList.add('active');
                 }
-            });
+            });*/
 
             elPay.onclick = function(){
                 location.href='{% url 'buyers:cart' %}'
             }
+
+            pay_icon.onclick = function(){
+                location.href='{% url 'buyers:cart' %}'
+            }
+            
             elCategory.forEach(function(v,i){
                 v.onclick = function(){
                     elCategory.forEach(function(a,b){
@@ -271,7 +272,7 @@
             })
             elMenus.forEach(function(v,i){
                 v.onclick = function(){
-                    location.href='cart.html 페이지'
+                    location.href='{% url 'buyers:cart' %}'
                 }
             })
 

@@ -73,6 +73,8 @@
         if (requestQuan.readyState === XMLHttpRequest.DONE) {
             if (requestQuan.status < 400) {
                 const { id, item } = JSON.parse(requestQuan.response);
+                console.log(id)
+                console.log(item)
                 const itemQuantity = document.querySelector(`.item_quantity-${id}`);
                 itemQuantity.textContent = item;
             }

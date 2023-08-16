@@ -227,7 +227,7 @@ def item_ajax(request, item_id, *args, **kwargs):
 
     context = {
         'id' : item_id,
-        'ite' : item.quantity,
+        'item' : item.quantity,
     }
     
     return JsonResponse(context)

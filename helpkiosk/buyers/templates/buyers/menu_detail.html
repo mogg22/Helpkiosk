@@ -10,43 +10,43 @@
     <link rel="stylesheet" href="{% static 'css/kiosk_menu.css' %}"></head>
 <body>
     <article>
-        {% if menu.img %}
-        <img class="main-img" src="{{menu.img.url}}">
-        {% else %}
-        이미지 준비중
-        {% endif %}
-        <div>
-            <div class="subtitle">{{ menu.name }}</div>
-            <div>{{ menu.exp }}</div>
-        </div>
-        <div class="section" id="price">
-            <span class="subtitle" id="price-title">가격</span>
-            <span id="price-detail">{{ menu.price }}원</span>
-
-            <div class="detail">
-                <div class="detail-row">
-                    {% comment %} {% if options %} {% endcomment %}
-                        <h2>옵션</h2>
-                    {% comment %} {% endif %} {% endcomment %}
-                    {% comment %} <label for="cl"><input type="checkbox" name="cl" id="cl" checked> 3인분 같은 2인분</label> {% endcomment %}
-                    {% comment %} <div>{{ menu.price }}원</div> {% endcomment %}
-                </div>
-                {% for option in menu.option_set.all %}  
-                <div class="detail-row">
-                    <label for="cl"><input type="checkbox" name="options" value="{{option.pk}}" id="cl" > {{ option.name }}</label>
-                    <div>+{{ option.price }}원</div>
-                </div>
-                {% endfor %}
+        <form method="post" action="{% url 'buyers:add_to_cart' menu.id %}">
+            {% if menu.img %}
+            <img class="main-img" src="{{menu.img.url}}">
+            {% else %}
+            이미지 준비중
+            {% endif %}
+            <div>
+                <div class="subtitle">{{ menu.name }}</div>
+                <div>{{ menu.exp }}</div>
             </div>
-        </div>
-        <br>
-    <form method="post" action="{% url 'buyers:add_to_cart' menu.id %}">
-        {% csrf_token %}
-        {% comment %} 수량 입력하는 부분 html에서 어떻게 수정해야하는지 모르겠네요 {% endcomment %}
-        <input type="number" value="1" name="quantity" min="1">
-        <br>
-        <input type="submit" class="detail-bt" value="주문 목록에 추가">
-    </form>
+            <div class="section" id="price">
+                <span class="subtitle" id="price-title">가격</span>
+                <span id="price-detail">{{ menu.price }}원</span>
+
+                <div class="detail">
+                    <div class="detail-row">
+                        {% comment %} {% if options %} {% endcomment %}
+                            <h2>옵션</h2>
+                        {% comment %} {% endif %} {% endcomment %}
+                        {% comment %} <label for="cl"><input type="checkbox" name="cl" id="cl" checked> 3인분 같은 2인분</label> {% endcomment %}
+                        {% comment %} <div>{{ menu.price }}원</div> {% endcomment %}
+                    </div>
+                    {% for option in menu.option_set.all %}  
+                    <div class="detail-row">
+                        <label for="cl"><input type="checkbox" name="options" value="{{option.pk}}" id="cl" > {{ option.name }}</label>
+                        <div>+{{ option.price }}원</div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <br>
+            {% csrf_token %}
+            {% comment %} 수량 입력하는 부분 html에서 어떻게 수정해야하는지 모르겠네요 {% endcomment %}
+            <input type="number" value="1" name="quantity" min="1">
+            <br>
+            <input type="submit" class="detail-bt" value="주문 목록에 추가">
+        </form>
     
     {% comment %} 
         <div class="section">

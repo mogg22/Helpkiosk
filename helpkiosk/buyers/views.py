@@ -80,6 +80,7 @@ def cart(request):
             if data.options.exists():
                 option_total_price = sum(option.price for option in data.options.all())
                 data.total_price = (data.menu.price * data.quantity) + option_total_price
+                total_price += data.total_price
             else:
                 data.total_price = data.menu.price * data.quantity
                 total_price += data.total_price

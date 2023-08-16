@@ -20,36 +20,40 @@
   {% else %}
     {{user.profile.nickname}}님
     <h3>현재주문내역</h3>
-      {% for payment in payments %}
+      {% comment %} {% for payment in payments %} {% endcomment %}
         {% if payments %}
-          <p>주문한 가게 이름: 
-            {% comment %} <a href="{% url 'buyers/payment.html' %}"> {% endcomment %}
-              <img src="{{ payment.cart.market.register.logo.url }}"><br>
-              {{ payment.cart.market.register.name }}<br>
-            {% comment %} </a> {% endcomment %}
-            주문 일시 {{payment.date}}</p>
-          <p>카트에 담았던 주문 메뉴
-              <ul>
-                  {% for cart_item in payment.cart.cartitem_set.all %}
-                        {{ cart_item.menu.name }}
-                        {% if not forloop.last %} + {% endif %}
-                        {% comment %} <li>
-                          {{ cart_item.menu.name }}
-                        </li> {% endcomment %}
-                        {% comment %} {{ cart_item.menu.name|truncatechars:10 }} {% endcomment %}
-                  {% endfor %}
-              </ul>
-          </p>
-          <p>결제 금액: 총 {{ payment.total_amount|intcomma }}원</p>
-          {% comment %} 너왜소수점까지나오는? {% endcomment %}
+          {% comment %} {% with payment=payments.0 %} {% endcomment %}
+          {% with latest_payment=payments.last %}
+            {% if latest_payment %}
+              <p>주문한 가게 이름: 
+                {% comment %} <a href="{% url 'buyers/payment.html' %}"> {% endcomment %}
+                  <img src="{{ latest_payment.cart.market.register.logo.url }}"><br>
+                  {{ latest_payment.cart.market.register.name }}<br>
+                {% comment %} </a> {% endcomment %}
+                주문 일시 {{latest_payment.date}}</p>
+              <p>카트에 담았던 주문 메뉴
+                  <ul>
+                      {% for cart_item in latest_payment.cart.cartitem_set.all %}
+                            {{ cart_item.menu.name }}
+                            {% if not forloop.last %} + {% endif %}
+                            {% comment %} <li>
+                              {{ cart_item.menu.name }}
+                            </li> {% endcomment %}
+                            {% comment %} {{ cart_item.menu.name|truncatechars:10 }} {% endcomment %}
+                      {% endfor %}
+                  </ul>
+              </p>
+              <p>결제 금액: 총 {{ latest_payment.total_amount|floatformat:0|intcomma }}원</p>
+              {% comment %} 너왜소수점까지나오는? {% endcomment %}
+              {% endif %}
+          {% endwith %}
+          {% else %}
+            <p>주문 내역이 없습니다.</p>
         {% endif %}
-        {% empty %}
-        <p>주문 내역이 없습니다.</p>
-      {% endfor %}
-    <div>
+          <div>
     <h3>최근주문내역</h3>
     {% comment %} 이전 코드 {% endcomment %}
-    {% for payment in payments %}    
+    {% for payment in payments reversed %}    
     {% if payment.cart.market %}
         <p>{{ payment.cart.market.register.name }}</p>
         <img src="{{ payment.cart.market.register.logo.url }}">

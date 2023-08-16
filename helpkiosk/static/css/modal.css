@@ -57,6 +57,11 @@
     text-align: center;
 }
 
+#modal .content-d.active{
+    background-color:#EA4C4C;
+    color: #fff;
+}
+
 #modal .modal-sound {
    width: 90%;
    margin: 30px auto;

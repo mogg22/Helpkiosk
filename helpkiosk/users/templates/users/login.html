@@ -1,20 +1,37 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <link rel="stylesheet" href="{% static '/css/login.css' %}">
+  <title>login</title>
 </head>
 <body>
-  <form method="POST">
-    {% csrf_token %}
-    <input type="text" name="username">
-    <input type="password" name="password">
-    <input type="submit" value="로그인">
-    {% if error %}
-    {{ error }}
-    {% endif %}
-  </form>
-  <a href="{% url 'users:signup' %}">회원가입</a>
+  <div id="container">
+    <section>
+        <div class="box">
+            <img src = "{% static '/images/logo.png' %}" alt="Logo 이미지 파일은 바뀔 예정"> 
+        </div>
+      </section>
+      <form method="POST">
+        {% csrf_token %}
+        <div class="id_ps_wrap">
+          <input type="text" name="username" class="input_id" placeholder="아이디를 입력해주세요">
+          <input type="password" name="password" class="input_ps" placeholder="비밀번호를 입력해주세요">
+          <input type="submit" value="로그인" class="login_btn">
+        </div>
+        {% if error %}
+        {{ error }}
+        {% endif %}
+      </form>
+      <section>
+        <div class="signup_wrap"> 
+            <div class="text1">회원으로 가입하시겠습니까?</div>
+            <div class="signup_btn"><a href="{% url 'users:signup' %}"> 회원가입 </a></div>
+        </div>
+      </section>
+  </div>
+  
 </body>
 </html>

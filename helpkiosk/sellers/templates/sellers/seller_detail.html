@@ -12,6 +12,11 @@
 </head>
 
 <body>
+    <nav>
+        <div class="text21"><a href="#">&lt</a></div> {% comment %} 다시 seller_detail 페이지로 이동해야 돼요{% endcomment %}
+        <div class="text22"> SSOCK </div>
+        <div></div>
+    </nav>
   {% if owner %}
   <article>
       <div class="store-name">{{ market.register.name }}</div>
@@ -20,7 +25,7 @@
       <div>
           <ul class="store-category">
               {% for category in categories %}
-              <li class="store-category-s">{{ category.category }}</li>  {% comment %} 첫번째 항목만 class 명 다르게 하는거 알아보기 {% endcomment %}
+              <li class="store-category-s">{{ category.category }}</li>
               {% endfor %}
           </ul>
       </div>
@@ -59,7 +64,7 @@
 
   {% else %}
   <article>
-    <div id="modal" class="modal-overlay">
+    {% comment %} <div id="modal" class="modal-overlay">
         <div class="modal-window">
             <div class="close-area">X</div>
             <div class="title">
@@ -73,7 +78,7 @@
             <div class="modal-sound">모바일 키오스크 음성 도움이 <br>필요하신 분은 여기를 터치해주세요.</div>
         </div>
         <div class="modal-order">주문하기</div>
-    </div>
+    </div> {% endcomment %}
 
     <div class="store-name">{{ market.register.name }}</div>
     <img class="main-img" src="{{market.register.logo.url}}" alt="">
@@ -137,8 +142,7 @@
             </div>
             <div class="pay1 pay2">
                 <img class="pay-icon" src="{% static 'images/Vector.png' %}" alt="">
-                <a href="{% url 'buyers:cart' %}">결제하기</a>
-            <div>결제하기</div>
+            <div><a href="{% url 'buyers:cart' %}" id="pay">결제하기</a></div>
         </div>
     </div>
 </article>

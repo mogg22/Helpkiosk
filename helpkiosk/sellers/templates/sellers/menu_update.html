@@ -9,31 +9,30 @@
   <title>Document</title>
 </head>
 <body>
-  {% if menu.img %}
-  <img src="{{ menu.img.url }}" alt="이미지">
-  {% else %}
-    <p>이미지 없음</p>
-  {% endif %}
   <div id="container">
+    <nav>
+      <div class="text21"><a href="#">&lt</a></div> {% comment %} 다시 seller_detail 페이지로 이동해야 돼요{% endcomment %}
+      <div class="text22"> SSOCK </div>
+      <div></div>
+    </nav>
     <div id="store">
       <img src="{% static 'images/heart.png' %}" id="heart">
       {{market.register.name}} > {{market.register.representative}} 사장님  {% comment %}수정했는데도 안불러와지네요..쩝 {% endcomment %}
     </div>
-    <p>카테고리 추가</p>
+    <div id="menu-img">
+      {% if menu.img %}
+        <img src="{{ menu.img.url }}" alt="이미지" width="390px" height="172px">
+      {% else %}
+        <p>이미지 없음</p>
+      {% endif %}
+    </div>
+    {% comment %} <p>카테고리 추가</p>
     <form method="POST" id="category_create" enctype="multipart/form-data" onsubmit="return validateCategory()">
       {% csrf_token %}
-      {% comment %} <label for="category">Category:</label> {% endcomment %}
       <input type="text" id="category1" name="category1" placeholder="추가할 카테고리 명을 입력해주세요"><br>
       <input type="submit" id="btn1" name="btn1" value="추가">
-      {% comment %} 
-      {% for category in categories %}
-      {{category}}
-      {% empty %}
-      카테고리를 등록하세요
-      {% endfor %}
-      {% endcomment %}
-    </form>
-    <p>메뉴 추가</p>
+    </form> {% endcomment %}
+    <p>메뉴 수정</p>
     <form method="POST" enctype="multipart/form-data" onsubmit="return validateMenu()">
       {% csrf_token %}
       <label for="category">카테고리</label>
@@ -61,23 +60,25 @@
       <br><br>
       <label for="exp">메뉴 설명</label><br>
       <textarea id="exp" name="exp" placeholder="메뉴에 대한 상세 설명을 작성해주세요">{{menu.exp}}</textarea><br>
-      <div id="btn-div"> <input type="submit" id="btn2" name="btn2" value="추가"> </div>
+      <div id="btn-div"> <input type="submit" id="btn2" name="btn2" value="수정"> </div>
+    </form>
+    <form method="POST" enctype="multipart/form-data" onsubmit="return validateOption()">
+      <p>추가 옵션</p>
+      {% csrf_token %}
+      <div id="saved-option">
+        {% for option in options %}
+        {{option.name}} - {{option.price}}원
+        {% empty %}
+        옵션을 등록하세요
+        {% endfor %}
+      </div>
+      <input type="text" id="option" name="option" placeholder="추가할 옵션을 입력해주세요"><br>
+      <input type="text" id="option_price" name="option_price" placeholder="추가할 옵션의 가격을 입력해주세요"><br>
+      <div id="btn3-div">
+        <input type="submit" id="btn3" name="btn3" value="옵션 추가">
+      </div>
     </form>
   </div>
-  <form method="POST" enctype="multipart/form-data" onsubmit="return validateOption()">
-    {% csrf_token %}
-    <input type="text" id="option" name="option" placeholder="추가할 옵션을 입력해주세요"><br>
-    <input type="text" id="option_price" name="option_price" placeholder="추가할 옵션의 가격을 입력해주세요"><br>
-    <input type="submit" id="btn3" name="btn3" value="옵션 추가">
-  </form>
-  <div>
-    {% for option in options %}
-    {{option.name}} - {{option.price}}원
-    {% empty %}
-    옵션을 등록하세요
-    {% endfor %}
-  </div>
-
 
   <script>
     function validateCategory() {

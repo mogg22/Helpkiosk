@@ -11,10 +11,16 @@
     box-sizing: border-box;
 }
 
-body {
+#container {
+    width: 342px;
+    margin: 0 auto;
+    position: relative;
+}
+
+/* body {
     width: 390px;
     height: 844px;
-}
+} */
 
 /* 맨 위 */
 nav {
@@ -88,6 +94,10 @@ section {
     color: white; 
     text-decoration: none; 
     font-size:12px;
+}
+
+#seller {
+    margin-left: 10px;
 }
 
 /*주소*/

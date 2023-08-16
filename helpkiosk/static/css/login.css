@@ -9,12 +9,18 @@
     font-family: 'Pretendard';
 }
 
-body {
+#container {
+    width: 342px;
+    margin: 0 auto;
+    position: relative;
+}
+
+/* body {
     width: 390px;
     height:844px;
     margin: 0;
     padding: 0;
-}
+} */
 
 .box {
     display: flex;
@@ -95,7 +101,7 @@ body {
     background-color: #EA4C4C;
     color: white;
     border: none;
-    border-radius: 10px;
+    border-radius: 30px;
     cursor: pointer;
     text-align: center;
     text-decoration: none;

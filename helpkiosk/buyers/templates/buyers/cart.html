@@ -51,7 +51,7 @@
                         <div class="detail-row3">
                             <div>옵션</div>
                             <ul>
-                                {% for option in cart_item.menu.options_set.all %}
+                                {% for option in item.options.all %}
                                 <li>{{ option.name }} (+{{ option.price|intcomma }}원)</li>
                                 {% endfor %}
                             </ul>
@@ -130,6 +130,8 @@
         if (requestQuan.readyState === XMLHttpRequest.DONE) {
             if (requestQuan.status < 400) {
                 const { id, item } = JSON.parse(requestQuan.response);
+                console.log(id)
+                console.log(item)
                 const itemQuantity = document.querySelector(`.item_quantity-${id}`);
                 itemQuantity.textContent = item;
             }

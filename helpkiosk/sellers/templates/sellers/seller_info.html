@@ -4,37 +4,48 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" />
+  <link rel="stylesheet" href="{% static 'css/seller_info.css' %}">
+  <title>매장 정보 수정</title>
 </head>
 <body>
-  <div id="store">
-    <img src="{% static 'images/heart.png' %}" id="heart">
-    {{market.register.name}} > {{market.register.representative}} 사장님
-  </div>
-  <p>운영정보관리</p>
-  <div>
-    <p>운영정보확인</p>
-    <p>운영시간</p>
-    {{market.time}}
-    <p>정기휴무</p>
-    {% if market.close %}
-    {{market.close}}
-    {% else %}
-    등록된 정보가 없습니다.
-    {% endif %}
-  </div>
-  <div>
-    <p>운영정보수정</p>
-    <form method="POST">
-      {% csrf_token %}
-      <input type="text" name="time" value={{market.time}}>
-      {% if market.close %}
-      <input type="text" name="close" value={{market.close}}>
-      {% else %}
-      <input type="text" name="close" placeholder="정기휴무를 입력하세요" >
-      {% endif %}
-      <input type="submit" id="btn" value="운영정보수정">
-    </form>
+  <div id="container">
+    <nav>
+      <div class="text21"><a href="#">&lt</a></div> {% comment %} 다시 seller_detail 페이지로 이동해야 돼요{% endcomment %}
+      <div class="text22"> SSOCK </div>
+      <div></div>
+    </nav>
+    <div id="store">
+      <img src="{% static 'images/heart.png' %}" id="heart">
+      {{market.register.name}} > {{market.register.representative}} 사장님
+    </div>
+    <section>
+      <h3>운영 정보 확인</h3>
+      <div id="time-div"><span>운영 시간</span><span>{{market.time}}</span></div>
+      <div id="time-div">
+        <span>정기 휴무</span>
+        <span>
+          {% if market.close %}
+          {{market.close}}
+          {% else %}
+          등록된 정보가 없습니다.
+          {% endif %}
+        </span>
+      </div>
+    </section>
+    <section>
+      <h3>운영 정보 수정</h3>
+      <form method="POST">
+        {% csrf_token %}
+        <input type="text" name="time" value={{market.time}}>
+        {% if market.close %}
+        <input type="text" name="close" value={{market.close}}>
+        {% else %}
+        <input type="text" name="close" placeholder="정기휴무를 입력하세요" >
+        {% endif %}
+        <div id="btn-div"><input type="submit" id="btn" value="수정"></div>
+      </form>
+    </section>
   </div>
 </body>
 </html>

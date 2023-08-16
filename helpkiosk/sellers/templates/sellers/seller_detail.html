@@ -110,7 +110,7 @@
                 {% for cart in cart_list %}
                     {% comment %} {% if cart.cart_list %} {% endcomment %}
                     {% comment %} 수정 {% endcomment %}
-                    {{ cart.menu.name }} 
+                    {% comment %} {{ cart.menu.name }}  {% endcomment %}
                     {% if cart.menu.img %}
                     <img src="{{ cart.menu.img.url }}" class="menu_blank" alt="Menu Image">
                     {% else %}
@@ -137,7 +137,7 @@
             </div>
             <div class="pay1 pay2">
                 <img class="pay-icon" src="{% static 'images/Vector.png' %}" alt="">
-                {% comment %} <a href="{% url 'buyers:cart' %}">결제하기</a> {% endcomment %}
+                <a href="{% url 'buyers:cart' %}">결제하기</a>
             <div>결제하기</div>
         </div>
     </div>

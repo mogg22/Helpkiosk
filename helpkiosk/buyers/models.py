@@ -10,6 +10,9 @@ class Cart(models.Model):
     
     def get_total_price(self):
         return self.menu.price * self.quantity
+    
+    def __str__(self):
+        return f"Cart for {self.user.username}"
 
     # def save(self, *args, **kwargs):
     #     if self.menu:
@@ -31,6 +34,9 @@ class CartItem(models.Model):
 
     def total_price(self):
         return self.menu.price * self.quantity
+    
+    def __str__(self):
+        return f"Item: {self.menu.name} (Qty: {self.quantity})"
 
 class Payment(models.Model):
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE, default="")
@@ -39,6 +45,7 @@ class Payment(models.Model):
     need = models.TextField(null=True, blank=True)
     payment_method = models.CharField(max_length=100, default="픽업시 결제")
     phone_number = models.CharField(max_length=20, default="010-1234-5678")
+    order_type = models.CharField(max_length=10, default="매장식사")
 
     # def __str__(self):
     #     return f"Payment for Cart {self.cart.id}"

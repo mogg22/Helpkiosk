@@ -1,25 +1,79 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <link href="{%static '/css/signup.css'%}" rel="stylesheet"/>
+  <title>signup</title>
 </head>
 <body>
-  <form method="POST">
-    {% csrf_token %}
-    <input name="username" type="text" placeholder="ID">
-    <br>
-    비밀번호<br>
-    <input name="password1" type="password" placeholder="PW">
-    <br>
-    비밀번호 확인<br>
-    <input name="password2" type="password" placeholder="PW CHECK">
-    <br>
-    {% if error %}
-      {{error}}
-    {% endif %}
-    <input type="submit" value="회원가입하기">
-  </form>
+  <div id="container">
+    <nav>
+      <div class="text21"><a href="{% url 'users:login' %}">&lt</a></div>
+      <div class="text22"> 회원가입 </div>
+      <div></div>
+    </nav>
+    <section>
+      <div class="text_wrap">
+          <div>
+            성명
+          </div>
+          <div class="star">  
+            *
+          </div>
+      </div>
+      <div>
+          <input type="text" class="input_name" placeholder="이름을 입력해주세요"> 
+      </div>
+    </section>
+    <form method="POST">
+      {% csrf_token %}
+      <section>
+        <div class="text_wrap">
+            <div>
+                아이디
+            </div>
+            <div class="star">  
+                *
+            </div>
+        </div>
+        <div class="text_wrap">
+            <input name="username" type="text" class="input_id" placeholder="아이디를 입력해주세요">
+            {% comment %} <button class="id_btn"><a href="#">중복확인</a></button> {% endcomment %}
+        </div>
+    </section>
+    <section>
+        <div class="text_wrap">
+            <div>
+                비밀번호
+            </div>
+            <div class="star">  
+                *
+            </div>
+        </div>
+        <div>
+            <input name="password1" type="password" class="input_pw" placeholder="숫자, 영문 조합 최소 8자">
+    </section>
+    <section>
+        <div class="text_wrap">
+            <div>
+                비밀번호 확인
+            </div>
+            <div class="star">  
+                *
+            </div>
+        </div>
+        <div>
+            <input name="password2" type="password" class="input_pw" placeholder="비밀번호 재입력">
+    </section>
+      {% if error %}
+        {{error}}
+      {% endif %}
+      <section>
+        <input type="submit" class="signup_btn" value="회원가입하기">
+      </section>
+    </form>
+  </div>
 </body>
 </html>

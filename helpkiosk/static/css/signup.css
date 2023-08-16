@@ -11,10 +11,16 @@
     box-sizing: border-box;
 }
 
-body {
+#container {
+    width: 342px;
+    margin: 0 auto;
+    position: relative;
+}
+
+/* body {
     width: 390px;
     height: 844px;
-}
+} */
 
 /* 맨 위 */
 nav {
@@ -63,7 +69,7 @@ section {
 
 /*아이디*/
 .input_id{
-    width: 80%;
+    width: 100%;
     padding: 7px;
     border: 1px solid #ccc;
     border-radius: 5px;

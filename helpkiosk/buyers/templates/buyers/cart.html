@@ -6,6 +6,7 @@
 </head>
 <body>
     <h1>장바구니</h1>
+    <form method="post" action="{% url 'buyers:payment' %}">
         <label for="phone_number">제품을 픽업하실 분의 전화번호</label><br>
         <input type="tel" name="phone_number" id="phone_number" placeholder="전화번호를 입력하세요" required>
         {% for item in cart_items %}
@@ -22,12 +23,27 @@
                 <div onclick="onClickQuan({{item.pk}}, 'plus')">+</div>
                 <div onclick="onClickQuan({{item.pk}}, 'minus')">-</div>
                 <div class="total_price">가격 {{ item.total_price|intcomma }}원</div>
+                옵션:
+                <ul>
+                    {% for option in cart_item.menu.options_set.all %}
+                    <li>{{ option.name }} (+{{ option.price|intcomma }}원)</li>
+                    {% endfor %}
+                </ul>
                 <a href="{% url 'buyers:delete_cart_item' item.pk %}" class="delete-btn">삭제</a>
             </li>
         {% endfor %}
         <p>결제금액<span> 총 {{total_price|intcomma}}원</span></p>
         <label for="request_text">요청 사항</label><br>
-        <input type="text" name="request_text" id="request_text" placeholder="요청 사항을 적어주세요">
+        <input type="text" name="request_text" id="request_text" placeholder="요청 사항을 적어주세요"><br>
+        <label>
+            <input type="radio" name="order_type" value="매장식사">
+            매장식사
+        </label>
+        <label>
+            <input type="radio" name="order_type" value="포장">
+            포장
+        </label>
+        <br>
         <p>결제 수단</p>
         <label>
             <input type="radio" name="payment_method" value="카드결제">
@@ -42,11 +58,10 @@
             픽업시 결제
         </label>
         <br>
-        <form method="post" action="{% url 'buyers:payment' %}">
             {% csrf_token %}
             <input type="hidden" name="total_price" value="{{ total_price }}">
             <input type="submit" value="결제">
-        </form>
+    </form>
         {% comment %} <input type="submit" value="결제">
         <button type="button" onclick="proceedToPayment()">결제</button> {% endcomment %}
         {% comment %} 결제수단이랑 proceedToPayment는 일단 예시 {% endcomment %}
@@ -73,32 +88,12 @@
         if (requestQuan.readyState === XMLHttpRequest.DONE) {
             if (requestQuan.status < 400) {
                 const { id, item } = JSON.parse(requestQuan.response);
+                console.log(id)
+                console.log(item)
                 const itemQuantity = document.querySelector(`.item_quantity-${id}`);
                 itemQuantity.textContent = item;
             }
         }
     };
 
-
-    
-    function incrementQuantity(itemId) {
-        let inputElement = document.querySelector(`input[name="item_${itemId}"]`);
-        let currentValue = parseInt(inputElement.value);
-        inputElement.value = currentValue + 1;
-        inputElement.form.submit();
-    }
-
-    function decrementQuantity(itemId) {
-        let inputElement = document.querySelector(`input[name="item_${itemId}"]`);
-        let currentValue = parseInt(inputElement.value);
-        if (currentValue > 1) {
-            inputElement.value = currentValue - 1;
-            inputElement.form.submit();
-        }
-    }
-
-    function updateCart(form) {
-        // 서버로 폼 제출
-        return true;
-    }
 </script>

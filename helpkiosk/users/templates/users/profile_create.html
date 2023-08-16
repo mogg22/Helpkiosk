@@ -1,26 +1,67 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <link href="{%static '/css/signup2.css'%}" rel="stylesheet"/>
+  <title>profile_create</title>
 </head>
 <body>
-  <form method="post">
-    {% csrf_token %}
-    <label for="nickname">닉네임:</label>
-    <input type="text" id="nickname" name="nickname" required><br>
-    
-    <label for="number">전화번호:</label>
-    <input type="text" id="number" name="number" required><br>
-    
-    <label for="seller">판매자 등록:</label>
-    <input type="checkbox" id="seller" name="seller"><br>
-    
-    <input type="submit" value="정보 저장">
-    {% if error %}
-    {{ error }}
-    {% endif %}
-  </form>
+  <div id="container">
+    <nav>
+      <div class="text21"><a href="#">&lt</a></div> {% comment %} 이거 클릭하면 어디로 이동해야하는 걸까요 {% endcomment %}
+      <div class="text22"> 개인 정보 등록 </div>
+      <div></div>
+    </nav>
+    <form method="post">
+      {% csrf_token %}
+      <section>
+        <div class="text_wrap">
+            <div>
+                닉네임
+            </div>
+            <div class="star">  
+                *
+            </div>
+        </div>
+        <div class="text_wrap">
+            <input type="text" id="nickname" name="nickname" class="input_nick" placeholder="닉네임을 입력해주세요 (한글/영어/숫자)" required>
+            {% comment %} <button class="nick_btn"><a href="#">중복확인</a></button> {% endcomment %}
+        </div>
+    </section>
+    <section>
+        <div class="text_wrap">
+            <div>
+                전화번호
+            </div>
+            <div class="star">  
+                *
+            </div>
+        </div>
+        <div>
+            <input type="text" id="number" name="number" class="input_number" placeholder="전화번호를 숫자만 입력해주세요" required>
+        </div>
+    </section>
+    <section>
+      <div class="text_wrap">
+          <div>
+            판매자 등록
+            <input type="checkbox" id="seller" name="seller">
+          </div>
+      </div>
+    </section>
+    <section>
+        <input type="submit" value="정보 저장" class="signup_btn" value="등록하기">
+    </section>
+      {% if error %}
+      {{ error }}
+      {% endif %}
+    </form>
+    <section>
+      <div class="text31"><a href="#">다음에 등록하기</a></div> {% comment %} 이거 클릭하면 어디로 이동해야하는 걸까요 {% endcomment %}
+      <div class="text32"> 마이페이지에서 등록 및 수정이 가능합니다.</div>
+    </section>
+  </div>
 </body>
 </html>

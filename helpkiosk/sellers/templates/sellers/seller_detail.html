@@ -14,6 +14,11 @@
 </head>
 
 <body>
+    <nav>
+        <div class="text21"><a href="#">&lt</a></div> {% comment %} 다시 seller_detail 페이지로 이동해야 돼요{% endcomment %}
+        <div class="text22"> SSOCK </div>
+        <div></div>
+    </nav>
   {% if owner %}
   <article>
     <div class="store-name">{{ market.register.name }}</div>
@@ -73,7 +78,7 @@
   {% else %}
   <button class="stt-button" onclick="sendSpeech();">STT 버튼</button>
   <article>
-    <div id="modal" class="modal-overlay">
+    {% comment %} <div id="modal" class="modal-overlay">
         <div class="modal-window">
             <div class="close-area">X</div>
             <div class="title">
@@ -87,7 +92,7 @@
             <div class="modal-sound">모바일 키오스크 음성 도움이 <br>필요하신 분은 여기를 터치해주세요.</div>
         </div>
         <div class="modal-order">주문하기</div>
-    </div>
+    </div> {% endcomment %}
 
     <div class="store-name">{{ market.register.name }}</div>
 
@@ -145,8 +150,12 @@
                 {% for cart in cart_list %}
                     {% comment %} {% if cart.cart_list %} {% endcomment %}
                     {% comment %} 수정 {% endcomment %}
-                    {{ cart.cart_list }} 
-                    <img src="/media/{{ cart.menu_img }}" class="menu_blank" alt="Menu Image">
+                    {% comment %} {{ cart.menu.name }}  {% endcomment %}
+                    {% if cart.menu.img %}
+                    <img src="{{ cart.menu.img.url }}" class="menu_blank" alt="Menu Image">
+                    {% else %}
+                    <div class="menu_blank">이미지 없음</div>
+                    {% endif %}
                     {% comment %} {% else %}
                     <div class="menu_blank"></div>
                     {% endif %} {% endcomment %}
@@ -162,14 +171,13 @@
                 <div class="pay1-2" id="total_price">₩ {{ total_price|intcomma }}</div>
                 <form method="post" action="{% url 'buyers:clear_cart' %}">
                     {% csrf_token %}
-                    {% comment %} <input type="hidden" name="market_id" value="{{market.pk}}" /> {% endcomment %}
+                    <input type="hidden" name="market_id" value="{{market.pk}}" />
                     <button type="submit" class="pay1-3">일괄 취소</button>
                 </form>
             </div>
             <div class="pay1 pay2">
                 <img class="pay-icon" src="{% static 'images/Vector.png' %}" alt="">
-                {% comment %} <a href="{% url 'buyers:cart' %}">결제하기</a> {% endcomment %}
-            <div>결제하기</div>
+            <div><a href="{% url 'buyers:cart' %}" id="pay">결제하기</a></div>
         </div>
     </div>
 </article>

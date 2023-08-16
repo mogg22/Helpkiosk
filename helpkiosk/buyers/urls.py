@@ -11,9 +11,8 @@ urlpatterns = [
     path('cart/', cart, name='cart'),
     path('cart/item-quan/<int:item_id>/', item_ajax, name='item_ajax'),
     path('update_cart/<int:cart_id>/', update_cart, name='update_cart'),
-    path('delete_cart_item/<int:cart_id>/', delete_cart_item, name='delete_cart_item'),
+    path('delete_cart_item/<int:pk>/', delete_cart_item, name='delete_cart_item'),
     path('clear_cart/', clear_cart, name='clear_cart'),
     path('payment/', payment, name='payment'),
-    path('buyer_mypage/', buyer_mypage, name='buyer_mypage'),
     # path('set_dining_option/', set_dining_option, name='set_dining_option'),
 ]

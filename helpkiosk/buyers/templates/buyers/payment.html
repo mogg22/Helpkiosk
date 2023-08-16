@@ -37,8 +37,8 @@
                             <li>{{ option.name }} (+{{ option.price|intcomma }}원)</li>
                         {% endfor %}
                     </ul>
+                    {% endif %}
                 </ul>
-                {% endif %}
             {% endfor %}
         <p>여부: {{ payment.order_type }}</p>
         <p>결제수단: {{ payment.payment_method }}</p>

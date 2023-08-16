@@ -25,7 +25,7 @@
                 <div class="total_price">가격 {{ item.total_price|intcomma }}원</div>
                 옵션:
                 <ul>
-                    {% for option in cart_item.menu.options_set.all %}
+                    {% for option in item.options.all %}
                     <li>{{ option.name }} (+{{ option.price|intcomma }}원)</li>
                     {% endfor %}
                 </ul>
@@ -34,7 +34,7 @@
         {% endfor %}
         <p>결제금액<span> 총 {{total_price|intcomma}}원</span></p>
         <label for="request_text">요청 사항</label><br>
-        <input type="text" name="request_text" id="request_text" placeholder="요청 사항을 적어주세요"><br>
+        <input type="text" name="request_text" id="request_text" placeholder="요청 사항을 적어주세요">
         <label>
             <input type="radio" name="order_type" value="매장식사">
             매장식사
@@ -88,8 +88,6 @@
         if (requestQuan.readyState === XMLHttpRequest.DONE) {
             if (requestQuan.status < 400) {
                 const { id, item } = JSON.parse(requestQuan.response);
-                console.log(id)
-                console.log(item)
                 const itemQuantity = document.querySelector(`.item_quantity-${id}`);
                 itemQuantity.textContent = item;
             }

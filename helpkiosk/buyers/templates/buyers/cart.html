@@ -48,7 +48,6 @@
                             <div>가격</div>
                             <div class="total_price">{{ item.total_price|intcomma }}원</div>
                         </div>
-                        {% if cart_item.options.all %} {% comment %} 여기 옵션 안뜨는 거 뭐가 빠진 건지 확인해야함 {% endcomment %}
                         <div class="detail-row3">
                             <div>옵션</div>
                             <ul>
@@ -57,7 +56,6 @@
                                 {% endfor %}
                             </ul>
                         </div>
-                        {% endif %}
                     </div>
                     {% endfor %}
                     </div>

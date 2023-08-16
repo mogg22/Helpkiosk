@@ -48,6 +48,7 @@
                             <div>가격</div>
                             <div class="total_price">{{ item.total_price|intcomma }}원</div>
                         </div>
+                        {% if cart_item.options.all %} {% comment %} 여기 옵션 안뜨는 거 뭐가 빠진 건지 확인해야함 {% endcomment %}
                         <div class="detail-row3">
                             <div>옵션</div>
                             <ul>
@@ -56,6 +57,7 @@
                                 {% endfor %}
                             </ul>
                         </div>
+                        {% endif %}
                     </div>
                     {% endfor %}
                     </div>
@@ -83,7 +85,7 @@
                 </div>
                 <div class="section">
                     <div class="subtitle">결제 수단</div>
-                    <div class="detail-row">
+                    <div class="detail-pay">
                     <label>
                         <input type="radio" name="payment_method" value="카드결제">
                         카드결제
@@ -97,12 +99,13 @@
                         픽업시 결제
                     </label>
                     <br>
-                        {% csrf_token %}
-                        <div>
-                            <input type="hidden" name="total_price" value="{{ total_price }}">
-                            <input type="submit" class="detail-bt" value="결제">
-                        </div>    
-                    </form>
+                </div> 
+                {% csrf_token %}
+                <div>
+                    <input type="hidden" name="total_price" value="{{ total_price }}">
+                    <input type="submit" class="detail-bt" value="결제">
+                </div>   
+            </form>
                         {% comment %} <input type="submit" value="결제">
                         <button type="button" onclick="proceedToPayment()">결제</button> {% endcomment %}
                         {% comment %} 결제수단이랑 proceedToPayment는 일단 예시 {% endcomment %}

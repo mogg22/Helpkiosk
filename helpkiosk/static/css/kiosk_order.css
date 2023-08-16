@@ -208,3 +208,8 @@ input::placeholder{
     display: flex;
     justify-content: space-around;
 }
+
+.detail-pay {
+    display: flex;
+    justify-content: space-around;
+}

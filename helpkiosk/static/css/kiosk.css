@@ -190,3 +190,21 @@ article{
     background: var(--main-color, #EA4C4C);
     filter: drop-shadow(1px 1px 4px rgba(0, 0, 0, 0.25));
 }
+
+.menu-script-s{
+    display: none;
+    font-size: 1px;
+}
+
+.menu-script-all{
+    display: none;
+    font-size: 1px;
+}
+
+.stt-button{
+    display: none;
+}
+
+.stt-button.active{
+    display: block;
+}

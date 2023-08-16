@@ -208,3 +208,7 @@ article{
 .stt-button.active{
     display: block;
 }
+
+.category-index {
+    display: none;
+}

@@ -9,6 +9,8 @@
     <title>Document</title>
     <link rel="stylesheet" href="{% static 'css/kiosk.css' %}">
     <link rel="stylesheet" href="{% static 'css/modal.css' %}">
+    <script src="{% static 'js/stt.js' %}"></script>
+    <script src="{% static 'js/tts.js' %}"></script>
 </head>
 
 <body>
@@ -101,6 +103,7 @@
             </li>
         {% endfor %}
       </ul>
+      <div class="category-index">0</div>
     </div>
     <div class="menu-script-all">
       {% for category in categories %}
@@ -290,6 +293,8 @@
             elPay.onclick = function(){
                 location.href='{% url 'buyers:cart' %}'
             }
+            const elTts_s = document.querySelectorAll('.menu-script-s');
+            const elC_index = document.querySelector('.category-index');
             elCategory.forEach(function(v,i){
                 v.onclick = function(){
                     elCategory.forEach(function(a,b){
@@ -300,6 +305,11 @@
                     })
                     v.classList.add("active");
                     elMenu[i].classList.add("active");
+                    elC_index.innerText = i;
+                    if (isSound) {
+                      sendTTS(v.innerText);
+                      sendTTS(elTts_s[i].innerText);
+                    }
                 }
             })
             elMenus.forEach(function(v,i){

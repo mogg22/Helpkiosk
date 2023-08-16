@@ -15,6 +15,7 @@
             <div class="text22"> SSOCK </div>
             <div></div>
         </nav>
+    <form method="post" action="{% url 'buyers:add_to_cart' menu.id %}">
         {% if menu.img %}
         <img class="main-img" src="{{menu.img.url}}">
         {% else %}
@@ -28,29 +29,27 @@
             <span class="subtitle" id="price-title">가격</span>
             <span id="price-detail">{{ menu.price }}원</span>
 
-            
-        </div>
-        <div class="detail">
-            <div class="subtitle" id="option-title">옵션</div>
-            {% for option in menu.option_set.all %}  
-                <div class="detail-row">
-                    <label for="cl"><input type="checkbox" name="options" value="{{option.pk}}" id="cl" > {{ option.name }}</label>
-                    <div>+{{ option.price }}원</div>
-                </div>
-            {% endfor %}
-        </div>
-        <div class="section">
-            <form method="post" action="{% url 'buyers:add_to_cart' menu.id %}">
-                {% csrf_token %}
+            <div class="detail">
+                <div class="subtitle" id="option-title">옵션</div>                    
+                {% for option in menu.option_set.all %}  
+                    <div class="detail-row">
+                        <label for="cl"><input type="checkbox" name="options" value="{{option.pk}}" id="cl" > {{ option.name }}</label>
+                        <div>+{{ option.price }}원</div>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="section">
+            {% csrf_token %}
+            <div id="quantity-div">
+                <div class="subtitle" id="quantity-title">수량</div>
                 {% comment %} 수량 입력하는 부분 html에서 어떻게 수정해야하는지 모르겠네요 {% endcomment %}
-                <div id="quantity-div">
-                    <div class="subtitle" id="quantity-title">수량</div>
-                    <input type="number" id="quantity" value="1" name="quantity" min="1">
-                </div>
-                <br>
-                <input type="submit" class="detail-bt" value="주문 목록에 추가">
-            </form>
+                <input type="number" value="1" name="quantity" min="1">
+            {% comment %} <input type="number" id="quantity" value="1" name="quantity" min="1"> {% endcomment %}
+            </div>
+            <br>
+            <input type="submit" class="detail-bt" value="주문 목록에 추가">
         </div>
+    </form>
     
     {% comment %} 
         <div class="section">

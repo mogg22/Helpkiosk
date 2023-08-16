@@ -136,7 +136,7 @@
                 <div class="pay1-2" id="total_price">₩ {{ total_price|intcomma }}</div>
                 <form method="post" action="{% url 'buyers:clear_cart' %}">
                     {% csrf_token %}
-                    {% comment %} <input type="hidden" name="market_id" value="{{market.pk}}" /> {% endcomment %}
+                    <input type="hidden" name="market_id" value="{{market.pk}}" />
                     <button type="submit" class="pay1-3">일괄 취소</button>
                 </form>
             </div>

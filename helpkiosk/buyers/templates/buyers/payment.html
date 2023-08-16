@@ -13,13 +13,13 @@
             <ul>
                 {% for cart_item in payment.cart.cartitem_set.all %}
                     <li>{{ cart_item.menu.name }}</li>
-                    {% if cart_item.options.all %}
+                    {% comment %} {% if cart_item.options.all %}
                         <ul>
                             {% for option in cart_item.options.all %}
                                 <li>{{ option.name }} (+{{ option.price|intcomma }}원)</li>
                             {% endfor %}
                         </ul>
-                        {% endif %}
+                    {% endif %} {% endcomment %}
                 {% endfor %}
             </ul>
         </p>
@@ -28,12 +28,18 @@
         </p>
         <h2>주문 메뉴</h2>
         <p>카트에 담았던 주문 메뉴: 여기는 옵션도 떠야함</p>
-            <ul>
-                {% for cart_item in payment.cart.cartitem_set.all %}
-                    <li>{{ cart_item.menu.name }} (수량: {{ cart_item.quantity }}) - {{cart_item.total_price|intcomma}}
-                    </li>
-                {% endfor %}
-            </ul>
+            {% for cart_item in payment.cart.cartitem_set.all %}
+                <ul>
+                    <li>{{ cart_item.menu.name }} (수량: {{ cart_item.quantity }}) - {{cart_item.total_price|intcomma}}</li>
+                    {% if cart_item.options.all %}
+                    <ul>
+                        {% for option in cart_item.options.all %}
+                            <li>{{ option.name }} (+{{ option.price|intcomma }}원)</li>
+                        {% endfor %}
+                    </ul>
+                </ul>
+                {% endif %}
+            {% endfor %}
         <p>여부: {{ payment.order_type }}</p>
         <p>결제수단: {{ payment.payment_method }}</p>
         <p>전화번호: {{ payment.phone_number }}</p>

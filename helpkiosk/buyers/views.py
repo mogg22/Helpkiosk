@@ -30,6 +30,11 @@ def add_cart(request, pk):
         if cart.market != menu.category.market:
             cart.cartitem_set.all().delete()
             cart_item = CartItem.objects.create(cart=cart, menu=menu, quantity=int(quantity))
+            
+            # 옵션 추가
+            if options:
+                cart_item.options.add(*options)
+                
             messages.warning(request, '기존에 있던 다른마켓의 메뉴를 삭제합니다!')
         else:
             if cart.cartitem_set.filter(menu=menu).exists():
@@ -39,7 +44,10 @@ def add_cart(request, pk):
                 # cart_item.save()
             else:
                 cart_item = CartItem.objects.create(cart=cart, menu=menu, quantity=int(quantity))
-                cart_item.options.set(options)
+                
+                # 옵션 추가
+                if options:
+                    cart_item.options.add(*options)
                 
                 # cart_item.total_price = menu.price * int(quantity)
 

@@ -9,6 +9,8 @@
     <title>Document</title>
     <link rel="stylesheet" href="{% static 'css/kiosk.css' %}">
     <link rel="stylesheet" href="{% static 'css/modal.css' %}">
+    <script src="{% static 'js/stt.js' %}"></script>
+    <script src="{% static 'js/tts.js' %}"></script>
 </head>
 
 <body>
@@ -19,43 +21,54 @@
     </nav>
   {% if owner %}
   <article>
-      <div class="store-name">{{ market.register.name }}</div>
-      <img class="main-img" src="{{market.register.logo.url}}" alt="">
+    <div class="store-name">{{ market.register.name }}</div>
 
-      <div>
-          <ul class="store-category">
-              {% for category in categories %}
-              <li class="store-category-s">{{ category.category }}</li>
-              {% endfor %}
-          </ul>
-      </div>
-
-      <div class="menu-row active">
-          {% for menu in category.menu_set.all %}
-          <div class="menu-column">
-              <img class="menu-img" src="{{menu.img.url}}">
-              <div class="menu-name">{{ menu.name }}</div>
-              <div class="menu-price">{{ menu.price|intcomma }}</div>
-          </div>
-          {% endfor %}
-      </div>
-
-      <div class="menu-row active">
+    <div>
+      <ul class="store-category">
         {% for category in categories %}
-          {% for menu in category.menu_set.all %}
-          <div class="menu-column">
-              {% if menu.img %}
-              <img class="menu-img" src="{{menu.img.url}}">
-              {% else %}
-              <div class="menu-img">이미지 준비중</div>
-              {% endif %}
-              <div class="menu-name">{{ menu.name }}</div>
-              <div class="menu-price">{{ menu.price|intcomma }}</div>
-              <a href="{% url 'sellers:menu_update' menu.pk %}">수정</a>
-          </div>
-          {% endfor %}
+          {% if forloop.counter0 == 0 %}
+            <li class="store-category-s active">
+          {% else %}
+            <li class="store-category-s">
+          {% endif %}
+              {{ category.category }}
+            </li>
         {% endfor %}
-      </div>
+      </ul>
+    </div>
+    <div class="menu-script-all">
+      {% for category in categories %}
+        {% for menu in category.menu_set.all %}
+          {{menu.name}},
+        {% endfor %}
+      {% endfor %}
+    </div>
+
+      {% for category in categories %}
+        {% if forloop.counter0 == 0 %}
+        <div class="menu-row active">
+        {% else %}
+        <div class="menu-row">
+        {% endif %}
+            <div class="menu-script-s">
+              {% for menu in category.menu_set.all %}
+                {{menu.name}},
+              {% endfor %} 
+            </div>
+            {% for menu in category.menu_set.all %}
+              <div class="menu-column">
+                  {% if menu.img %}
+                  <img class="menu-img" src="{{menu.img.url}}">
+                  {% else %}
+                  <div class="menu-img">이미지 준비중</div>
+                  {% endif %}
+                  <div class="menu-name">{{ menu.name }}</div>
+                  <div class="menu-price">{{ menu.price|intcomma }}</div>
+                  <a href="{% url 'sellers:menu_update' menu.pk %}">수정</a>
+              </div>
+            {% endfor %}
+        </div>
+        {% endfor %}
       <div class="blank">
         <button id="add">+</button>
       </div>
@@ -63,6 +76,7 @@
   </article>
 
   {% else %}
+  <button class="stt-button" onclick="sendSpeech();">STT 버튼</button>
   <article>
     {% comment %} <div id="modal" class="modal-overlay">
         <div class="modal-window">
@@ -81,32 +95,53 @@
     </div> {% endcomment %}
 
     <div class="store-name">{{ market.register.name }}</div>
-    <img class="main-img" src="{{market.register.logo.url}}" alt="">
 
     <div>
-        <ul class="store-category">
-            {% for category in categories %}
-            <li class="store-category-s">{{ category.category }}</li>  {% comment %} 첫번째 항목만 class 명 다르게 하는거 알아보기 {% endcomment %}
-            {% endfor %}
-        </ul>
+      <ul class="store-category">
+        {% for category in categories %}
+          {% if forloop.counter0 == 0 %}
+            <li class="store-category-s active">
+          {% else %}
+            <li class="store-category-s">
+          {% endif %}
+              {{ category.category }}
+            </li>
+        {% endfor %}
+      </ul>
+      <div class="category-index">0</div>
+    </div>
+    <div class="menu-script-all">
+      {% for category in categories %}
+        {% for menu in category.menu_set.all %}
+          {{menu.name}},
+        {% endfor %}
+      {% endfor %}
     </div>
 
-    <div class="menu-row active">
-        {% for category in categories %}
+    {% for category in categories %}
+      {% if forloop.counter0 == 0 %}
+      <div class="menu-row active">
+      {% else %}
+      <div class="menu-row">
+      {% endif %}
+          <div class="menu-script-s">
             {% for menu in category.menu_set.all %}
+              {{menu.name}},
+            {% endfor %} 
+          </div>
+          {% for menu in category.menu_set.all %}
             <div class="menu-column">
-                <a href="{% url 'buyers:add_to_cart' menu.id %}">
-                {% if menu.img %}
-                <img class="menu-img" src="{{menu.img.url}}">
-                {% else %}
-                <div class="menu-img">이미지 준비중</div>
-                {% endif %}
-                <div class="menu-name">{{ menu.name }}</div>
-                <div class="menu-price">{{ menu.price|intcomma }}</div>
+              {% if menu.img %}
+              <img class="menu-img" src="{{menu.img.url}}">
+              {% else %}
+              <div class="menu-img">이미지 준비중</div>
+              {% endif %}
+              <div class="menu-name">{{ menu.name }}</div>
+              <div class="menu-price">{{ menu.price|intcomma }}</div>
             </div>
-            {% endfor %}
-        {% endfor %}
-    </div>
+          {% endfor %}
+      </div>
+    {% endfor %}
 
     <div class="pay-semo">▲</div>
         <div class="basket">
@@ -182,6 +217,7 @@
     
         else {
             //손님 버전
+            let isSound = false;
             let price_list = document.getElementsByClassName("price");
             
             HTMLCollection.prototype.forEach = Array.prototype.forEach;
@@ -237,9 +273,16 @@
             const elMenus = document.querySelectorAll(".menu-column"),
             elBlank = document.querySelectorAll(".menu_blank"),
             elPay = document.querySelector(".pay2"),
-            elCancle = document.querySelector('.pay1-3'),
-            pay_icon = document.querySelectorAll(".pay-icon");
-           // chooseP = document.querySelectorAll('.content-d');
+            elCancle = document.querySelector('.pay1-3');
+            const chooseP = document.querySelectorAll('.content-d');
+            const elMSound = document.querySelector(".modal-sound");
+            const elSttBt = document.querySelector(".stt-button");
+
+            elMSound.onclick = function(){
+              console.log('MsoundClick');
+              isSound = true;
+              elSttBt.classList.add('active');
+            }
 
             /*chooseP.forEach(function(v,i){
                 v.onclick = function(){
@@ -253,11 +296,8 @@
             elPay.onclick = function(){
                 location.href='{% url 'buyers:cart' %}'
             }
-
-            pay_icon.onclick = function(){
-                location.href='{% url 'buyers:cart' %}'
-            }
-            
+            const elTts_s = document.querySelectorAll('.menu-script-s');
+            const elC_index = document.querySelector('.category-index');
             elCategory.forEach(function(v,i){
                 v.onclick = function(){
                     elCategory.forEach(function(a,b){
@@ -268,6 +308,11 @@
                     })
                     v.classList.add("active");
                     elMenu[i].classList.add("active");
+                    elC_index.innerText = i;
+                    if (isSound) {
+                      sendTTS(v.innerText);
+                      sendTTS(elTts_s[i].innerText);
+                    }
                 }
             })
             elMenus.forEach(function(v,i){

@@ -121,16 +121,27 @@ def delete_cart_item(request, pk):
 
     return redirect('buyers:cart')
 
+# @login_required
+# def clear_cart(request):
+#     market_id = request.POST.get('market_id', '1')
+#     cart_items = Cart.objects.filter(user=request.user)
+
+#     if cart_items.exists():
+#         cart_items.delete()
+
+#     return redirect('sellers:seller_detail', pk=market_id)
+
 @login_required
 def clear_cart(request):
     market_id = request.POST.get('market_id', '1')
-    cart_items = Cart.objects.filter(user=request.user)
+    user_cart = get_object_or_404(Cart, user=request.user)
+
+    cart_items = user_cart.cartitem_set.all()
 
     if cart_items.exists():
         cart_items.delete()
 
     return redirect('sellers:seller_detail', pk=market_id)
-
 
 @login_required
 def payment(request):

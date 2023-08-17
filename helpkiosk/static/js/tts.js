@@ -3,8 +3,13 @@ const synth = window.speechSynthesis
 let ourText = ""
 
 function sendTTS (a){
-    utterThis.text = a;
-    synth.speak(utterThis);
+    const ttsInterval = setInterval(() => {
+        if (!synth.speaking) {
+            utterThis.text = a;
+            synth.speak(utterThis);
+            clearInterval(ttsInterval);
+        }
+    }, 100);
 };
 
 const checkBrowserCompatibility = () => {

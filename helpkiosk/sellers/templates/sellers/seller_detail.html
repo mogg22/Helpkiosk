@@ -76,7 +76,7 @@
   </article>
 
   {% else %}
-  <button class="stt-button" onclick="sendSpeech();">STT 버튼</button>
+  <button class="stt-button" onclick="sendSpeech('kiosk');">STT 버튼</button>
   <article>
     <div id="modal" class="modal-overlay">
         <div class="modal-window">
@@ -131,14 +131,15 @@
           </div>
           {% for menu in category.menu_set.all %}
             <div class="menu-column">
-            <a href="{% url 'buyers:add_to_cart' menu.id %}">
-              {% if menu.img %}
-              <img class="menu-img" src="{{menu.img.url}}">
-              {% else %}
-              <div class="menu-img">이미지 준비중</div>
-              {% endif %}
-              <div class="menu-name">{{ menu.name }}</div>
-              <div class="menu-price">{{ menu.price|intcomma }}</div>
+              <a class="menu-anchor" data-tts="{{ menu.name }}" href="{% url 'buyers:add_to_cart' menu.id %}">
+                {% if menu.img %}
+                <img class="menu-img" src="{{menu.img.url}}">
+                {% else %}
+                <div class="menu-img">이미지 준비중</div>
+                {% endif %}
+                <div class="menu-name">{{ menu.name }}</div>
+                <div class="menu-price">{{ menu.price|intcomma }}</div>
+              </a>
             </div>
           {% endfor %}
       </div>
@@ -170,17 +171,21 @@
                 <div class="pay1-1">총 결제 금액</div>
                 {% comment %} <span class="price" style="display: none"> {{total_price}} </span> {% endcomment %}
                 <div class="pay1-2" id="total_price">₩ {{ total_price|intcomma }}</div>
-                <form method="post" action="{% url 'buyers:clear_cart' %}">
+                <form id="clear-cart" method="post" action="{% url 'buyers:clear_cart' %}">
                     {% csrf_token %}
                     <input type="hidden" name="market_id" value="{{market.pk}}" />
-                    <button type="submit" class="pay1-3">일괄 취소</button>
+                    <button type="submit" class="pay1-3">전체 취소</button>
                 </form>
             </div>
-            <div class="pay1 pay2">
+            <a href="{% url 'buyers:cart' %}" class="pay1 pay2">
                 <img class="pay-icon" src="{% static 'images/Vector.png' %}" alt="">
-            <div><a href="{% url 'buyers:cart' %}" id="pay">결제하기</a></div>
-        </div>
-    </div>
+                <div>
+                  <div id="pay">
+                    결제하기
+                  </div>
+                </div>
+          </a>
+      </div>
 </article>
     {% endif %}
     <script>
@@ -218,7 +223,7 @@
     
         else {
             //손님 버전
-            let isSound = false;
+            let isSound = sessionStorage.getItem('isSound') == 'true';
             let price_list = document.getElementsByClassName("price");
             
             HTMLCollection.prototype.forEach = Array.prototype.forEach;
@@ -233,7 +238,7 @@
 
             //유빈언니가 쓴 JS
             const modal = document.getElementById("modal")
-
+            modal.style.display = "none";
             function modalOn() {
                 modal.style.display = "flex"
             }
@@ -282,7 +287,8 @@
             elMSound.onclick = function(){
               console.log('MsoundClick');
               isSound = true;
-              elSttBt.classList.add('active');
+              sessionStorage.setItem('isSound', 'true');
+              elSttBt.style.display = 'block';
             }
 
             chooseP.forEach(function(v,i){
@@ -322,16 +328,20 @@
                 }
             })
 
-
-            if(sessionStorage.urlData && sessionStorage.urlData.length > 0) {
-                let url = sessionStorage.getItem('urlData'),
-                url_arr = url.split(',');
-                for (let i=0; i < url_arr.length; i++){
-                    elBlank[i].innerHTML= `<img src="${url_arr[i]}">`
-                }
-            } else {
-                modalOn();
+            const elMenuImg = document.querySelectorAll('.menu_blank');
+            if (!elMenuImg || elMenuImg.length < 1) {
+              modalOn();
             }
+
+            // if(sessionStorage.urlData && sessionStorage.urlData.length > 0) {
+            //     let url = sessionStorage.getItem('urlData'),
+            //     url_arr = url.split(',');
+            //     for (let i=0; i < url_arr.length; i++){
+            //         elBlank[i].innerHTML= `<img src="${url_arr[i]}">`
+            //     }
+            // } else {
+            //     modalOn();
+            // }
 
             elCancle.onclick=()=>{
                 sessionStorage.setItem('urlData','')

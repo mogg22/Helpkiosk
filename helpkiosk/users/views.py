@@ -114,3 +114,6 @@ def mypage(request, *args, **kwargs):
       'paymentitems': paymentitems,
     }
     return render(request, 'users/mypage.html', context)
+
+def start_page(request):
+  return render(request, 'users/startpage.html')

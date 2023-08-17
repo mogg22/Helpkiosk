@@ -9,4 +9,5 @@ urlpatterns = [
   path("login/", log_in, name="login"),
   path("logout/", logout, name="logout"),
   path("mypage/", mypage, name="mypage"),
+  path('start/', start_page, name='start_page'),
 ]

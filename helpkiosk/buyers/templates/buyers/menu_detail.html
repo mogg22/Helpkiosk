@@ -8,6 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ menu.name }} 상세 정보</title>
     <link rel="stylesheet" href="{% static 'css/kiosk_menu.css' %}"></head>
+    <script src="{% static 'js/stt.js' %}"></script>
+    <script src="{% static 'js/tts.js' %}"></script>
 <body>
     <article>
         <nav>
@@ -15,7 +17,8 @@
             <div class="text22"> SSOCK </div>
             <div></div>
         </nav>
-    <form method="post" action="{% url 'buyers:add_to_cart' menu.id %}">
+    <button class="stt-button" onclick="sendSpeech('kiosk_menu');">STT 버튼</button>
+    <form id="kiosk-menu-form" method="post" action="{% url 'buyers:add_to_cart' menu.id %}">
         {% if menu.img %}
         <img class="main-img" src="{{menu.img.url}}">
         {% else %}
@@ -23,7 +26,7 @@
         {% endif %}
         <div>
             <div class="subtitle">{{ menu.name }}</div>
-            <div>{{ menu.exp }}</div>
+            <div class="description">{{ menu.exp }}</div>
         </div>
         <div class="section" id="price">
             <span class="subtitle" id="price-title">가격</span>
@@ -86,20 +89,16 @@
 </body>
 
 <script>
-    {% comment %} const elPay = document.querySelector(".detail-bt");
-    elPay.onclick = function(){
-        const img = document.querySelector('.main-img')
-        let urlData = "urlData"
-        let se_img = sessionStorage.getItem(urlData),add_seimg;
-        console.log(se_img)
-        if (se_img == ''){
-            add_seimg = img.src;
-        } else {
-            add_seimg = se_img + "," + img.src; 
-        }
-        sessionStorage.setItem(urlData,add_seimg)
-        location.href='./kiosk.html'
-    } {% endcomment %}
+    let isSound = sessionStorage.getItem('isSound') == 'true';
+    let elSubtitle = document.querySelector('.subtitle');
+    let elDescription = document.querySelector('.description');
+    let elPrice = document.querySelector('#price-detail');
+    if (isSound) {
+        sendTTS(elSubtitle.innerText);
+        sendTTS(elDescription.innerText);
+        sendTTS('가격');
+        sendTTS(elPrice.innerText);
+    }
 </script>
 
 </html>

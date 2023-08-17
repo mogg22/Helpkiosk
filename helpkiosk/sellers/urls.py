@@ -15,4 +15,5 @@ urlpatterns = [
   path('order_detail/<int:pk>/', order_detail, name='order_detail'),
   path('seller_info/<int:pk>/', seller_info, name='seller_info'),
   # path('add_category/<int:pk>/', add_category, name='add_category'),
+  path('my_qr/', my_qr, name='my_qr'),
 ]

@@ -46,7 +46,7 @@
                                 <div class="plus" onclick="onClickQuan({{item.pk}}, 'plus')">+</div>
                             </div>
                             <div>가격</div>
-                            <div class="total_price">{{ item.total_price|intcomma }}원</div>
+                            <div id="item-price-{{item.pk}}" class="total_price">{{ item.total_price|intcomma }}원</div>
                         </div>
                         <div class="detail-row3">
                             {% if item.options.all %}
@@ -63,7 +63,7 @@
                     </div>
                 </li>
             <div class="subtitle">결제금액</div>
-            <div class="right">총{{total_price|intcomma}}원</div>
+            <div id="total_price_ajax" class="right">총{{cart.cart_total_price|intcomma}}원</div>
                 <div class="section">   
                     <div class="subtitle">요청 사항</div>
                     <div class="detail">
@@ -130,11 +130,15 @@
     requestQuan.onreadystatechange = () => {
         if (requestQuan.readyState === XMLHttpRequest.DONE) {
             if (requestQuan.status < 400) {
-                const { id, item } = JSON.parse(requestQuan.response);
-                console.log(id);
-                console.log(item);
+                const { id, quantity, price, total } = JSON.parse(requestQuan.response);
                 const itemQuantity = document.querySelector(`.item_quantity-${id}`);
-                itemQuantity.textContent = item;
+                const itemPrice = document.querySelector(`#item-price-${id}`);
+                const totalPrice = document.querySelector(`#total_price_ajax`);
+                itemQuantity.textContent = quantity;
+                const formattedPrice = new Intl.NumberFormat('ko-KR').format(price);
+                itemPrice.textContent = `${formattedPrice}원`;
+                const formattedTotal = new Intl.NumberFormat('ko-KR').format(total);
+                totalPrice.textContent = `총${formattedTotal}원`;
             }
         }
     };

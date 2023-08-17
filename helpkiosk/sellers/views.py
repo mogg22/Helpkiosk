@@ -41,9 +41,6 @@ def seller_detail(request, pk, *args, **kwargs):
   else:
     cart_price = 0
   cart_list = CartItem.objects.filter(cart__user=request.user)
-  # total_price = request.session.get('total_price', 0)
-
-  print(cart_price)
   
   if is_market_owner(request.user, pk):
     owner = True

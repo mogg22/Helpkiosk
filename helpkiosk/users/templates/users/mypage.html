@@ -5,63 +5,99 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>마이페이지</title>
+  <link href="{% static '/css/myPage.css'%}" rel="stylesheet"/>
 </head>
 <body>
-  {% if user.profile.seller %}
-    <div id="store">
-      {% comment %} <img src="{% static 'images/heart.png' %}" id="heart"> {% endcomment %}
-      {{market.register.name}} > {{market.register.representative}} 사장님
-    </div>
-    <a href="">주문목록</a>
-    <a href="">매장정보수정</a>
-    <a href="">매장키오스크수정</a>
-
-  {% else %}
-    {{user.profile.nickname}}님
-    <h3>현재주문내역</h3>
-      {% comment %} {% for payment in payments %} {% endcomment %}
-        {% if payments %}
-          {% comment %} {% with payment=payments.0 %} {% endcomment %}
-          {% with latest_payment=payments.last %}
-            {% if latest_payment %}
-              <p>주문한 가게 이름: 
-                {% comment %} <a href="{% url 'buyers/payment.html' %}"> {% endcomment %}
-                  <img src="{{ latest_payment.cart.market.register.logo.url }}"><br>
-                  {{ latest_payment.cart.market.register.name }}<br>
-                {% comment %} </a> {% endcomment %}
-                주문 일시 {{latest_payment.date}}</p>
-              <p>카트에 담았던 주문 메뉴
-                  <ul>
+  <nav>
+      <div class="text21"><a href="#"><</a></div>
+      <div class="text22"> 마이페이지 </div>
+      <div><a href="#"><img src="{%static 'images/menu.png'%}"></a></div>
+  </nav>
+  <div id="container">
+    
+    {% if user.profile.seller %}
+      <div id="store">
+        {% comment %} <img src="{% static 'images/heart.png' %}" id="heart"> {% endcomment %}
+        {{market.register.name}} > {{market.register.representative}} 사장님
+      </div>
+      <a href="">주문목록</a>
+      <a href="">매장정보수정</a>
+      <a href="">매장키오스크수정</a>
+  
+    {% else %}
+    <section class="text_wrap">
+      <div class="wrap30">
+          <div class="text30">
+            {{user.profile.nickname}} 님
+          </div>
+      </div>
+    </section>
+    <section>
+      <div class="text33">현재 주문 내역</div>
+    </section>
+        {% comment %} {% for payment in payments %} {% endcomment %}
+          {% if payments %}
+            {% comment %} {% with payment=payments.0 %} {% endcomment %}
+            {% with latest_payment=payments.last %}
+              {% if latest_payment %}
+              <section class="wrap31">
+                <div class="polaroid">
+                    <img src="{{ latest_payment.cart.market.register.logo.url }}" alt="Image 2">
+                    <div>
+                        <div class="text">{{latest_payment.date}}</div>
+                    </div>
+                </div>
+                <div class="right">
+                    <div class="text35">
+                        <a href="#">{{ latest_payment.cart.market.register.name }} &gt;</a>
+                    </div>
+                    <div class="text36">
                       {% for cart_item in latest_payment.cart.cartitem_set.all %}
-                            {{ cart_item.menu.name }}
-                            {% if not forloop.last %} + {% endif %}
-                            {% comment %} <li>
-                              {{ cart_item.menu.name }}
-                            </li> {% endcomment %}
-                            {% comment %} {{ cart_item.menu.name|truncatechars:10 }} {% endcomment %}
+                        {{ cart_item.menu.name }}
+                        {% if not forloop.last %} + {% endif %}
+                      {% comment %} <li>
+                        {{ cart_item.menu.name }}
+                      </li> {% endcomment %}
+                      {% comment %} {{ cart_item.menu.name|truncatechars:10 }} {% endcomment %}
                       {% endfor %}
-                  </ul>
-              </p>
-              <p>결제 금액: 총 {{ latest_payment.total_amount|floatformat:0|intcomma }}원</p>
-              {% comment %} 너왜소수점까지나오는? {% endcomment %}
+                    </div>
+                    <div class="text36">
+                      {{ latest_payment.total_amount|floatformat:0|intcomma }}원
+                    </div>
+                    <div>
+                        <button class="nick_btn"><a href="#">조리 중이에요!</a></button>
+                    </div>
+                </div>
+              </section>
               {% endif %}
-          {% endwith %}
-          {% else %}
-            <p>주문 내역이 없습니다.</p>
+            {% endwith %}
+            {% else %}
+              <div>주문 내역이 없습니다.</div>
+          {% endif %}
+          <div class="box30"></div>
+          <section>
+            <div class="text33">최근 주문 내역</div>
+          </section>
+      {% comment %} 이전 코드 {% endcomment %}
+      <div id="wrap33-div">
+        {% for payment in payments reversed %}    
+        {% if payment.cart.market %}
+          <section class="wrap33">
+            <div class="polaroid2">
+                <a href="#"><img src="{{ payment.cart.market.register.logo.url }}" alt="Image 2"></a>
+                <div>
+                    <div class="text">{{ payment.cart.market.register.name }}</div>
+                    <div class="text">{{ payment.date }}</div>
+                </div>
+            </div>
+          </section>
         {% endif %}
-          <div>
-    <h3>최근주문내역</h3>
-    {% comment %} 이전 코드 {% endcomment %}
-    {% for payment in payments reversed %}    
-    {% if payment.cart.market %}
-        <p>{{ payment.cart.market.register.name }}</p>
-        <img src="{{ payment.cart.market.register.logo.url }}">
+        {% empty %}
+      </div>
+        <div>주문내역이 없습니다</div>
+      {% endfor %}
     {% endif %}
-    <p>{{ payment.date }}</p>
-    {% empty %}
-    주문내역이 없습니다
-    {% endfor %}
-  {% endif %}
+  </div>
 </body>
 </html>

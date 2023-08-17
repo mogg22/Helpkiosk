@@ -12,12 +12,14 @@
 <body>
     <article>
         <nav>
-            <div class="text21"><a href="#">&lt</a></div>
+            {% comment %} <div class="text21"><a href="{{ request.META.HTTP_REFERER }}">&lt</a></div> {% endcomment %}
+            <div class="text21"><a href="{% url 'buyers:cart' %}">&lt</a></div>
             <div class="text22"> SSOCK </div>
             <div></div>
         </nav>
-        <img class="main-img" src="{{market.register.logo.url}}" alt=""> {% comment %}이거 안불러와지네요..쩝{% endcomment %}
         {% if payment %}
+        <img class="main-img" src="{{payment.cart.market.register.logo.url}}" alt="">
+        {% comment %} {% if payment %} {% endcomment %}
             <div class="store-name detail-tt">{{ payment.cart.market.register.name }}</div>
             <div class="section">
                 <div class="column-detail-tt">주문일시 : {{payment.date}}</div>
@@ -25,20 +27,20 @@
             </div>
             <div class="section">
                 <div class="subtitle">주문 메뉴</div>
-                {% for cart_item in payment.cart.cartitem_set.all %}
+                {% for payment_item in payment.paymentitem_set.all %}
                 <div class="row">
                     <div class="column">
-                        <div class="detail-tt">{{ cart_item.menu.name }}</div>
+                        <div class="detail-tt">{{ payment_item.menu.name }}</div>
                     </div>
                     <div class="column">
                         <div class="detail-tt">
-                            (수량: {{ cart_item.quantity }}) - {{cart_item.total_price|intcomma}}
+                            (수량: {{ payment_item.quantity }}) - {{payment_item.total_amount|floatformat:0|intcomma}}
                         </div>
                     </div>
                     <div class="option">
-                        {% if cart_item.options.all %}
+                        {% if payment_item.options.all %}
                             <ul>
-                                {% for option in cart_item.options.all %}
+                                {% for option in payment_item.options.all %}
                                     <li>{{ option.name }} (+{{ option.price|intcomma }}원)</li>
                                 {% endfor %}
                             </ul>

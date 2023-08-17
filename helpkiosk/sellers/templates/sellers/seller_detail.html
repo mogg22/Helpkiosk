@@ -15,7 +15,7 @@
 
 <body>
     <nav>
-        <div class="text21"><a href="#">&lt</a></div> {% comment %} 다시 seller_detail 페이지로 이동해야 돼요{% endcomment %}
+        <div class="text21"><a href="{% url 'sellers:seller_list' %}">&lt</a></div>
         <div class="text22"> SSOCK </div>
         <div></div>
     </nav>
@@ -171,7 +171,7 @@
             <div class="pay1">
                 <div class="pay1-1">총 결제 금액</div>
                 {% comment %} <span class="price" style="display: none"> {% widthratio cart.quantity 1 cart.price %} </span> {% endcomment %}
-                <div class="pay1-2" id="total_price">₩ {{ total_price|intcomma }}</div>
+                <div class="pay1-2" id="total_price">₩ {{ cart_price |intcomma }}</div>
                 <form id="clear-cart" method="post" action="{% url 'buyers:clear_cart' %}">
                     {% csrf_token %}
                     <input type="hidden" name="market_id" value="{{market.pk}}" />
@@ -230,14 +230,6 @@
             
             HTMLCollection.prototype.forEach = Array.prototype.forEach;
             
-            var total_price = 0;
-            
-            price_list.forEach(function(data){
-                total_price += Number(data.innerHTML);
-            })
-
-            document.getElementById("total_price").innerHTML = "₩ " + total_price;
-
             //유빈언니가 쓴 JS
             const modal = document.getElementById("modal")
             modal.style.display = "none";

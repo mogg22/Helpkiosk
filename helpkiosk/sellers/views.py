@@ -30,13 +30,21 @@ def register(request):
     return render(request, 'sellers/register.html')
 
 def seller_detail(request, pk, *args, **kwargs):
-  print('seller_dtail!!!')
   market = get_object_or_404(Market, pk=pk)
   categories = MenuCategory.objects.filter(market=pk)
+  # total_price = request.GET.get('total_price')
 
+
+  mcart = get_object_or_404(Cart, user=request.user)
+  if mcart:
+    cart_price = mcart.cart_total_price()
+  else:
+    cart_price = 0
   cart_list = CartItem.objects.filter(cart__user=request.user)
   # total_price = request.session.get('total_price', 0)
 
+  print(cart_price)
+  
   if is_market_owner(request.user, pk):
     owner = True
   else:
@@ -47,6 +55,7 @@ def seller_detail(request, pk, *args, **kwargs):
     'categories': categories,
     'owner': owner,
     'cart_list': cart_list,
+    'cart_price': cart_price,
     # 'total_price': total_price
   }
   

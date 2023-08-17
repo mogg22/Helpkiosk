@@ -107,6 +107,12 @@ def mypage(request, *args, **kwargs):
       'user': user,
       'payments': payments,
     }
+    
+    paymentitems = PaymentItem.objects.filter(payment__cart__user=request.user)
+    context = {
+      'user': user,
+      'paymentitems': paymentitems,
+    }
     return render(request, 'users/mypage.html', context)
 
 def start_page(request):

@@ -12,7 +12,7 @@
 <body>
     <article>
         <nav>
-            <div class="text21"><a href="#">&lt</a></div> {% comment %} 다시 seller_detail 페이지로 이동해야 돼요{% endcomment %}
+            <div class="text21"><a href="{{ request.META.HTTP_REFERER }}">&lt</a></div>
             <div class="text22"> SSOCK </div>
             <div></div>
         </nav>
@@ -49,19 +49,21 @@
                             <div class="total_price">{{ item.total_price|intcomma }}원</div>
                         </div>
                         <div class="detail-row3">
+                            {% if item.options.all %}
                             <div>옵션</div>
                             <ul>
                                 {% for option in item.options.all %}
                                 <li>{{ option.name }} (+{{ option.price|intcomma }}원)</li>
                                 {% endfor %}
                             </ul>
+                            {% endif %}
                         </div>
                     </div>
                     {% endfor %}
                     </div>
                 </li>
             <div class="subtitle">결제금액</div>
-            <div class="right">총 {{total_price|intcomma}}원</div>
+            <div class="right">총{{total_price|intcomma}}원</div>
                 <div class="section">   
                     <div class="subtitle">요청 사항</div>
                     <div class="detail">
@@ -129,8 +131,8 @@
         if (requestQuan.readyState === XMLHttpRequest.DONE) {
             if (requestQuan.status < 400) {
                 const { id, item } = JSON.parse(requestQuan.response);
-                console.log(id)
-                console.log(item)
+                console.log(id);
+                console.log(item);
                 const itemQuantity = document.querySelector(`.item_quantity-${id}`);
                 itemQuantity.textContent = item;
             }

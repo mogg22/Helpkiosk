@@ -44,7 +44,6 @@ img{vertical-align: top;}
 body{
     margin: 0 auto;
     width: 390px;
-    height: 1280px;
     /* border: 1px solid red; */
 }
 
@@ -119,6 +118,7 @@ article>div{
     border-radius: 50px;
     width: 100%;
     margin-top: 55px;
+    margin-bottom: 45px;
     padding: 15px;
     text-align: center;
     display: block;

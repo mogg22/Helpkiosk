@@ -83,7 +83,7 @@ article>div{
 .detail-row2{
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
+    justify-content: space-between;
     margin-top: 15px;
 }
 
@@ -167,7 +167,6 @@ input::placeholder{
     display: flex;
     flex-direction: row;
     gap: 10px;
-    margin-right: 50%;
 }
 .plus{
     width: 20px;

@@ -1,0 +1,65 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" />
+    <link rel="stylesheet" href="{% static 'css/start.css' %}">
+    <title>SSOCK</title>
+</head>
+<body>
+    <div id="container">
+        <nav>
+            <div class="text21"><a href="#"><img src="{% static 'images/menu.png'%}"></a></div>
+            <div class="text22"> SSOCK </div>
+            <div></div>
+        </nav>
+        <div>
+            <img src="{%static 'images/service.png'%}" id="img-1">
+            <div class="box-btn" id="box1">
+                <div>'쏙' 이용하러 바로 가기</div>
+            </div>
+        </div>
+        <div>
+            <img src="{%static 'images/service2.png'%}" id="img-2">
+            <div class="box-btn" id="box2">
+                <div>가맹점 신청하기</div>
+            </div>
+        </div>
+        <div>
+            <div class="btn" id="box3">
+                <div>로그인</div>
+            </div>
+            <div class="btn" id="box4">
+                <div>회원가입</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var box1 = document.getElementById("box1");
+            var box2 = document.getElementById("box2");
+            var box3 = document.getElementById("box3");
+            var box4 = document.getElementById("box4");
+            
+            box1.addEventListener("click", function() {
+                window.location.href = "seller_list.html로 이동"; //url 확인 부탁드려요!
+            });
+            
+            box2.addEventListener("click", function() {
+                window.location.href = "register.html로 이동";
+            });
+            
+            box3.addEventListener("click", function() {
+                window.location.href = "login.html로 이동";
+            });
+            
+            box4.addEventListener("click", function() {
+                window.location.href = "signup.html로 이동";
+            });
+        });
+    </script>
+</body>
+</html>

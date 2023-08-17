@@ -1,14 +1,51 @@
+{% load static %}
+{% load humanize %}
 <!DOCTYPE html>
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>메인페이지</title>
+  <link href="{% static 'css/main.css'%}" rel="stylesheet"/>
+</head>
 </head>
 <body>
-  여러가게 보여주는 가게 목록 페이지
+  <nav>
+    <div class="text21"><a href="#">&lt</a></div>
+    <div class="text22"> SSOCK </div>
+    <div></div>
+  </nav>
+  <section>
+    <div class="img_wrap">
+        <img class="img" src="{%static 'images/service2.png'%}">
+    </div>
+  </section>
   {% for seller in sellers %}
-  <a href="{% url 'sellers:seller_detail' seller.pk %}">{{seller.register.name}}</a>
+  <section>
+    <div class="cont" id="cont">
+        <div class="image-box">
+            <a href="{% url 'sellers:seller_detail' seller.pk %}"><img src="{{market.register.logo.url}}"></a>
+            <div class="image-caption">{{market.register.name}}</div>
+        </div>
+        <div class="text-box">
+            <div class="text0_wrap">
+                <img class="img02" src="{% static 'images/location.png'%}">
+                <p class="text02">{{market.register.location}}</p>
+            </div class="text0_wrap">
+            <div class="text0_wrap">
+                <img class="img02" src="{% static 'images/clock.png'%}">
+                <p class="text02">
+                  {{market.time}} 
+                  {% if market.close %}
+                  {{market.close}}
+                  {% else %}
+                  정기 휴무 없음
+                  {% endif %}
+                </p>
+            </div>
+        </div>
+    </div>
+  </section>
   {% endfor %}
 </body>
 </html>

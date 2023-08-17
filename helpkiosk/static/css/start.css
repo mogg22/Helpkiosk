@@ -29,8 +29,52 @@ nav {
 
 #img-1{
     width: 390px;
+    border-top-left-radius: 23px;
+    border-top-right-radius: 23px;
 }
 
 #img-2{
     width: 390px;
+    border-top-left-radius: 23px;
+    border-top-right-radius: 23px;
+}
+
+.box-btn {
+    height: 52px;
+    display: flex;
+    justify-content: center;
+    background: var(--main-color, #EA4C4C);
+    border-bottom-left-radius: 23px;
+    border-bottom-right-radius: 23px;
+    margin-bottom: 25px;
+}
+
+.box-btn div {
+    padding-top: 13px;
+    font-size: 20px;
+    font-weight: 700;
+    color: #fff;
+}
+
+.div-34 {
+    display: flex;
+    justify-content: space-around;
+}
+
+.btn{
+    width: 101px;
+    height: 32px;
+    padding: 14px 25px;
+    border-radius: 32px;
+    border: 1px solid #EDEDED;
+    background: #FFF;
+    display: flex;
+    justify-content: center;
+}
+
+.btn div {
+    margin-top: 7px;
+    color: #EA4C4C;
+    font-size: 16px;
+    font-weight: 600;
 }

@@ -20,7 +20,7 @@ a:link, a:visited {
     color: black;
 }
 
-a#pay:link, a#pay:visited {
+div#pay {
     color: white;
 }
 
@@ -80,7 +80,7 @@ article{
 
 .store-category-s{
     cursor: pointer;
-    width: 25%;
+    flex-grow: 1;
     padding: 10px;
     text-align: center;
     border-right: 1px solid rgba(0, 0, 0, 0.05);
@@ -138,6 +138,7 @@ article{
     width: 20%;
     height: 65px;
     background-color: rgba(0, 0, 0, 0.05) ;
+    object-fit: cover;
 }
 
 .basket{

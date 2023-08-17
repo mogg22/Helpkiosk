@@ -6,12 +6,56 @@ let elMenu2;
 let categoryIndex2;
 
 window.onload = function () {
-    console.log('Onload')
-    diagnosticPara = document.querySelector('.output');
-    elMenu2 = document.querySelector('.menu-script-all');
+    let elSttButton = document.querySelector('.stt-button');
+    const isSound = sessionStorage.getItem('isSound') == 'true';
+    if (isSound) {
+        elSttButton.style.display = 'flex';
+    } else {
+        elSttButton.style.display = 'none';
+    }
 }
 
-function sendSpeech() {
+function kioskStt(result) {
+    const elMenuAnchor = document.querySelectorAll('.menu-anchor');
+
+    let noMatch = true;
+    elMenuAnchor.forEach(function (v, k) {
+        const menuString = v.getAttribute('data-tts').replace(/\n/g, '').split(' ').join('');
+        if (menuString == result) {
+            noMatch = false;
+            location.href = v.href;
+        }
+    })
+
+    if (!noMatch) return ;
+
+    if (result == '결제하기') {
+        noMatch = false;
+        location.href = '/cart';
+        return ;
+    }
+
+    if (result == '전체취소') {
+        noMatch = false;
+        const elClearForm = document.querySelector('#clear-cart');
+        elClearForm.submit();
+        return ;
+    }
+    
+    sendTTS('해당 메뉴는 판매하지 않습니다');
+}
+
+function kioskMenuStt(result) {
+    if (String(result).includes('추가')) {
+        const elKioskMenuForm = document.querySelector('#kiosk-menu-form');
+        elKioskMenuForm.submit();
+        return ;
+    }
+    
+    sendTTS('무슨 말인지 모르겠어요.');
+}
+
+function sendSpeech(page) {
     var recognition = new SpeechRecognition();
     var speechRecognitionList = new SpeechGrammarList();
     recognition.grammars = speechRecognitionList;
@@ -30,19 +74,10 @@ function sendSpeech() {
         //     diagnosticPara.textContent = 'Speech received: ' + speechResult + '.';
         // }
         let result = speechResult.split(' ').join('');
-        categoryIndex2 = document.querySelector('.category-index').innerText;
-        let orderMenu = elMenu2.innerText.replace(/\n/g, '').split(' ').join('').split(',');
-        console.log('orderMenu: ', orderMenu);
-        let noMenu = true;
-        orderMenu.forEach (function(v,i){
-            if(v == result){
-                noMenu = false;
-                location.href='/users/login'
-            }
-        })
-
-        if (noMenu) {
-            sendTTS('해당 메뉴는 판매하지 않습니다');
+        if (page == 'kiosk') {
+            kioskStt(result);
+        } else if (page == 'kiosk_menu') {
+            kioskMenuStt(result);
         }
   }
 

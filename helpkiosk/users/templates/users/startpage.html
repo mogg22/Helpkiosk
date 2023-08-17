@@ -21,16 +21,60 @@
                 <div>'쏙' 이용하러 바로 가기</div>
             </div>
         </div>
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                var box1 = document.getElementById("box1");
+                
+                box1.addEventListener("click", function() {
+                    window.location.href = "/sellers/seller_list"; //url 확인 부탁드려요!
+                });
+            });
+        </script>
         <div>
             <img src="{%static 'images/service2.png'%}" id="img-2">
+            {% if user.is_authenticated %}
+            <div class="box-btn" id="box22">
+                <div>사장님 마이페이지 바로 가기</div>
+            </div>
+            <script>
+                document.addEventListener("DOMContentLoaded", function() {
+                    var box22 = document.getElementById("box22");
+                    
+                    box22.addEventListener("click", function() {
+                        window.location.href = "/users/mypage";
+                    });
+                });
+            </script>
+            {% else %}
             <div class="box-btn" id="box2">
                 <div>가맹점 신청하기</div>
             </div>
+            <script>
+                document.addEventListener("DOMContentLoaded", function() {
+                    var box2 = document.getElementById("box2");
+                    
+                    box2.addEventListener("click", function() {
+                        window.location.href = "/sellers/register";
+                    });
+                });
+            </script>
+            {% endif %}
         </div>
         {% if user.is_authenticated %}
-        <div class="btn" id="box3">
-            <a href="{% url 'users:logout' %}">로그아웃</a>
+        <div class="div-34">
+            <div class="btn" id="box5">
+                <div>로그아웃</div>
+            </div>
         </div>
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                var box5 = document.getElementById("box5");
+
+                box5.addEventListener("click", function() {
+                    window.location.href = "/users/logout";
+                });
+            });
+        </script>
         {% else %}
         <div class="div-34">
             <div class="btn" id="box3">
@@ -41,31 +85,21 @@
                 <div>회원가입</div>
             </div>
         </div>
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                var box3 = document.getElementById("box3");
+                var box4 = document.getElementById("box4");
+                
+                box3.addEventListener("click", function() {
+                    window.location.href = "/users/login";
+                });
+                
+                box4.addEventListener("click", function() {
+                    window.location.href = "/users/signup";
+                });
+            });
+        </script>
         {% endif %}
     </div>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            var box1 = document.getElementById("box1");
-            var box2 = document.getElementById("box2");
-            var box3 = document.getElementById("box3");
-            var box4 = document.getElementById("box4");
-            
-            box1.addEventListener("click", function() {
-                window.location.href = "/sellers/seller_list"; //url 확인 부탁드려요!
-            });
-            
-            box2.addEventListener("click", function() {
-                window.location.href = "/sellers/register";
-            });
-            
-            box3.addEventListener("click", function() {
-                window.location.href = "/users/login";
-            });
-            
-            box4.addEventListener("click", function() {
-                window.location.href = "/users/signup";
-            });
-        });
-    </script>
 </body>
 </html>

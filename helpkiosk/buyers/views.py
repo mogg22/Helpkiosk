@@ -68,22 +68,11 @@ def add_cart(request, pk):
 @login_required
 def cart(request):
     cart_items = CartItem.objects.filter(cart__user=request.user)
-
-    total_price = 0
-
-    for data in cart_items:
-        if data.menu:
-            if data.options.exists():
-                option_total_price = sum(option.price for option in data.options.all())
-                data.total_price = (data.menu.price * data.quantity) + option_total_price
-                total_price += data.total_price
-            else:
-                data.total_price = data.menu.price * data.quantity
-                total_price += data.total_price
+    cart = get_object_or_404(Cart, user=request.user)
 
     context = {
         'cart_items': cart_items,
-        'total_price': total_price
+        'cart': cart,
     }
     return render(request, 'buyers/cart.html', context)
 
@@ -91,6 +80,7 @@ def cart(request):
 def item_ajax(request, item_id, *args, **kwargs):
     data = json.loads(request.body)
     item = CartItem.objects.get(pk=item_id)
+    cart = get_object_or_404(Cart, user=request.user)
 
     quan = data.get('quanType')
     
@@ -105,7 +95,9 @@ def item_ajax(request, item_id, *args, **kwargs):
 
     context = {
         'id' : item_id,
-        'item' : item.quantity,
+        'quantity' : item.quantity,
+        'price' : item.total_price(),
+        'total' : cart.cart_total_price(),
     }
     
     return JsonResponse(context)
@@ -139,42 +131,6 @@ def clear_cart(request):
 
     return redirect('sellers:seller_detail', pk=market_id)
 
-# @login_required
-# def payment(request):
-#     if request.method == 'POST':
-#         total_amount = int(request.POST.get('total_price'))
-#         phone_number = request.POST.get('phone_number', '')
-#         request_text = request.POST.get('request_text')
-#         payment_method = request.POST.get('payment_method')
-#         order_type = request.POST.get('order_type')
-
-#         user_cart = Cart.objects.filter(user=request.user).first()
-        
-#         if user_cart:
-#             payment = Payment.objects.create(
-#                 cart=user_cart,
-#                 total_amount=total_amount,
-#                 need=request_text,
-#                 phone_number=phone_number,
-#                 payment_method=payment_method,
-#                 order_type=order_type
-#             )
-            
-#             # user_cart.cartitem_set.all().delete()
-            
-#         # else:
-#         #     payment = None
-
-#             return render(request, 'buyers/payment.html', {
-#                 'total_amount': total_amount,
-#                 'phone_number': phone_number,
-#                 'request_text': request_text,
-#                 'payment_method': payment_method,
-#                 'order_type': order_type,
-#                 'payment': payment,
-#             })
-
-#     return redirect('buyers:cart')
 
 @login_required
 def payment(request):

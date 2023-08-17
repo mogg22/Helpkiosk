@@ -14,15 +14,6 @@ class Cart(models.Model):
         total_price = sum(item.total_price() for item in self.cartitem_set.all())
         return total_price
 
-@receiver(post_save, sender=User)
-def create_user_cart(sender, instance, created, **kwargs):
-    if created:
-        Cart.objects.create(user=instance)
-
-@receiver(post_save, sender=User)
-def save_user_cart(sender, instance, **kwargs):
-    instance.cart.save()
-
     # def get_total_price(self):
     #     return self.menu.price * self.quantity
     
@@ -42,6 +33,15 @@ def save_user_cart(sender, instance, **kwargs):
     #         #     self.order = False
                 
     #     super().save(*args, **kwargs)
+
+@receiver(post_save, sender=User)
+def create_user_cart(sender, instance, created, **kwargs):
+    if created:
+        Cart.objects.create(user=instance)
+
+@receiver(post_save, sender=User)
+def save_user_cart(sender, instance, **kwargs):
+    instance.cart.save()
 
 class CartItem(models.Model):
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE)

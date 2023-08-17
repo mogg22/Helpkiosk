@@ -212,7 +212,7 @@ def order_list(request, pk, *args, **kwargs):
 
 def order_detail(request, pk, *args, **kwargs):
   payment = get_object_or_404(Payment, pk=pk)
-  
+  market = payment.cart.market
   # if is_market_owner(request.user, pk):
   #   owner = True
   # else:
@@ -220,6 +220,7 @@ def order_detail(request, pk, *args, **kwargs):
 
   context = {
     'payment': payment,
+    'market': market,
     # 'owner': owner,
   }
   

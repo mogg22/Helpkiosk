@@ -43,19 +43,19 @@
         var box4 = document.getElementById("box4");
         
         box1.addEventListener("click", function() {
-          window.location.href = "{% url 'sellers:order_list' seller.pk%}"; //url 확인 부탁드려요!
+          window.location.href = "{% url 'sellers:order_list' pk=market.pk %}";
         });
         
         box2.addEventListener("click", function() {
-          window.location.href = "{% url 'sellers:seller_info' seller.pk%}";
+          window.location.href = "{% url 'sellers:seller_info' market.pk %}";
         });
         
         box3.addEventListener("click", function() {
-          window.location.href = "{% url 'sellers:seller_detail' seller.pk%}";
+          window.location.href = "{% url 'sellers:seller_detail' market.pk %}";
         });
         
         box4.addEventListener("click", function() {
-          window.location.href = "{% url 'sellers:my_qr' seller.pk%}";
+          window.location.href = "{% url 'sellers:my_qr' %}";
         });
       });
     </script>

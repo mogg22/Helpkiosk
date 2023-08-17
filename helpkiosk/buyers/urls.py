@@ -14,5 +14,4 @@ urlpatterns = [
     path('delete_cart_item/<int:pk>/', delete_cart_item, name='delete_cart_item'),
     path('clear_cart/', clear_cart, name='clear_cart'),
     path('payment/', payment, name='payment'),
-    # path('set_dining_option/', set_dining_option, name='set_dining_option'),
 ]

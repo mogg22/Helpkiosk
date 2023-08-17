@@ -70,3 +70,10 @@ class Payment(models.Model):
 #     def __str__(self):
 #         cart_ids = ', '.join(str(cart.id) for cart in self.carts.all())
 #         return f"Payment for Carts: {cart_ids}"
+
+class PaymentItem(models.Model):
+    payment = models.ForeignKey(Payment, on_delete=models.CASCADE)
+    total_amount = models.DecimalField(max_digits=10, decimal_places=2, default="0")
+    menu = models.ForeignKey(Menu, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
+    options = models.ManyToManyField(Option, blank=True)

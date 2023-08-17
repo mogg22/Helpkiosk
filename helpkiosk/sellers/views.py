@@ -32,6 +32,8 @@ def register(request):
 def seller_detail(request, pk, *args, **kwargs):
   market = get_object_or_404(Market, pk=pk)
   categories = MenuCategory.objects.filter(market=pk)
+  # total_price = request.GET.get('total_price')
+
 
   mcart = get_object_or_404(Cart, user=request.user)
   if mcart:

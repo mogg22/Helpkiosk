@@ -24,20 +24,20 @@
   <section>
     <div class="cont" id="cont">
         <div class="image-box">
-            <a href="{% url 'sellers:seller_detail' seller.pk %}"><img src="{{market.register.logo.url}}"></a>
-            <div class="image-caption">{{market.register.name}}</div>
+            <a href="{% url 'sellers:seller_detail' seller.pk %}"><img src="{{seller.register.logo.url}}"></a>
+            <div class="image-caption">{{seller.register.name}}</div>
         </div>
         <div class="text-box">
             <div class="text0_wrap">
                 <img class="img02" src="{% static 'images/location.png'%}">
-                <p class="text02">{{market.register.location}}</p>
+                <p class="text02">{{seller.register.location}}</p>
             </div class="text0_wrap">
             <div class="text0_wrap">
                 <img class="img02" src="{% static 'images/clock.png'%}">
                 <p class="text02">
-                  {{market.time}} 
-                  {% if market.close %}
-                  {{market.close}}
+                  {{seller.time}} 
+                  {% if seller.close %}
+                  {{seller.close}}
                   {% else %}
                   정기 휴무 없음
                   {% endif %}

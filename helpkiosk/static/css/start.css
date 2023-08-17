@@ -9,7 +9,7 @@
 }
 
 nav {
-    width: 342px;
+    width: 310px;
     display: flex;
     justify-content: space-between;
     padding: 8%;
@@ -28,18 +28,19 @@ nav {
 }
 
 #img-1{
-    width: 390px;
+    width: 380px;
     border-top-left-radius: 23px;
     border-top-right-radius: 23px;
 }
 
 #img-2{
-    width: 390px;
+    width: 380px;
     border-top-left-radius: 23px;
     border-top-right-radius: 23px;
 }
 
 .box-btn {
+    width: 380px;
     height: 52px;
     display: flex;
     justify-content: center;

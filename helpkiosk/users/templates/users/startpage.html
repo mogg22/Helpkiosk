@@ -36,7 +36,6 @@
             </div>
         </div>
     </div>
-
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             var box1 = document.getElementById("box1");
@@ -45,19 +44,19 @@
             var box4 = document.getElementById("box4");
             
             box1.addEventListener("click", function() {
-                window.location.href = "{% url 'sellers:seller_list' %}"; //url 확인 부탁드려요!
+                window.location.href = "/sellers/seller_list"; //url 확인 부탁드려요!
             });
             
             box2.addEventListener("click", function() {
-                window.location.href = "{% url 'sellers:register' %}";
+                window.location.href = "register.html로 이동";
             });
             
             box3.addEventListener("click", function() {
-                window.location.href = "{% url 'users:login' %}";
+                window.location.href = "login.html로 이동";
             });
             
             box4.addEventListener("click", function() {
-                window.location.href = "{% url 'users:signup' %}";
+                window.location.href = "signup.html로 이동";
             });
         });
     </script>

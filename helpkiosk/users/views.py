@@ -77,7 +77,7 @@ def log_in(request, *args, **kwargs):
     user = authenticate(username=username, password=password)
     if user:
       login(request, user, backend='django.contrib.auth.backends.ModelBackend')
-      return redirect('sellers:seller_list')
+      return redirect('users:start_page')
     else:
       context={'error':'로그인 정보가 맞지 않습니다! 아이디 또는 비밀번호를 확인해주세요',}
       return render(request, 'users/login.html',context)
@@ -85,7 +85,7 @@ def log_in(request, *args, **kwargs):
 
 def logout(request, *args, **kwargs):
   auth.logout(request)
-  return redirect('sellers:seller_list')
+  return redirect('users:start_page')
 
 @login_required
 def mypage(request, *args, **kwargs):

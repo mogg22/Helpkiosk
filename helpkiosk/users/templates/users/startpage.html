@@ -27,14 +27,21 @@
                 <div>가맹점 신청하기</div>
             </div>
         </div>
+        {% if user.is_authenticated %}
+        <div class="btn" id="box3">
+            <a href="{% url 'users:logout' %}">로그아웃</a>
+        </div>
+        {% else %}
         <div class="div-34">
             <div class="btn" id="box3">
                 <div>로그인</div>
             </div>
+            
             <div class="btn" id="box4">
                 <div>회원가입</div>
             </div>
         </div>
+        {% endif %}
     </div>
     <script>
         document.addEventListener("DOMContentLoaded", function() {

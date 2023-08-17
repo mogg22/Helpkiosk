@@ -15,7 +15,7 @@
 
 <body>
     <nav>
-        <div class="text21"><a href="#">&lt</a></div> {% comment %} 다시 seller_detail 페이지로 이동해야 돼요{% endcomment %}
+        <div class="text21"><a href="{% url 'sellers:seller_list' %}">&lt</a></div>
         <div class="text22"> SSOCK </div>
         <div></div>
     </nav>
@@ -168,7 +168,7 @@
         <div class="pay-row">
             <div class="pay1">
                 <div class="pay1-1">총 결제 금액</div>
-                {% comment %} <span class="price" style="display: none"> {% widthratio cart.quantity 1 cart.price %} </span> {% endcomment %}
+                {% comment %} <span class="price" style="display: none"> {{total_price}} </span> {% endcomment %}
                 <div class="pay1-2" id="total_price">₩ {{ total_price|intcomma }}</div>
                 <form method="post" action="{% url 'buyers:clear_cart' %}">
                     {% csrf_token %}

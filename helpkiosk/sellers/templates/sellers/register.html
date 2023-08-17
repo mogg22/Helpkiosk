@@ -10,6 +10,11 @@
 </head>
 <body>
   <div id="container">
+    <nav>
+      <div class="text21"><a href="{{request.META.HTTP_REFERER}}">&lt</a></div> {% comment %} 다시 seller_detail 페이지로 이동해야 돼요{% endcomment %}
+      <div class="text22"> SSOCK </div>
+      <div></div>
+    </nav>
     <div id="top">상담하고자 하는 신청자 및 매장 정보를 입력해주세요.</div>
     <form method="POST">
       {% csrf_token %}

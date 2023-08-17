@@ -49,6 +49,11 @@ section {
     margin: 20px;
 }
 
+.text21 {
+    margin-left: 20px;
+    margin-right: 50px;
+}
+
 .text22 {
     text-align: center;
     font-weight:bold;
@@ -177,11 +182,13 @@ section {
 
 .text0_wrap{
     display: flex;
+    justify-content: left;
     padding-bottom: 3%;
 }
 
 .img02{
-    margin-right:2%;
+    margin-right: 10px;
+    margin-left: 0;
 }
 
 .text02{

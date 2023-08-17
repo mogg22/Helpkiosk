@@ -77,7 +77,7 @@
                             매장식사
                         </label>
                         <label>
-                            <input type="radio" name="order_type" value="포장">
+                            <input type="radio" name="order_type" value="포장" checked>
                             포장
                         </label>
                     </div>
@@ -94,14 +94,14 @@
                         카카오페이
                     </label>
                     <label>
-                        <input type="radio" name="payment_method" value="픽업시 결제">
+                        <input type="radio" name="payment_method" value="픽업시 결제" checked>
                         픽업시 결제
                     </label>
                     <br>
                 </div> 
                 {% csrf_token %}
                 <div>
-                    <input type="hidden" name="total_price" value="{{ total_price }}">
+                    <input type="hidden" name="total_price" value="{{cart.cart_total_price}}">
                     <input type="submit" class="detail-bt" value="결제">
                 </div>   
             </div>

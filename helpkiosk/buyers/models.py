@@ -8,8 +8,12 @@ class Cart(models.Model):
     market = models.ForeignKey(Market, on_delete=models.CASCADE, null=True, blank=True)
     order = models.BooleanField(default=False) # False 포장, True 매장식사
     
-    def get_total_price(self):
-        return self.menu.price * self.quantity
+    def cart_total_price(self):
+        total_price = sum(item.total_price() for item in self.cartitem_set.all())
+        return total_price
+
+    # def get_total_price(self):
+    #     return self.menu.price * self.quantity
     
     def __str__(self):
         return f"Cart for {self.user.username}"
@@ -32,8 +36,13 @@ class CartItem(models.Model):
     quantity = models.PositiveIntegerField(default=1)
     options = models.ManyToManyField(Option, blank=True)
 
+    # def total_price(self):
+    #     return self.menu.price * self.quantity
+    
     def total_price(self):
-        return self.menu.price * self.quantity
+        option_price = sum(option.price for option in self.options.all())
+        total_price = (self.menu.price + option_price) * self.quantity
+        return total_price
     
     def __str__(self):
         return f"Item: {self.menu.name} (Qty: {self.quantity})"

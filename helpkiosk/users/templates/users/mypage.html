@@ -11,7 +11,7 @@
 <body>
   <nav>
       {% comment %} <div class="text21"><a href="{{ request.META.HTTP_REFERER }}"><</a></div> {% endcomment %}
-      <div class="text21"><a href="{{request.META.HTTP_REFERER}}"><</a></div>
+      <div class="text21"><a href="{% url 'sellers:seller_list' %}"><</a></div>
       <div class="text22"> 마이페이지 </div>
       <div><a href="/users/start"><img src="{%static 'images/home.png'%}"></a></div>
   </nav>
@@ -116,6 +116,25 @@
       {% comment %} 이전 코드 {% endcomment %}
       <div id="wrap33-div">
         {% if paymentitems %}
+          {% for paymentitem in paymentitems reversed %}    
+            {% if paymentitem.payment.cart.market %}
+            <section class="wrap33">
+              <div class="polaroid2">
+                  <a href="#"><img src="{{ paymentitem.payment.cart.market.register.logo.url }}" alt="Image 2"></a>
+                  <div>
+                      <div class="text">{{ paymentitem.payment.cart.market.register.name }}</div>
+                      <div class="text">{{ paymentitem.payment.date }}</div>
+                  </div>
+              </div>
+            </section>
+          {% endif %}
+          {% empty %}
+          <div>주문내역이 없습니다</div>
+          {% endfor %}
+        {% endif %}
+      </div>
+      <div id="wrap33-div">
+        {% if payments %}
           {% for paymentitem in paymentitems reversed %}    
             {% if paymentitem.payment.cart.market %}
             <section class="wrap33">

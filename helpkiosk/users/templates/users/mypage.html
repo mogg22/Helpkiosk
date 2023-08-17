@@ -18,12 +18,46 @@
     
     {% if user.profile.seller %}
       <div id="store">
-        {% comment %} <img src="{% static 'images/heart.png' %}" id="heart"> {% endcomment %}
+        <img src="{% static 'images/heart.png' %}" id="heart">
         {{market.register.name}} > {{market.register.representative}} 사장님
       </div>
-      <a href="">주문목록</a>
-      <a href="">매장정보수정</a>
-      <a href="">매장키오스크수정</a>
+      <div class="box-btn" id="box1">
+        <div>주문 목록</div>
+      </div>
+      <div class="box-btn" id="box2">
+        <div>매장 정보 수정</div>
+      </div>
+      <div class="box-btn" id="box3">
+        <div>매장 키오스크 수정</div>
+      </div>
+      <div class="box-btn" id="box4">
+        <div>매장 QR 확인</div>
+      </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        var box1 = document.getElementById("box1");
+        var box2 = document.getElementById("box2");
+        var box3 = document.getElementById("box3");
+        var box4 = document.getElementById("box4");
+        
+        box1.addEventListener("click", function() {
+          window.location.href = "{% url 'sellers:order_list' %}"; //url 확인 부탁드려요!
+        });
+        
+        box2.addEventListener("click", function() {
+          window.location.href = "{% url 'sellers:seller_info' %}";
+        });
+        
+        box3.addEventListener("click", function() {
+          window.location.href = "{% url 'sellers:seller_detail' %}";
+        });
+        
+        box4.addEventListener("click", function() {
+          window.location.href = "{% url 'sellers:my_qr' %}";
+        });
+      });
+    </script>
   
     {% else %}
     <section class="text_wrap">

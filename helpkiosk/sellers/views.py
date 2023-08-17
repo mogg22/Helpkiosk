@@ -237,3 +237,13 @@ def seller_info(request, pk, *args, **kwargs):
   
   return render(request, 'sellers/seller_info.html', context)
   
+  
+def my_qr(request):
+  register = get_object_or_404(Register, user=request.user)
+  market = register.market
+    
+  context = {
+    'market': market,
+  }
+  
+  return render(request, 'sellers/my_qr.html', context)

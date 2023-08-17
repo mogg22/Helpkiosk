@@ -206,3 +206,20 @@ section {
     margin-top: 0;
     margin-right: 0;
 }
+
+/* 사장님 마이페이지 */
+.box-btn {
+    width: 342px;
+    height: 48px;
+    border-radius: 3px;
+    background: var(--0000005, rgba(0, 0, 0, 0.05));
+    box-shadow: 1px 1px 4px 0px rgba(0, 0, 0, 0.25);
+    margin: 15px 0;
+}
+
+.box-btn div {
+    padding-top: 13px;
+    padding-left: 17px;
+    font-size: 16px;
+    font-weight: 500;
+}

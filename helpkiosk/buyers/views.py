@@ -146,7 +146,6 @@ def clear_cart(request):
 @login_required
 def payment(request):
     if request.method == 'POST':
-        market_id = int(request.POST.get('market'))
         total_amount = int(request.POST.get('total_price'))
         phone_number = request.POST.get('phone_number', '')
         request_text = request.POST.get('request_text')
@@ -156,10 +155,7 @@ def payment(request):
         user_cart = Cart.objects.filter(user=request.user).first()
         
         if user_cart:
-            market = Market.objects.get(pk=market_id)
-
             payment = Payment.objects.create(
-                market=market,
                 cart=user_cart,
                 total_amount=total_amount,
                 need=request_text,
@@ -181,7 +177,6 @@ def payment(request):
             user_cart.cartitem_set.all().delete()
 
             return render(request, 'buyers/payment.html', {
-                'market': market,
                 'total_amount': total_amount,
                 'phone_number': phone_number,
                 'request_text': request_text,

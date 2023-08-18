@@ -62,6 +62,7 @@ class CartItem(models.Model):
 
 class Payment(models.Model):
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE, default="")
+    market = models.ForeignKey(Market, on_delete=models.CASCADE, null=True, blank=True)
     total_amount = models.DecimalField(max_digits=10, decimal_places=2)
     date = models.DateTimeField(auto_now_add=True)
     need = models.TextField(null=True, blank=True)

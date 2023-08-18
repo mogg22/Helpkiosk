@@ -13,21 +13,32 @@ def is_market_owner(user, market_id):
     return False
 
 def register(request):
-  if request.method == 'POST':
-    Register.objects.create(
-      user=request.user,
-      representative=request.POST.get('representative'),
-      name=request.POST.get('name'),
-      location=request.POST.get('location'),
-      number=request.POST.get('number'),
-      business_file=request.FILES.get('business_file'),
-      registration_file=request.FILES.get('registration_file'),
-      logo=request.FILES.get('img'),
-      info_file=request.FILES.get('info_file'),
-    )
-    return redirect('sellers:seller_list')
+  register = get_object_or_404(Register, user=request.user)
+  
+  if register:
+    error = '이미 등록된 가게가 있습니다.'
+    context = {
+      'error': error,
+      'register': register,
+    }
+    return render(request, 'sellers/register.html', context)
+
   else:
-    return render(request, 'sellers/register.html')
+    if request.method == 'POST':
+      Register.objects.create(
+        user=request.user,
+        representative=request.POST.get('representative'),
+        name=request.POST.get('name'),
+        location=request.POST.get('location'),
+        number=request.POST.get('number'),
+        business_file=request.FILES.get('business_file'),
+        registration_file=request.FILES.get('registration_file'),
+        logo=request.FILES.get('img'),
+        info_file=request.FILES.get('info_file'),
+      )
+      return redirect('sellers:seller_list')
+    else:
+      return render(request, 'sellers/register.html')
 
 def seller_detail(request, pk, *args, **kwargs):
   market = get_object_or_404(Market, pk=pk)

@@ -9,6 +9,10 @@
   <title>가맹정 신청</title>
 </head>
 <body>
+  {% if error %}
+  <p>{{error}}</p>
+  <p><a href="{% url 'sellers:seller_detail' register.pk %}">내 가게 보러가기</a></p>
+  {% else %}
   <div id="container">
     <nav>
       <div class="text21"><a href="{{request.META.HTTP_REFERER}}">&lt</a></div> {% comment %} 다시 seller_detail 페이지로 이동해야 돼요{% endcomment %}
@@ -19,51 +23,47 @@
     <form method="POST">
       {% csrf_token %}
       <label for="representative">대표자 이름</label>
-      <input type="text" id="representative" name="representative" placeholder="신청하시는 대표자 이름을 입력해주세요"><br>
+      <input type="text" id="representative" name="representative" placeholder="신청하시는 대표자 이름을 입력해주세요" required><br>
       
       <label for="number">전화 번호</label>
-      <input type="text" id="number" name="number" placeholder="상담 연락을 받을 번호를 입력해주세요"><br>
+      <input type="text" id="number" name="number" placeholder="상담 연락을 받을 번호를 입력해주세요" required><br>
       
       <label for="name">매장명</label>
-      <input type="text" id="name" name="name" placeholder="신청하고자 하는 매장명을 입력해주세요"><br>
+      <input type="text" id="name" name="name" placeholder="신청하고자 하는 매장명을 입력해주세요" required><br>
 
       <label for="location">매장 주소</label>
-      <input type="text" id="location" name="location" placeholder="매장의 주소를 입력해주세요"><br>
+      <input type="text" id="location" name="location" placeholder="매장의 주소를 입력해주세요" required><br>
 
       <label for="business_file">사업자 등록증</label>
       <div id="box">
         <label class="input-file-btn" for="business_file">파일 첨부</label>
-        <input type="file" id="business_file" name="business_file" style="display: none">
+        <input type="file" id="business_file" name="business_file" style="display: none" required>
       </div>
       
       <label for="registration_file">영업 신고증</label>
       <div id="box">
         <label class="input-file-btn" for="registration_file">파일 첨부</label>
-      <input type="file" id="registration_file" name="registration_file" style="display: none">
+      <input type="file" id="registration_file" name="registration_file" style="display: none" required>
       </div>
       
       <label for="logo">로고 이미지</label>
       <div id="box">
         <label class="input-file-btn" for="logo">파일 첨부</label>
-        <input type="file" id="logo" name="logo" style="display: none">
+        <input type="file" id="logo" name="logo" style="display: none" required>
       </div>
       
       <label for="info_file">정산 또는 결제용 통장 사본</label>
       <div id="box">
         <label class="input-file-btn" for="info_file">파일 첨부</label>
-      <input type="file" id="info_file" name="info_file" style="display: none">
+      <input type="file" id="info_file" name="info_file" style="display: none" required>
       </div>
       
       <div id="btn-div"> <input type="submit" id="btn" value="가맹점 신청"> </div>
     </form>
   </div>
+  {% endif %}
   
   <script>
-    const btn = document.getElementById("btn");
-    
-    add.onclick = function(){
-      location.href='main페이지 url'
-    }
   </script>
 </body>
 </html>

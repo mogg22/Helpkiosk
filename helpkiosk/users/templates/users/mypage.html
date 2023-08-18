@@ -77,12 +77,12 @@
               <div class="polaroid">
                   <img src="{{ lapay.cart.market.register.logo.url }}" alt="Image 2">
                   <div>
-                      <div class="text">{{lapay.payment.date}}</div>
+                      <div class="text">{{lapay.date}}</div>
                   </div>
               </div>
               <div class="right">
                   <div class="text35">
-                      <a href="#">{{ lapay.payment.cart.market.register.name }} &gt;</a>
+                      <a href="#">{{ lapay.cart.market.register.name }} &gt;</a>
                   </div>
                   <div class="text36">
                     {{itemstitle|truncatechars:10}}
@@ -108,9 +108,9 @@
           {% for payid, paymentitem in paymentitems.items reversed %}    
             <section class="wrap33">
               <div class="polaroid2">
-                  <a href="#"><img src="{{ paymentitem.payment.cart.market.register.logo.url }}" alt="Image 2"></a>
+                  <img src="{{ paymentitem.payment.market.register.logo.url }}" alt="Image 2">
                   <div>
-                      <div class="text">{{ paymentitem.payment.cart.market.register.name }}</div>
+                      <div class="text">{{ paymentitem.payment.market.register.name }}</div>
                       <div class="text">{{ paymentitem.payment.date }}</div>
                   </div>
               </div>

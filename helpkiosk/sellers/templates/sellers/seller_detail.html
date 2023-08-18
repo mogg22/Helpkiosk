@@ -23,7 +23,6 @@
     {% if owner %}
   <article>
     <div class="store-name">{{ market.register.name }}</div>
-    <img class="main-img" src="{{market.register.logo.url}}" alt="">
     <div>
       <ul class="store-category">
         {% for category in categories %}
@@ -77,8 +76,10 @@
   </article>
 
   {% else %}
-  <button class="stt-button" onclick="sendSpeech('kiosk');">STT 버튼</button>
   <article>
+    <button class="stt-button" onclick="sendSpeech('kiosk_menu');">
+      <img class="mic" src="{% static 'images/mic-w.png' %}" alt="">       
+    </button>
     <div id="modal" class="modal-overlay">
         <div class="modal-window">
             <div class="close-area">X</div>
@@ -95,7 +96,6 @@
     </div>
 
     <div class="store-name">{{ market.register.name }}</div>
-    <img class="main-img" src="{{market.register.logo.url}}" alt="">
 
     <div>
       <ul class="store-category">

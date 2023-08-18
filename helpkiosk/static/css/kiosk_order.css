@@ -208,10 +208,12 @@ input::placeholder{
 
 .detail-pick {
     display: flex;
-    justify-content: space-around;
+    justify-content: flex-start;
+    gap: 22px;
 }
 
 .detail-pay {
     display: flex;
-    justify-content: space-around;
+    justify-content: flex-start;
+    gap: 22px;
 }

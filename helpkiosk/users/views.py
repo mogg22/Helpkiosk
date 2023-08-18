@@ -79,7 +79,7 @@ def log_in(request, *args, **kwargs):
       login(request, user, backend='django.contrib.auth.backends.ModelBackend')
       return redirect('users:start_page')
     else:
-      context={'error':'로그인 정보가 맞지 않습니다! 아이디 또는 비밀번호를 확인해주세요',}
+      context={'error':'로그인 정보가 맞지 않습니다! \n 아이디 또는 비밀번호를 확인해주세요',}
       return render(request, 'users/login.html',context)
   return render(request, 'users/login.html')
 

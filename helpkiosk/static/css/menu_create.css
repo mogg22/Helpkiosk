@@ -230,3 +230,44 @@ textarea::placeholder{
     font-size: 16px;
     font-weight: 700;
 }
+
+#edit-form {
+    display: flex;
+    justify-content: center;
+    margin-top: 45px;
+    margin-bottom: 20px;
+}
+
+#btn4 {
+    display: flex;
+    justify-content: center;
+    width: 120px;
+    height: 32px;
+    border-radius: 32px;
+    border: 1px solid #EDEDED;
+    background: #FFF;
+    color: #EA4C4C;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+#delete-div{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #EDEDED;
+}
+
+#delete{
+    display: flex;
+    justify-content: center;
+    width: 80px;
+    height: 22px;
+    border-radius: 32px;
+    border: 1px solid #EDEDED;
+    background: #FFF;
+    color: #EA4C4C;
+    font-size: 16px;
+    font-weight: 700;
+}

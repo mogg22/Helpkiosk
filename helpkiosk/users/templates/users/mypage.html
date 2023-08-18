@@ -72,41 +72,30 @@
       <div class="text33">현재 주문 내역</div>
     </section>
         {% comment %} {% for payment in payments %} {% endcomment %}
-          {% if paymentitems %}
-            {% with latest_payment=paymentitems.last %}
-              {% if latest_payment %}
-              <section class="wrap31">
-                <div class="polaroid">
-                    <img src="{{ latest_payment.payment.cart.market.register.logo.url }}" alt="Image 2">
-                    <div>
-                        <div class="text">{{latest_payment.payment.date}}</div>
-                    </div>
-                </div>
-                <div class="right">
-                    <div class="text35">
-                        <a href="#">{{ latest_payment.payment.cart.market.register.name }} &gt;</a>
-                    </div>
-                    <div class="text36">
-                      {% for payment_item in latest_payment.payment.paymentitem_set.all %}
-                        {% comment %} {{ payment_item.menu.name }}
-                        {% if not forloop.last %} + {% endif %}
-                      {% comment %} <li>
-                        {{ cart_item.menu.name }}
-                      </li> {% endcomment %}
-                      {% comment %} {{ cart_item.menu.name|truncatechars:10 }} {% endcomment %}
-                      {% endfor %}
-                    </div>
-                    <div class="text36">
-                      {{ latest_payment.payment.total_amount|floatformat:0|intcomma }}원
-                    </div>
-                    <div>
-                        <button class="nick_btn"><a href="#">조리 중이에요!</a></button>
-                    </div>
-                </div>
-              </section>
-              {% endif %}
-            {% endwith %}
-            {% else %}
+          {% if lapay %}
+            <section class="wrap31">
+              <div class="polaroid">
+                  <img src="{{ lapay.cart.market.register.logo.url }}" alt="Image 2">
+                  <div>
+                      <div class="text">{{lapay.payment.date}}</div>
+                  </div>
+              </div>
+              <div class="right">
+                  <div class="text35">
+                      <a href="#">{{ lapay.payment.cart.market.register.name }} &gt;</a>
+                  </div>
+                  <div class="text36">
+                    {{itemstitle|truncatechars:10}}
+                  </div>
+                  <div class="text36">
+                    {{ lapay.total_amount|floatformat:0|intcomma }}원
+                  </div>
+                  <div>
+                      <button class="nick_btn"><a href="#">조리 중이에요!</a></button>
+                  </div>
+              </div>
+            </section>
+          {% else %}
               <div>주문 내역이 없습니다.</div>
           {% endif %}
           <div class="box30"></div>
@@ -115,20 +104,17 @@
           </section>
       {% comment %} 이전 코드 {% endcomment %}
       <div id="wrap33-div">
-        {% if paymentitems %}
-          {% for paymentitem in paymentitems reversed %}
-            {% comment %} {% if paymentitem.payment.cart.market %} {% endcomment %}
+        {% if payments %}
+          {% for payid, paymentitem in paymentitems.items reversed %}    
             <section class="wrap33">
               <div class="polaroid2">
-                  <img src="{{ paymentitem.payment.cart.market.register.logo.url }}" alt="Image 2">
+                  <a href="#"><img src="{{ paymentitem.payment.cart.market.register.logo.url }}" alt="Image 2"></a>
                   <div>
                       <div class="text">{{ paymentitem.payment.cart.market.register.name }}</div>
                       <div class="text">{{ paymentitem.payment.date }}</div>
-                      {% comment %} <div class="text">{{ paymentitem.menu.name }}</div> {% endcomment %}
                   </div>
               </div>
             </section>
-          {% comment %} {% endif %} {% endcomment %}
           {% empty %}
           <div>주문내역이 없습니다</div>
           {% endfor %}

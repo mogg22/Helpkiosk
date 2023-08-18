@@ -29,7 +29,7 @@
       <div></div>
     </nav>
     <div id="top">상담하고자 하는 신청자 및 매장 정보를 입력해주세요.</div>
-    <form method="POST">
+    <form method="POST" enctype="multipart/form-data">
       {% csrf_token %}
       <label for="representative">대표자 이름</label>
       <input type="text" id="representative" name="representative" placeholder="신청하시는 대표자 이름을 입력해주세요" required><br>

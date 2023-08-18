@@ -16,4 +16,7 @@ urlpatterns = [
   path('seller_info/<int:pk>/', seller_info, name='seller_info'),
   # path('add_category/<int:pk>/', add_category, name='add_category'),
   path('my_qr/', my_qr, name='my_qr'),
+  path('category_delete/<int:pk>/', category_delete, name='category_delete'),
+  path('option_delete/<int:pk>/', option_delete, name='option_delete'),
+  path('menu_delete/<int:pk>/', menu_delete, name='menu_delete'),
 ]

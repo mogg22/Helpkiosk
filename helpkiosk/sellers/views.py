@@ -17,7 +17,6 @@ def register(request):
     register = Register.objects.get(user=request.user)
   except Register.DoesNotExist:
     register = None
-  # print(register)
   if register:
     error = '이미 등록된 가게가 있습니다.'
     context = {
@@ -36,7 +35,7 @@ def register(request):
         number=request.POST.get('number'),
         business_file=request.FILES.get('business_file'),
         registration_file=request.FILES.get('registration_file'),
-        logo=request.FILES.get('img'),
+        logo=request.FILES.get('logo'),
         info_file=request.FILES.get('info_file'),
       )
       return redirect('sellers:seller_list')
@@ -155,17 +154,25 @@ def menu_update(request, pk):
   }
   return render(request, 'sellers/menu_update.html', context)
 
-# def category_delete(request, pk):
-#   if request.method == "POST":
-#     category = get_object_or_404(Category, pk=pk)
-#     category.delete()
-#   return redirect('sellers:menu_create', pk)
+def category_delete(request, pk):
+  if request.method == "POST":
+    category = get_object_or_404(MenuCategory, pk=pk)
+    market_pk = category.market.pk
+    category.delete()
+  return redirect('sellers:menu_create', market_pk)
 
-# def option_delete(request, pk):
-#   if request.method == "POST":
-#     option = get_object_or_404(Option, pk=pk)
-#     option.delete()
-#   return redirect('sellers:menu_update', pk)
+def menu_delete(request, pk):
+  if request.method == "POST":
+    menu = get_object_or_404(Menu, pk=pk)
+    market_pk = menu.category.market.pk
+    menu.delete()
+  return redirect('sellers:seller_detail', market_pk)
+
+def option_delete(request, pk):
+  if request.method == "POST":
+    option = get_object_or_404(Option, pk=pk)
+    option.delete()
+  return redirect('sellers:menu_update', pk)
 
 def menu_detail(request, pk):
   menu = get_object_or_404(Menu, pk=pk)

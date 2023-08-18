@@ -9,7 +9,7 @@
 }
 
 nav {
-    width: 300px;
+    width: 280px;
     display: flex;
     justify-content: space-between;
     padding: 8%;
@@ -99,4 +99,20 @@ input::placeholder {
     color: #FFF;
     font-size: 16px;
     font-weight: 700;
+}
+
+#container2 div {
+    display: flex;
+    justify-content: center;
+}
+
+a:link, a:visited {
+    text-decoration: none;
+    color: black;
+}
+
+#btn-store {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
 }

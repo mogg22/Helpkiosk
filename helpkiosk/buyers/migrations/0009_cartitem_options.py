@@ -11,9 +11,9 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AddField(
-            model_name='cartitem',
-            name='options',
-            field=models.ManyToManyField(blank=True, to='sellers.option'),
-        ),
+        # migrations.AddField(
+        #     model_name='cartitem',
+        #     name='options',
+        #     field=models.ManyToManyField(blank=True, to='sellers.option'),
+        # ),
     ]

@@ -17,7 +17,9 @@
             <div class="text22"> SSOCK </div>
             <div></div>
         </nav>
-    <button class="stt-button" onclick="sendSpeech('kiosk_menu');">STT 버튼</button>
+    <button class="stt-button" onclick="sendSpeech('kiosk_menu');">
+        <img class="mic" src="{% static 'images/mic-w.png' %}" alt="">       
+    </button>
     <form id="kiosk-menu-form" method="post" action="{% url 'buyers:add_to_cart' menu.id %}">
         {% if menu.img %}
         <img class="main-img" src="{{menu.img.url}}">

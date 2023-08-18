@@ -15,7 +15,7 @@ a:link, a:visited {
 }
 
 nav {
-    width: 342px;
+    width: 310px;
     display: flex;
     justify-content: space-between;
     padding: 8%;
@@ -31,6 +31,10 @@ nav {
 .text22 {
     text-align: center;
     font-weight:bold;
+}
+
+#store {
+    margin-left: 10px;
 }
 
 #heart {
@@ -65,4 +69,8 @@ p {
     display: flex;
     justify-content: space-between;
     margin-top: 10px;
+}
+
+.list {
+    width: 370px;
 }

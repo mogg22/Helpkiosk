@@ -39,25 +39,25 @@ a:hover{
 
 /* 맨 위 */
 nav {
+    width: 100%;
     display: flex;
     justify-content: space-between;
     padding: 8%;
     font-size: 20px;
 }
 
-.text21 a{
-    cursor: pointer;
-    text-decoration: none; 
-    color:inherit;
-}
-
-section {
-    margin: 20px;
+.text21 {
+    margin-left: 0;
+    margin-right: 70px;
 }
 
 .text22 {
     text-align: center;
     font-weight:bold;
+}
+
+section {
+    margin: 20px;
 }
 
 /*프로필 섹션*/

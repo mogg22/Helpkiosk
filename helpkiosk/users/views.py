@@ -103,14 +103,11 @@ def mypage(request, *args, **kwargs):
   else:
     # 구매자일 경우
     payments = Payment.objects.filter(cart__user=request.user)
+    paymentitems = PaymentItem.objects.filter(payment__cart__user=request.user).prefetch_related('payment__cart__market__register')
+
     context = {
       'user': user,
       'payments': payments,
-    }
-    
-    paymentitems = PaymentItem.objects.filter(payment__cart__user=request.user)
-    context = {
-      'user': user,
       'paymentitems': paymentitems,
     }
     return render(request, 'users/mypage.html', context)

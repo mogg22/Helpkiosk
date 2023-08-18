@@ -88,7 +88,7 @@
                     </div>
                     <div class="text36">
                       {% for payment_item in latest_payment.payment.paymentitem_set.all %}
-                        {{ payment_item.menu.name }}
+                        {% comment %} {{ payment_item.menu.name }}
                         {% if not forloop.last %} + {% endif %}
                       {% comment %} <li>
                         {{ cart_item.menu.name }}
@@ -116,43 +116,24 @@
       {% comment %} 이전 코드 {% endcomment %}
       <div id="wrap33-div">
         {% if paymentitems %}
-          {% for paymentitem in paymentitems reversed %}    
-            {% if paymentitem.payment.cart.market %}
+          {% for paymentitem in paymentitems reversed %}
+            {% comment %} {% if paymentitem.payment.cart.market %} {% endcomment %}
             <section class="wrap33">
               <div class="polaroid2">
-                  <a href="#"><img src="{{ paymentitem.payment.cart.market.register.logo.url }}" alt="Image 2"></a>
+                  <img src="{{ paymentitem.payment.cart.market.register.logo.url }}" alt="Image 2">
                   <div>
                       <div class="text">{{ paymentitem.payment.cart.market.register.name }}</div>
                       <div class="text">{{ paymentitem.payment.date }}</div>
+                      {% comment %} <div class="text">{{ paymentitem.menu.name }}</div> {% endcomment %}
                   </div>
               </div>
             </section>
-          {% endif %}
-          {% empty %}
-          <div>주문내역이 없습니다</div>
-          {% endfor %}
-        {% endif %}
-      </div>
-      <div id="wrap33-div">
-        {% if payments %}
-          {% for paymentitem in paymentitems reversed %}    
-            {% if paymentitem.payment.cart.market %}
-            <section class="wrap33">
-              <div class="polaroid2">
-                  <a href="#"><img src="{{ paymentitem.payment.cart.market.register.logo.url }}" alt="Image 2"></a>
-                  <div>
-                      <div class="text">{{ paymentitem.payment.cart.market.register.name }}</div>
-                      <div class="text">{{ paymentitem.payment.date }}</div>
-                  </div>
-              </div>
-            </section>
-          {% endif %}
+          {% comment %} {% endif %} {% endcomment %}
           {% empty %}
           <div>주문내역이 없습니다</div>
           {% endfor %}
         {% endif %}
       </div>
     {% endif %}
-  </div>
 </body>
 </html>

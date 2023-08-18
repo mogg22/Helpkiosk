@@ -20,6 +20,10 @@ a:link, a:visited {
     color: black;
 }
 
+a{
+    font-size: 13px;
+}
+
 div#pay {
     color: white;
 }
@@ -154,7 +158,7 @@ article{
     text-align: left;
     font-size: 14px;
     padding-bottom: 20px;
-    margin-top: 20px;
+    margin-top: 5px;
 }
 
 .menu-price{

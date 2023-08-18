@@ -23,6 +23,7 @@
     {% if owner %}
   <article>
     <div class="store-name">{{ market.register.name }}</div>
+    <img class="main-img" src="{{market.register.logo.url}}" alt="">
     <div>
       <ul class="store-category">
         {% for category in categories %}
@@ -96,6 +97,7 @@
     </div>
 
     <div class="store-name">{{ market.register.name }}</div>
+    <img class="main-img" src="{{market.register.logo.url}}" alt="">
 
     <div>
       <ul class="store-category">

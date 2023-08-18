@@ -11,7 +11,9 @@
 </head>
 <body>
   <nav>
+    {% if user.is_authenticated %}
     <div class="text222"><a href="/users/mypage"><img src="{%static 'images/person.png'%}"></a></div>
+    {% endif %}
     <div class="text22"> SSOCK </div>
     <div class="text21"><a href="/users/start"><img src="{%static 'images/home.png'%}"></a></div>
   </nav>
@@ -24,7 +26,11 @@
   <section>
     <div class="cont" id="cont">
         <div class="image-box">
+          {% if user.is_authenticated %}
             <a href="{% url 'sellers:seller_detail' seller.pk %}"><img src="{{seller.register.logo.url}}"></a>
+          {% else %}
+            <a href="{% url 'users:login' %}"><img src="{{seller.register.logo.url}}"></a>
+          {% endif %}  
             <div class="image-caption">{{seller.register.name}}</div>
         </div>
         <div class="text-box">

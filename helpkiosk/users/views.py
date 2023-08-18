@@ -102,17 +102,34 @@ def mypage(request, *args, **kwargs):
     return render(request, 'users/mypage.html', context)
   else:
     # 구매자일 경우
-    payments = Payment.objects.filter(cart__user=request.user)
-    context = {
-      'user': user,
-      'payments': payments,
-    }
+    lapay = Payment.objects.filter(cart__user=request.user).latest('date')
+    lapay_items = lapay.paymentitem_set.all()
+    itemstitle = ''
     
+    for idx, item in enumerate(lapay_items):
+      itemstitle += item.menu.name
+      
+      if idx < len(lapay_items) - 1:
+        itemstitle += ', '
+    
+    payments = Payment.objects.filter(cart__user=request.user)
+    payment_items = PaymentItem.objects.filter(payment__in=payments).select_related('menu')
+
+    payment_item_dict = {}  # 각 Payment에 대한 PaymentItem을 담을 딕셔너리
+    for payment_item in payment_items:
+      if payment_item.payment_id not in payment_item_dict:
+        payment_item_dict[payment_item.payment_id] = payment_item
+
     paymentitems = PaymentItem.objects.filter(payment__cart__user=request.user)
     context = {
+      'itemstitle': itemstitle,
       'user': user,
-      'paymentitems': paymentitems,
+      'paymentitems': payment_item_dict,
+      'payments': payments,
+      'lapay': lapay,
     }
+    
+    print(payment_item_dict) #전부
     return render(request, 'users/mypage.html', context)
 
 def start_page(request):

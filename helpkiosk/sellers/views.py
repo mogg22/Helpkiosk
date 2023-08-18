@@ -13,8 +13,11 @@ def is_market_owner(user, market_id):
     return False
 
 def register(request):
-  register = get_object_or_404(Register, user=request.user)
-  
+  try:
+    register = Register.objects.get(user=request.user)
+  except Register.DoesNotExist:
+    register = None
+  # print(register)
   if register:
     error = '이미 등록된 가게가 있습니다.'
     context = {

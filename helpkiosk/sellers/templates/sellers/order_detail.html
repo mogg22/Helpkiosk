@@ -12,7 +12,7 @@
 <body>
   <div id="container">
     <nav>
-      <div class="text21"><a href="{{request.META.HTTP_REFERER}}">&lt</a></div> {% comment %} 다시 seller_detail 페이지로 이동해야 돼요{% endcomment %}
+      <div class="text21"><a href="{% url 'sellers:order_list' market.pk %}">&lt</a></div> {% comment %} 다시 seller_detail 페이지로 이동해야 돼요{% endcomment %}
       <div class="text22"> SSOCK </div>
       <div></div>
     </nav>
@@ -27,18 +27,19 @@
       </div>
       <div>
         <p>주문 메뉴</p>
-        {% for cart_item in payment.cart.cartitem_set.all %}
+        {% comment %} {% for cart_item in payment.cart.cartitem_set.all %} {% endcomment %}
         <div id="detail-column">
-          {% for cart_item in payment.cart.cartitem_set.all %}
+          {% if payment %}
+          {% for payment_item in payment.paymentitem_set.all %}
           <div class="bottom">
-            <div>{{ cart_item.menu.name }}</div>
-            <div>수량: {{ cart_item.quantity }}</div>
+            <div>{{ payment_item.menu.name }}</div>
+            <div>수량: {{ payment_item.quantity }}</div>
           </div>
           <div class="row">
-            {% if cart_item.options.all %}
+            {% if payment_item.options.all %}
             <div>옵션</div>
-              {% for option in cart_item.options.all %}
-              <div>{{ option.name }} (+{{ option.price|intcomma }}원)</div>
+              {% for option in payment_item.options.all %}
+                <div>{{ option.name }} (+{{ option.price|intcomma }}원)</div>
               {% endfor %}
             {% endif %}
           </div>
@@ -54,12 +55,13 @@
           <p>요청 사항</p>
           <div class="right">{{ payment.need }}</div>
           <p>결제 금액</p>
-          <div class="right">총 {{ payment.total_amount|intcomma }}원</div>
+          <div class="right">총 {{ payment.total_amount|floatformat:0|intcomma }}원</div>
         </div>
       </div>
-      {% empty %}
+      {% else %}
         주문이 없습니다
-      {% endfor %}
+      {%endif%}
+      {% comment %} {% endfor %} {% endcomment %}
     </div>
   </div>
 </body>

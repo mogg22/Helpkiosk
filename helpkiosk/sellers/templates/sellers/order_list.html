@@ -11,7 +11,7 @@
 <body>
   <div id="container">
     <nav>
-      <div class="text21"><a href="{{request.META.HTTP_REFERER}}">&lt</a></div> {% comment %} 다시 seller_detail 페이지로 이동해야 돼요{% endcomment %}
+      <div class="text21"><a href="{% url 'users:mypage' %}">&lt</a></div> {% comment %} 다시 seller_detail 페이지로 이동해야 돼요{% endcomment %}
       <div class="text22"> SSOCK </div>
       <div></div>
     </nav>
@@ -21,16 +21,16 @@
     </div>
     <div>
       <p>주문 목록</p>
-    {% for payment in payments %}
+    {% for payment in payments reversed %}
       <div id="detail-column">
         <div class="top">
-          <div><a href="{% url 'sellers:order_detail' payment.pk %}">주문번호</a></div>
+          <div><a href="{% url 'sellers:order_detail' payment.pk %}">상세 보기</a></div>
           <div>{{payment.date}}</div>
         </div>
-        {% for cart_item in payment.cart.cartitem_set.all %}
+        {% for cart_item in payment.paymentitem_set.all %}
         <div class="bottom">
-          <div>메뉴명: {{ cart_item.menu.name }}</div>
-          <div>수량: {{ cart_item.quantity }}</div>
+          <div>{{ cart_item.menu.name }}</div>
+          <div>수량 : {{ cart_item.quantity }}</div>
         </div>
         {% endfor %}
       </div>

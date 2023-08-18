@@ -48,6 +48,37 @@ body{
     margin: 0 auto;
     width: 390px;
     /* border: 1px solid red; */
+    position: relative;
+}
+.stt-button{
+    background-color:yellowgreen;
+    width: 70px;
+    height: 70px;
+    border-radius: 50px;
+    border-style: none;
+    color: white;
+    padding: 10px 15px;
+    position: absolute;
+    right: 5%;
+    top: 8%;
+    box-shadow: 0 2px 5px #878787;
+    font-size: 35px;
+    animation: rhkdus 1s infinite alternate;
+    transition: 0.5s;
+}
+@keyframes rhkdus {
+    0% {
+      transform: translateY(0%);
+    }
+    100% {
+      transform: translateY(10%);
+    }
+  }
+
+.mic{
+    width: 60px;
+    transform: translateX(-10px);
+    margin-top: 1px;
 }
 article>div{
     position: relative;

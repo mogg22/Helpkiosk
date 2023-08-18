@@ -32,7 +32,7 @@
         </script>
         <div>
             <img src="{%static 'images/service2.png'%}" id="img-2">
-            {% if user.is_authenticated %}
+            {% if user.is_authenticated and request.user.profile.seller %}
             <div class="box-btn" id="box2">
                 <div>가맹점 신청하기</div>
             </div>

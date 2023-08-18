@@ -62,7 +62,7 @@
                     </div>
                 </li>
             <div class="subtitle">결제금액</div>
-            <div id="total_price_ajax" class="right">총{{cart.cart_total_price|intcomma}}원</div>
+            <div id="total_price_ajax" class="right">총 {{cart.cart_total_price|intcomma}}원</div>
                 <div class="section">   
                     <div class="subtitle">요청 사항</div>
                     <div class="detail">
@@ -137,7 +137,7 @@
                 const formattedPrice = new Intl.NumberFormat('ko-KR').format(price);
                 itemPrice.textContent = `${formattedPrice}원`;
                 const formattedTotal = new Intl.NumberFormat('ko-KR').format(total);
-                totalPrice.textContent = `총${formattedTotal}원`;
+                totalPrice.textContent = `총 ${formattedTotal}원`;
             }
         }
     };

@@ -36,15 +36,15 @@
 
     {% comment %} 카테고리 삭제 추가합니다!!! 비어있는 깡통 버튼들이에요! {% endcomment %}
     <p>카테고리 관리</p>
-    <form method="POST" id="category_delete" enctype="" onsubmit="">
+    {% for category in categories %}
+    <form method="POST" action="{% url 'sellers:category_delete' category.pk %}" id="category_delete" enctype="" onsubmit="">
       {% csrf_token %}
-      {% for category in categories %}
       <div id="delete-div">
         <div>{{ category.category }}</div>
         <input type="submit" name="delete" id="delete" value="삭제">
       </div>
-      {% endfor %}
     </form>
+    {% endfor %}
 
     <p>메뉴 추가</p>
     <form method="POST" enctype="multipart/form-data" onsubmit="return validateMenu()">

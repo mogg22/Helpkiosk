@@ -8,7 +8,7 @@ from django.contrib import messages
 
 def is_market_owner(user, market_id):
   if hasattr(user, 'register'):
-    return user.is_authenticated and market_id == user.register.pk
+    return user.is_authenticated and market_id == user.register.market.pk
   else:
     return False
 

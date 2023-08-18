@@ -11,7 +11,7 @@
 <body>
   <div id="container">
     <nav>
-      <div class="text21"><a href="{{request.META.HTTP_REFERER}}">&lt</a></div> {% comment %} 다시 seller_detail 페이지로 이동해야 돼요{% endcomment %}
+      <div class="text21"><a href="{% url 'sellers:seller_detail' market.pk %}">&lt</a></div> {% comment %} 다시 seller_detail 페이지로 이동해야 돼요{% endcomment %}
       <div class="text22"> SSOCK </div>
       <div></div>
     </nav>

@@ -60,7 +60,7 @@ def profile_create(request, *args, **kwargs):
         seller=seller
       )
       profile.save()
-      return redirect('sellers:seller_list') 
+      return redirect('users:start_page') 
     
     else:
       error = '정보를 모두 입력해주세요.'

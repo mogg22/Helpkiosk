@@ -120,7 +120,6 @@ def mypage(request, *args, **kwargs):
       if payment_item.payment_id not in payment_item_dict:
         payment_item_dict[payment_item.payment_id] = payment_item
 
-    paymentitems = PaymentItem.objects.filter(payment__cart__user=request.user)
     context = {
       'itemstitle': itemstitle,
       'user': user,

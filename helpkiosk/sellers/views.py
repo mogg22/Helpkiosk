@@ -136,7 +136,7 @@ def menu_update(request, pk):
         menu.img = request.FILES.get('img')
       menu.exp = request.POST.get('exp')
       menu.save()
-      return redirect('sellers:seller_detail', pk)
+      return redirect('sellers:seller_detail', market.pk)
 
     elif 'btn3' in request.POST:
       Option.objects.create(
@@ -155,17 +155,20 @@ def menu_update(request, pk):
   return render(request, 'sellers/menu_update.html', context)
 
 def category_delete(request, pk):
+  category = get_object_or_404(MenuCategory, pk=pk)
+  market_pk = category.market.pk
+
   if request.method == "POST":
-    category = get_object_or_404(MenuCategory, pk=pk)
-    market_pk = category.market.pk
     category.delete()
   return redirect('sellers:menu_create', market_pk)
 
 def menu_delete(request, pk):
+  menu = get_object_or_404(Menu, pk=pk)
+  market_pk = menu.category.market.pk
+
   if request.method == "POST":
-    menu = get_object_or_404(Menu, pk=pk)
-    market_pk = menu.category.market.pk
     menu.delete()
+    
   return redirect('sellers:seller_detail', market_pk)
 
 def option_delete(request, pk):

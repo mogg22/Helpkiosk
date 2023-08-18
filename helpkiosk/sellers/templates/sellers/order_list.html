@@ -19,13 +19,13 @@
       <img src="{% static 'images/heart.png' %}" id="heart">
       {{market.register.name}} > {{market.register.representative}} 사장님  {% comment %}수정했는데도 안불러와지네요..쩝 {% endcomment %}
     </div>
-    <div>
+    <div class="list">
       <p>주문 목록</p>
     {% for payment in payments reversed %}
       <div id="detail-column">
         <div class="top">
-          <div><a href="{% url 'sellers:order_detail' payment.pk %}">상세 보기</a></div>
           <div>{{payment.date}}</div>
+          <div><a href="{% url 'sellers:order_detail' payment.pk %}">상세 보기</a></div>
         </div>
         {% for cart_item in payment.paymentitem_set.all %}
         <div class="bottom">

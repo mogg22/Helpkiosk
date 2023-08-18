@@ -48,7 +48,9 @@ class Market(models.Model):
         border=4,
       )
       
-      qrc.add_data(url)
+      all_url = 'http://43.201.73.27'+ url
+      
+      qrc.add_data(all_url)
       img = qrc.make_image()
       
       # QR 코드를 파일로 저장

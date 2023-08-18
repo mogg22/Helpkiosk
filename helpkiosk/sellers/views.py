@@ -136,7 +136,7 @@ def menu_update(request, pk):
         menu.img = request.FILES.get('img')
       menu.exp = request.POST.get('exp')
       menu.save()
-      return redirect('sellers:seller_detail', pk)
+      return redirect('sellers:seller_detail', market.pk)
 
     elif 'btn3' in request.POST:
       Option.objects.create(
